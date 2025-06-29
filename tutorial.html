@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html data-bili2vrc-set-lang-attribute>
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title data-bili2vrc-msg="tutorial_browserTabTitle"></title>
+		<link rel="stylesheet" href="css/common.css">
+		<link rel="stylesheet" href="css/page-base.css">
+		<link rel="stylesheet" href="css/popup.css">
+		<link rel="stylesheet" href="css/tutorial.css">
+		<script type="text/javascript" src="js/utils/common-utils.js" defer></script>
+		<script type="text/javascript" src="js/utils/popup-utils.js" defer></script>
+		<script type="text/javascript" src="js/utils/tutorial-utils.js" defer></script>
+		<script type="text/javascript" src="js/tutorial.js" defer></script>
+	</head>
+	<body>
+
+		<!--
+		=======================================================
+			Main
+		=======================================================
+		-->
+		<div id="main">
+			<div id="main-content">
+
+				<h1 data-bili2vrc-msg="tutorial_title"></h1>
+
+				<h2 id="bili2vrc-title">-</h2>
+				<div id="bili2vrc-description">-</div>
+
+				<video id="bili2vrc-video" controls autoplay loop>
+					<source id="bili2vrc-video-source" type="video/mp4" src="">
+				</video>
+
+				<div id="bili2vrc-button-container">
+
+					<button class="bili2vrc-circle-button" id="bili2vrc-back-button" disabled>
+						<span class="material-symbols-rounded">arrow_left</span>
+					</button>
+
+					<div id="bili2vrc-page-indicator">
+						<span id="bili2vrc-current-page-no">0</span>
+						<span style="white-space: pre;">/</span>
+						<span id="bili2vrc-page-count">0</span>
+					</div>
+
+					<button class="bili2vrc-circle-button" id="bili2vrc-next-button" disabled>
+						<span class="material-symbols-rounded">arrow_right</span>
+					</button>
+
+					<button id="bili2vrc-close-button">
+						<span class="material-symbols-rounded">done</span>
+						<span data-bili2vrc-msg="tutorial_exitButton"></span>
+					</button>
+
+				</div>
+
+			</div>
+		</div>
+
+	</body>
+</html>

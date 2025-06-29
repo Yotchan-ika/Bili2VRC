@@ -1,0 +1,301 @@
+{
+	"extension_name": {
+		"message": "Bili2VRC - 面向VRC的bilibili视频解析器",
+		"description": "拡張機能 > 名称"
+	},
+
+	"extension_description": {
+		"message": "一键将bilibili视频解释为VRChat的视频播放器可用格式。",
+		"description": "拡張機能 > 説明"
+	},
+
+	"extension_actionTitle": {
+		"message": "点击以解析此页面上的视频",
+		"description": "拡張機能 > アクションタイトル"
+	},
+
+	"changelog_browserTabTitle": {
+		"message": "更新日志 - Bili2VRC",
+		"description": "更新履歴 > ブラウザタブのタイトル"
+	},
+
+	"content_parseVideoButton_buttonText": {
+		"message": "解析",
+		"description": "コンテンツ > 動画変換ボタン > ボタンテキスト"
+	},
+
+	"content_contextMenu_parseVideo": {
+		"message": "解析",
+		"description": "コンテンツ > コンテキストメニュー > 変換"
+	},
+
+	"content_contextMenu_videoParsingHistory": {
+		"message": "视频解析记录",
+		"description": "コンテンツ > コンテキストメニュー > 動画変換履歴"
+	},
+
+	"content_contextMenu_options": {
+		"message": "选项",
+		"description": "コンテンツ > コンテキストメニュー > オプション"
+	},
+
+	"contextMenu_parseVideo": {
+		"message": "解析此页面的视频",
+		"description": "コンテキストメニュー > このページの動画を変換"
+	},
+
+	"contextMenu_videoParsingHistory": {
+		"message": "视频解析记录",
+		"description": "コンテキストメニュー > 動画変換履歴"
+	},
+
+	"history_browserTabTitle": {
+		"message": "解析记录 - Bili2VRC",
+		"description": "変換履歴 > ブラウザタブのタイトル"
+	},
+
+	"history_title": {
+		"message": "解析记录",
+		"description": "変換履歴 > タイトル"
+	},
+
+	"history_videoParsingButton": {
+		"message": "解析",
+		"description": "変換履歴 > 動画変換ボタン"
+	},
+
+	"history_deleteHistoryButton": {
+		"message": "删除",
+		"description": "変換履歴 > 履歴削除ボタン"
+	},
+
+	"history_noHistoryMessage": {
+		"message": "解析视频后，历史记录将显示在此处。",
+		"description": "変換履歴 > 履歴なしメッセージ"
+	},
+
+	"history_historyItemTitle_today": {
+		"message": "今天",
+		"description": "変換履歴 > 履歴項目タイトル > 今日"
+	},
+
+	"history_historyItemTitle_yesterday": {
+		"message": "昨天",
+		"description": "変換履歴 > 履歴項目タイトル > 昨日"
+	},
+
+	"history_historyItemTitle_last7days": {
+		"message": "最近7天内",
+		"description": "変換履歴 > 履歴項目タイトル > 7日以内"
+	},
+
+	"history_historyItemTitle_last30days": {
+		"message": "最近30天内",
+		"description": "変換履歴 > 履歴項目タイトル > 30日以内"
+	},
+
+	"history_historyItemTitle_earlier": {
+		"message": "很久以前",
+		"description": "変換履歴 > 履歴項目タイトル > かなり前"
+	},
+
+	"options_browserTabTitle": {
+		"message": "选项 - Bili2VRC",
+		"description": "オプション > ブラウザタブのタイトル"
+	},
+
+	"options_sidebar_general": {
+		"message": "常规",
+		"description": "オプション > サイドバー > 全般"
+	},
+
+	"options_sidebar_support": {
+		"message": "支持",
+		"description": "オプション > サイドバー > サポート"
+	},
+
+	"options_sidebar_info": {
+		"message": "详细信息",
+		"description": "オプション > サイドバー > 詳細情報"
+	},
+
+	"options_general_title": {
+		"message": "常规",
+		"description": "オプション > 全般 > タイトル"
+	},
+
+	"options_general_language": {
+		"message": "语言",
+		"description": "オプション > 全般 > 言語"
+	},
+
+	"options_general_language_default": {
+		"message": "默认语言（简体中文）",
+		"description": "オプション > 全般 > 言語 > 既定の言語"
+	},
+
+	"options_general_historyRetentionPeriod": {
+		"message": "视频解析记录的保存期限",
+		"description": "オプション > 全般 > 動画変換履歴の保存期間"
+	},
+
+	"options_general_historyRetentionPeriod_doNotRetain": {
+		"message": "不保存",
+		"description": "オプション > 全般 > 動画変換履歴の保存期間 > 保存しない"
+	},
+
+	"options_general_historyRetentionPeriod_1hour": {
+		"message": "1小时",
+		"description": "オプション > 全般 > 動画変換履歴の保存期間 > 1時間"
+	},
+
+	"options_general_historyRetentionPeriod_24hours": {
+		"message": "24小时",
+		"description": "オプション > 全般 > 動画変換履歴の保存期間 > 24時間"
+	},
+
+	"options_general_historyRetentionPeriod_7days": {
+		"message": "7天",
+		"description": "オプション > 全般 > 動画変換履歴の保存期間 > 7日間"
+	},
+
+	"options_general_historyRetentionPeriod_30days": {
+		"message": "30天",
+		"description": "オプション > 全般 > 動画変換履歴の保存期間 > 30日間"
+	},
+
+	"options_general_historyRetentionPeriod_90days": {
+		"message": "90天",
+		"description": "オプション > 全般 > 動画変換履歴の保存期間 > 90日間"
+	},
+
+	"options_general_insertButtonIntoVideoPage": {
+		"message": "在视频页面插入视频解析按钮",
+		"description": "オプション > 全般 > 動画ページに動画変換ボタンを挿入する"
+	},
+
+	"options_general_tutorial": {
+		"message": "教程",
+		"description": "オプション > 全般 > チュートリアル"
+	},
+
+	"options_general_tutorial_viewTutorial": {
+		"message": "查看教程",
+		"description": "オプション > 全般 > チュートリアル > チュートリアルを見る"
+	},
+
+	"options_support_title": {
+		"message": "支持",
+		"description": "オプション > サポート > タイトル"
+	},
+
+	"options_support_contact_title": {
+		"message": "联系方式",
+		"description": "オプション > サポート > お問い合わせ > タイトル"
+	},
+
+	"options_support_contact_text1": {
+		"message": "如有问题、意见或建议，请通过商店页面或邮件与我联系。",
+		"description": "オプション > サポート > お問い合わせ > 本文1"
+	},
+
+	"options_support_contact_chromeWebStoreURL_labelText": {
+		"message": "Chrome 应用商店：",
+		"description": "オプション > サポート > お問い合わせ > chrome ウェブストア > ラベルテキスト"
+	},
+
+	"options_support_contact_chromeWebStoreURL_linkText": {
+		"message": "打开商店页面",
+		"description": "オプション > サポート > お問い合わせ > chrome ウェブストア > リンクテキスト"
+	},
+
+	"options_support_contact_microsoftEdgeAddonsURL_labelText": {
+		"message": "Microsoft Edge 扩展：",
+		"description": "オプション > サポート > お問い合わせ > Microsoft Edge アドオン > ラベルテキスト"
+	},
+
+	"options_support_contact_microsoftEdgeAddonsURL_linkText": {
+		"message": "打开商店页面",
+		"description": "オプション > サポート > お問い合わせ > Microsoft Edge アドオン > リンクテキスト"
+	},
+
+	"options_support_contact_developerEmail_labelText": {
+		"message": "邮箱地址：",
+		"description": "オプション > サポート > お問い合わせ > メールアドレス > ラベルテキスト"
+	},
+
+	"options_info_title": {
+		"message": "详细信息",
+		"description": "オプション > 詳細情報 > タイトル"
+	},
+
+	"options_info_version_title": {
+		"message": "版本",
+		"description": "オプション > 詳細情報 > バージョン > タイトル"
+	},
+
+	"options_info_changelog_title": {
+		"message": "更新日志",
+		"description": "オプション > 詳細情報 > 更新履歴 > タイトル"
+	},
+
+	"options_info_changelog_openChangelog": {
+		"message": "打开更新日志页面",
+		"description": "オプション > 詳細情報 > 更新履歴 > 更新履歴ページを開く"
+	},
+
+	"options_info_credits_title": {
+		"message": "致谢",
+		"description": "オプション > 詳細情報 > クレジット > タイトル"
+	},
+
+	"options_info_credits_text1": {
+		"message": "注：此插件并非bilibili官方发布。",
+		"description": "オプション > 詳細情報 > クレジット > テキスト1"
+	},
+
+	"options_info_credits_text2": {
+		"message": "注：bilibili是上海幻电信息科技有限公司的注册商标。本插件与bilibili无任何合作关系。",
+		"description": "オプション > 詳細情報 > クレジット > テキスト2"
+	},
+
+	"options_info_credits_text3": {
+		"message": "Powered by bilibili-parse API © 2019 injahow",
+		"description": "オプション > 詳細情報 > クレジット > テキスト3"
+	},
+
+	"tutorial_browserTabTitle": {
+		"message": "教程 - Bili2VRC",
+		"description": "チュートリアル > ブラウザタブのタイトル"
+	},
+
+	"tutorial_title": {
+		"message": "Bili2VRC 教程",
+		"description": "チュートリアル > タイトル"
+	},
+
+	"tutorial_exitButton": {
+		"message": "完成",
+		"description": "チュートリアル > 終了ボタン"
+	},
+
+	"turorial_t01_title": {
+		"message": "解析视频",
+		"description": "チュートリアル > T01 > タイトル"
+	},
+
+	"turorial_t01_description": {
+		"message": "左键点击视频右下角的“解析”按钮即可解析视频。",
+		"description": "チュートリアル > T01 > 説明"
+	},
+
+	"turorial_t02_title": {
+		"message": "查看解析记录",
+		"description": "チュートリアル > T02 > タイトル"
+	},
+
+	"turorial_t02_description": {
+		"message": "右键点击“解析”按钮会显示上下文菜单。点击上下文菜单中的“视频解析记录”可以打开解析记录页面。",
+		"description": "チュートリアル > T02 > 説明"
+	}
+}

@@ -1,0 +1,14 @@
+[
+	{
+		"id": "T01",
+		"videoSource": "videos/T01.mp4",
+		"titleMsgID": "turorial_t01_title",
+		"descriptionMsgID": "turorial_t01_description"
+	},
+	{
+		"id": "T02",
+		"videoSource": "videos/T02.mp4",
+		"titleMsgID": "turorial_t02_title",
+		"descriptionMsgID": "turorial_t02_description"
+	}
+]

@@ -1,0 +1,76 @@
+@charset "UTF-8";
+
+:root {
+	--bili2vrc-sidebar-width: 210px;
+	--bili2vrc-main-content-width: 700px;
+}
+
+/*
+---------------------------------------------------------------
+	Sidebar
+---------------------------------------------------------------
+*/
+
+#sidebar {
+	position: fixed;
+	top: 0;
+	bottom: 0;
+	left: 0;
+	width: var(--bili2vrc-sidebar-width);
+	background-color: var(--bili2vrc-sidebar-background-color);
+	overflow: hidden;
+}
+
+#sidebar-content {
+	position: absolute;
+	top: 0;
+	bottom: 0;
+}
+
+#sidebar-logo {
+	display: block;
+	margin: 20px 10px 20px 20px;
+	width: calc(var(--bili2vrc-sidebar-width) - 30px);
+}
+
+#sidebar-tabs > ul {
+	padding: 0;
+	list-style: none;
+}
+#sidebar-tabs > ul > li {
+	margin-bottom: 7px;
+	padding: 0;
+}
+#sidebar-tabs > ul > li > label {
+	display: flex;
+	align-items: center;
+	margin: 0 0 0 20px;
+	padding: 5px 10px;
+	text-decoration: none;
+	background-color: var(--bili2vrc-sidebar-background-color);
+	color: var(--bili2vrc-sidebar-text-color);
+	border-top-left-radius: 8px;
+	border-bottom-left-radius: 8px;
+}
+#sidebar-tabs > ul > li > label:not(:has(input:checked)):hover {
+	filter: brightness(120%);
+}
+#sidebar-tabs > ul > li > label:has(input:checked) {
+	background-color: var(--bili2vrc-main-content-background-color);
+}
+#sidebar-tabs > ul > li > label > .material-symbols-rounded {
+	margin: 2px 6px 0 0;
+	font-size: 1.3em;
+}
+
+/*
+---------------------------------------------------------------
+	Option Item
+---------------------------------------------------------------
+*/
+
+.bili2vrc-option-item {
+	margin-bottom: 20px;
+	padding: 5px 2px;
+	align-items: end;
+}

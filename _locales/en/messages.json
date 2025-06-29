@@ -1,0 +1,301 @@
+{
+	"extension_name": {
+		"message": "Bili2VRC - Bilibili Video Parser for VRC",
+		"description": "拡張機能 > 名称"
+	},
+
+	"extension_description": {
+		"message": "Parse a bilibili video for VRChat's video player with just one click.",
+		"description": "拡張機能 > 説明"
+	},
+
+	"extension_actionTitle": {
+		"message": "Click to parse this page's video",
+		"description": "拡張機能 > アクションタイトル"
+	},
+
+	"changelog_browserTabTitle": {
+		"message": "Changelog - Bili2VRC",
+		"description": "更新履歴 > ブラウザタブのタイトル"
+	},
+
+	"content_parseVideoButton_buttonText": {
+		"message": "Parse",
+		"description": "コンテンツ > 動画変換ボタン > ボタンテキスト"
+	},
+
+	"content_contextMenu_parseVideo": {
+		"message": "Parse this video",
+		"description": "コンテンツ > コンテキストメニュー > 変換"
+	},
+
+	"content_contextMenu_videoParsingHistory": {
+		"message": "Video parsing history",
+		"description": "コンテンツ > コンテキストメニュー > 動画変換履歴"
+	},
+
+	"content_contextMenu_options": {
+		"message": "Options",
+		"description": "コンテンツ > コンテキストメニュー > オプション"
+	},
+
+	"contextMenu_parseVideo": {
+		"message": "Parse the video on this page",
+		"description": "コンテキストメニュー > このページの動画を変換"
+	},
+
+	"contextMenu_videoParsingHistory": {
+		"message": "Video Parsing History",
+		"description": "コンテキストメニュー > 動画変換履歴"
+	},
+
+	"history_browserTabTitle": {
+		"message": "Parsing History - Bili2VRC",
+		"description": "変換履歴 > ブラウザタブのタイトル"
+	},
+
+	"history_title": {
+		"message": "Video Parsing History",
+		"description": "変換履歴 > タイトル"
+	},
+
+	"history_videoParsingButton": {
+		"message": "Parse",
+		"description": "変換履歴 > 動画変換ボタン"
+	},
+
+	"history_deleteHistoryButton": {
+		"message": "Delete",
+		"description": "変換履歴 > 履歴削除ボタン"
+	},
+
+	"history_noHistoryMessage": {
+		"message": "After parsing a video, the history will be displayed here.",
+		"description": "変換履歴 > 履歴なしメッセージ"
+	},
+
+	"history_historyItemTitle_today": {
+		"message": "Today",
+		"description": "変換履歴 > 履歴項目タイトル > 今日"
+	},
+
+	"history_historyItemTitle_yesterday": {
+		"message": "Yesterday",
+		"description": "変換履歴 > 履歴項目タイトル > 昨日"
+	},
+
+	"history_historyItemTitle_last7days": {
+		"message": "Within 7 Days",
+		"description": "変換履歴 > 履歴項目タイトル > 7日以内"
+	},
+
+	"history_historyItemTitle_last30days": {
+		"message": "Within 30 Days",
+		"description": "変換履歴 > 履歴項目タイトル > 30日以内"
+	},
+
+	"history_historyItemTitle_earlier": {
+		"message": "Long Ago",
+		"description": "変換履歴 > 履歴項目タイトル > かなり前"
+	},
+
+	"options_browserTabTitle": {
+		"message": "Options - Bili2VRC",
+		"description": "オプション > ブラウザタブのタイトル"
+	},
+
+	"options_sidebar_general": {
+		"message": "General",
+		"description": "オプション > サイドバー > 全般"
+	},
+
+	"options_sidebar_support": {
+		"message": "Support",
+		"description": "オプション > サイドバー > サポート"
+	},
+
+	"options_sidebar_info": {
+		"message": "Info",
+		"description": "オプション > サイドバー > 詳細情報"
+	},
+
+	"options_general_title": {
+		"message": "General",
+		"description": "オプション > 全般 > タイトル"
+	},
+
+	"options_general_language": {
+		"message": "Language",
+		"description": "オプション > 全般 > 言語"
+	},
+
+	"options_general_language_default": {
+		"message": "Default Language (English)",
+		"description": "オプション > 全般 > 言語 > 既定の言語"
+	},
+
+	"options_general_historyRetentionPeriod": {
+		"message": "Retention period for video parsing history",
+		"description": "オプション > 全般 > 動画変換履歴の保存期間"
+	},
+
+	"options_general_historyRetentionPeriod_doNotRetain": {
+		"message": "Do not retain",
+		"description": "オプション > 全般 > 動画変換履歴の保存期間 > 保存しない"
+	},
+
+	"options_general_historyRetentionPeriod_1hour": {
+		"message": "1 hour",
+		"description": "オプション > 全般 > 動画変換履歴の保存期間 > 1時間"
+	},
+
+	"options_general_historyRetentionPeriod_24hours": {
+		"message": "24 hours",
+		"description": "オプション > 全般 > 動画変換履歴の保存期間 > 24時間"
+	},
+
+	"options_general_historyRetentionPeriod_7days": {
+		"message": "7 days",
+		"description": "オプション > 全般 > 動画変換履歴の保存期間 > 7日間"
+	},
+
+	"options_general_historyRetentionPeriod_30days": {
+		"message": "30 days",
+		"description": "オプション > 全般 > 動画変換履歴の保存期間 > 30日間"
+	},
+
+	"options_general_historyRetentionPeriod_90days": {
+		"message": "90 days",
+		"description": "オプション > 全般 > 動画変換履歴の保存期間 > 90日間"
+	},
+
+	"options_general_insertButtonIntoVideoPage": {
+		"message": "Insert the video parsing button into the video page",
+		"description": "オプション > 全般 > 動画ページに動画変換ボタンを挿入する"
+	},
+
+	"options_general_tutorial": {
+		"message": "Tutorial",
+		"description": "オプション > 全般 > チュートリアル"
+	},
+
+	"options_general_tutorial_viewTutorial": {
+		"message": "View Tutorial",
+		"description": "オプション > 全般 > チュートリアル > チュートリアルを見る"
+	},
+
+	"options_support_title": {
+		"message": "Support",
+		"description": "オプション > サポート > タイトル"
+	},
+
+	"options_support_contact_title": {
+		"message": "Contact",
+		"description": "オプション > サポート > お問い合わせ > タイトル"
+	},
+
+	"options_support_contact_text1": {
+		"message": "If you have any issues, feedback, or requests, please feel free to contact us through the store page or by email.",
+		"description": "オプション > サポート > お問い合わせ > 本文1"
+	},
+
+	"options_support_contact_chromeWebStoreURL_labelText": {
+		"message": "Chrome Web Store: ",
+		"description": "オプション > サポート > お問い合わせ > chrome ウェブストア > ラベルテキスト"
+	},
+
+	"options_support_contact_chromeWebStoreURL_linkText": {
+		"message": "Open the store page",
+		"description": "オプション > サポート > お問い合わせ > chrome ウェブストア > リンクテキスト"
+	},
+
+	"options_support_contact_microsoftEdgeAddonsURL_labelText": {
+		"message": "Microsoft Edge Addons: ",
+		"description": "オプション > サポート > お問い合わせ > Microsoft Edge アドオン > ラベルテキスト"
+	},
+
+	"options_support_contact_microsoftEdgeAddonsURL_linkText": {
+		"message": "Open the store page",
+		"description": "オプション > サポート > お問い合わせ > Microsoft Edge アドオン > リンクテキスト"
+	},
+
+	"options_support_contact_developerEmail_labelText": {
+		"message": "E-mail: ",
+		"description": "オプション > サポート > お問い合わせ > メールアドレス > ラベルテキスト"
+	},
+
+	"options_info_title": {
+		"message": "Information",
+		"description": "オプション > 詳細情報 > タイトル"
+	},
+
+	"options_info_version_title": {
+		"message": "Version",
+		"description": "オプション > 詳細情報 > バージョン > タイトル"
+	},
+
+	"options_info_changelog_title": {
+		"message": "Changelog",
+		"description": "オプション > 詳細情報 > 更新履歴 > タイトル"
+	},
+
+	"options_info_changelog_openChangelog": {
+		"message": "View Changelog",
+		"description": "オプション > 詳細情報 > 更新履歴 > 更新履歴ページを開く"
+	},
+
+	"options_info_credits_title": {
+		"message": "Credits",
+		"description": "オプション > 詳細情報 > クレジット > タイトル"
+	},
+
+	"options_info_credits_text1": {
+		"message": "* This extension is not an official Bilibili product but supports Bilibili content.",
+		"description": "オプション > 詳細情報 > クレジット > テキスト1"
+	},
+
+	"options_info_credits_text2": {
+		"message": "* Bilibili is a registered trademark of Shanghai Hode Information Technology Co.,Ltd. This extension is not affiliated with Bilibili.",
+		"description": "オプション > 詳細情報 > クレジット > テキスト2"
+	},
+
+	"options_info_credits_text3": {
+		"message": "Powered by bilibili-parse API © 2019 injahow",
+		"description": "オプション > 詳細情報 > クレジット > テキスト3"
+	},
+
+	"tutorial_browserTabTitle": {
+		"message": "Tutorial - Bili2VRC",
+		"description": "チュートリアル > ブラウザタブのタイトル"
+	},
+
+	"tutorial_title": {
+		"message": "Bili2VRC Tutorial",
+		"description": "チュートリアル > タイトル"
+	},
+
+	"tutorial_exitButton": {
+		"message": "Done",
+		"description": "チュートリアル > 終了ボタン"
+	},
+
+	"turorial_t01_title": {
+		"message": "Parse Videos",
+		"description": "チュートリアル > T01 > タイトル"
+	},
+
+	"turorial_t01_description": {
+		"message": "Left-click the 'Parse' button at the bottom right of the video to parse it.",
+		"description": "チュートリアル > T01 > 説明"
+	},
+
+	"turorial_t02_title": {
+		"message": "View Video Parsing History",
+		"description": "チュートリアル > T02 > タイトル"
+	},
+
+	"turorial_t02_description": {
+		"message": "Right-click the 'Parse' button to open the context menu. Click 'Video parsing history' to view the parsing history page.",
+		"description": "チュートリアル > T02 > 説明"
+	}
+}

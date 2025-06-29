@@ -1,0 +1,115 @@
+{
+	"manifest_version": 3,
+	"name": "__MSG_extension_name__",
+	"description": "__MSG_extension_description__",
+	"version": "2.0.0",
+	"default_locale": "en",
+	"icons": {
+		"256": "icons/ChromeIcon_256x256.png"
+	},
+	"permissions": [
+		"storage",
+		"tabs",
+		"clipboardWrite",
+		"contextMenus"
+	],
+	"options_ui": {
+		"page": "options.html",
+		"open_in_tab": true
+	},
+	"content_scripts": [
+		{
+			"matches": [
+				"<all_urls>"
+			],
+			"css": [
+				"css/common.css",
+				"css/popup.css",
+				"css/content.css"
+			],
+			"js": [
+				"js/utils/common-utils.js",
+				"js/utils/history-utils.js",
+				"js/utils/popup-utils.js",
+				"js/utils/video-parsing-utils.js",
+				"js/content.js"
+			]
+		}
+	],
+	"action": {
+		"default_icon": {
+			"256": "icons/Icon_256x256.png"
+		},
+		"default_title": "__MSG_extension_actionTitle__"
+	},
+	"web_accessible_resources": [
+		{
+			"matches": [
+				"<all_urls>"
+			],
+			"resources": [
+				"_locales/en/messages.json",
+				"_locales/ja/messages.json",
+				"_locales/zh_CN/messages.json",
+				"_locales/zh_TW/messages.json",
+				"html/en/popup/clipboard-write-failed.html",
+				"html/en/popup/clipboard-write-successful.html",
+				"html/en/popup/fetch-failed.html",
+				"html/en/popup/history-deleted.html",
+				"html/en/popup/invalid-url.html",
+				"html/en/popup/parsing-successful.html",
+				"html/en/popup/parsing-failed.html",
+				"html/en/popup/processing.html",
+				"html/en/popup/too-frequent-parsing-request.html",
+				"html/en/popup/unknown-error.html",
+				"html/ja/popup/clipboard-write-failed.html",
+				"html/ja/popup/clipboard-write-successful.html",
+				"html/ja/popup/fetch-failed.html",
+				"html/ja/popup/history-deleted.html",
+				"html/ja/popup/invalid-url.html",
+				"html/ja/popup/parsing-successful.html",
+				"html/ja/popup/parsing-failed.html",
+				"html/ja/popup/processing.html",
+				"html/ja/popup/too-frequent-parsing-request.html",
+				"html/ja/popup/unknown-error.html",
+				"html/zh-CN/popup/clipboard-write-failed.html",
+				"html/zh-CN/popup/clipboard-write-successful.html",
+				"html/zh-CN/popup/fetch-failed.html",
+				"html/zh-CN/popup/history-deleted.html",
+				"html/zh-CN/popup/invalid-url.html",
+				"html/zh-CN/popup/parsing-successful.html",
+				"html/zh-CN/popup/parsing-failed.html",
+				"html/zh-CN/popup/processing.html",
+				"html/zh-CN/popup/too-frequent-parsing-request.html",
+				"html/zh-CN/popup/unknown-error.html",
+				"html/zh-TW/popup/clipboard-write-failed.html",
+				"html/zh-TW/popup/clipboard-write-successful.html",
+				"html/zh-TW/popup/fetch-failed.html",
+				"html/zh-TW/popup/history-deleted.html",
+				"html/zh-TW/popup/invalid-url.html",
+				"html/zh-TW/popup/parsing-successful.html",
+				"html/zh-TW/popup/parsing-failed.html",
+				"html/zh-TW/popup/processing.html",
+				"html/zh-TW/popup/too-frequent-parsing-request.html",
+				"html/zh-TW/popup/unknown-error.html",
+				"images/ButtonIcon_24x24.html",
+				"changelog.html",
+				"history.html",
+				"options.html"
+			]
+		}
+	],
+	"background": {
+		"scripts": [
+			"js/utils/common-utils.js",
+			"js/utils/history-utils.js",
+			"js/utils/tutorial-utils.js",
+			"js/background.js"
+		]
+	},
+	"browser_specific_settings": {
+		"gecko": {
+			"id": "bili2vrc@example.com"
+		}
+	}
+}

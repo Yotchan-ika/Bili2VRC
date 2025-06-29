@@ -1,0 +1,301 @@
+{
+	"extension_name": {
+		"message": "Bili2VRC - VRC向けbilibili動画変換ツール",
+		"description": "拡張機能 > 名称"
+	},
+
+	"extension_description": {
+		"message": "ワンクリックでbilibiliの動画をVRChatの動画プレイヤー向けに変換します。",
+		"description": "拡張機能 > 説明"
+	},
+
+	"extension_actionTitle": {
+		"message": "クリックでこのページの動画を変換",
+		"description": "拡張機能 > アクションタイトル"
+	},
+
+	"changelog_browserTabTitle": {
+		"message": "更新履歴 - Bili2VRC",
+		"description": "更新履歴 > ブラウザタブのタイトル"
+	},
+
+	"content_parseVideoButton_buttonText": {
+		"message": "変換",
+		"description": "コンテンツ > 動画変換ボタン > ボタンテキスト"
+	},
+
+	"content_contextMenu_parseVideo": {
+		"message": "変換",
+		"description": "コンテンツ > コンテキストメニュー > 変換"
+	},
+
+	"content_contextMenu_videoParsingHistory": {
+		"message": "動画変換履歴",
+		"description": "コンテンツ > コンテキストメニュー > 動画変換履歴"
+	},
+
+	"content_contextMenu_options": {
+		"message": "オプション",
+		"description": "コンテンツ > コンテキストメニュー > オプション"
+	},
+
+	"contextMenu_parseVideo": {
+		"message": "このページの動画を変換",
+		"description": "コンテキストメニュー > このページの動画を変換"
+	},
+
+	"contextMenu_videoParsingHistory": {
+		"message": "動画変換履歴",
+		"description": "コンテキストメニュー > 動画変換履歴"
+	},
+
+	"history_browserTabTitle": {
+		"message": "変換履歴 - Bili2VRC",
+		"description": "変換履歴 > ブラウザタブのタイトル"
+	},
+
+	"history_title": {
+		"message": "変換履歴",
+		"description": "変換履歴 > タイトル"
+	},
+
+	"history_videoParsingButton": {
+		"message": "変換",
+		"description": "変換履歴 > 動画変換ボタン"
+	},
+
+	"history_deleteHistoryButton": {
+		"message": "削除",
+		"description": "変換履歴 > 履歴削除ボタン"
+	},
+
+	"history_noHistoryMessage": {
+		"message": "動画を変換すると、ここに履歴が表示されます。",
+		"description": "変換履歴 > 履歴なしメッセージ"
+	},
+
+	"history_historyItemTitle_today": {
+		"message": "今日",
+		"description": "変換履歴 > 履歴項目タイトル > 今日"
+	},
+
+	"history_historyItemTitle_yesterday": {
+		"message": "昨日",
+		"description": "変換履歴 > 履歴項目タイトル > 昨日"
+	},
+
+	"history_historyItemTitle_last7days": {
+		"message": "過去7日以内",
+		"description": "変換履歴 > 履歴項目タイトル > 7日以内"
+	},
+
+	"history_historyItemTitle_last30days": {
+		"message": "過去30日以内",
+		"description": "変換履歴 > 履歴項目タイトル > 30日以内"
+	},
+
+	"history_historyItemTitle_earlier": {
+		"message": "かなり前",
+		"description": "変換履歴 > 履歴項目タイトル > かなり前"
+	},
+
+	"options_browserTabTitle": {
+		"message": "オプション - Bili2VRC",
+		"description": "オプション > ブラウザタブのタイトル"
+	},
+
+	"options_sidebar_general": {
+		"message": "全般",
+		"description": "オプション > サイドバー > 全般"
+	},
+
+	"options_sidebar_support": {
+		"message": "サポート",
+		"description": "オプション > サイドバー > サポート"
+	},
+
+	"options_sidebar_info": {
+		"message": "詳細情報",
+		"description": "オプション > サイドバー > 詳細情報"
+	},
+
+	"options_general_title": {
+		"message": "全般",
+		"description": "オプション > 全般 > タイトル"
+	},
+
+	"options_general_language": {
+		"message": "言語",
+		"description": "オプション > 全般 > 言語"
+	},
+
+	"options_general_language_default": {
+		"message": "既定の言語（日本語）",
+		"description": "オプション > 全般 > 言語 > 既定の言語"
+	},
+
+	"options_general_historyRetentionPeriod": {
+		"message": "動画変換履歴の保存期間",
+		"description": "オプション > 全般 > 動画変換履歴の保存期間"
+	},
+
+	"options_general_historyRetentionPeriod_doNotRetain": {
+		"message": "保存しない",
+		"description": "オプション > 全般 > 動画変換履歴の保存期間 > 保存しない"
+	},
+
+	"options_general_historyRetentionPeriod_1hour": {
+		"message": "1時間",
+		"description": "オプション > 全般 > 動画変換履歴の保存期間 > 1時間"
+	},
+
+	"options_general_historyRetentionPeriod_24hours": {
+		"message": "24時間",
+		"description": "オプション > 全般 > 動画変換履歴の保存期間 > 24時間"
+	},
+
+	"options_general_historyRetentionPeriod_7days": {
+		"message": "7日間",
+		"description": "オプション > 全般 > 動画変換履歴の保存期間 > 7日間"
+	},
+
+	"options_general_historyRetentionPeriod_30days": {
+		"message": "30日間",
+		"description": "オプション > 全般 > 動画変換履歴の保存期間 > 30日間"
+	},
+
+	"options_general_historyRetentionPeriod_90days": {
+		"message": "90日間",
+		"description": "オプション > 全般 > 動画変換履歴の保存期間 > 90日間"
+	},
+
+	"options_general_insertButtonIntoVideoPage": {
+		"message": "動画ページに動画変換ボタンを挿入する",
+		"description": "オプション > 全般 > 動画ページに動画変換ボタンを挿入する"
+	},
+
+	"options_general_tutorial": {
+		"message": "チュートリアル",
+		"description": "オプション > 全般 > チュートリアル"
+	},
+
+	"options_general_tutorial_viewTutorial": {
+		"message": "チュートリアルを見る",
+		"description": "オプション > 全般 > チュートリアル > チュートリアルを見る"
+	},
+
+	"options_support_title": {
+		"message": "サポート",
+		"description": "オプション > サポート > タイトル"
+	},
+
+	"options_support_contact_title": {
+		"message": "お問い合わせ",
+		"description": "オプション > サポート > お問い合わせ > タイトル"
+	},
+
+	"options_support_contact_text1": {
+		"message": "不具合やご意見、ご要望などがございましたら、ストアページまたはメールからご連絡ください。",
+		"description": "オプション > サポート > お問い合わせ > 本文1"
+	},
+
+	"options_support_contact_chromeWebStoreURL_labelText": {
+		"message": "Chrome ウェブストア：",
+		"description": "オプション > サポート > お問い合わせ > chrome ウェブストア > ラベルテキスト"
+	},
+
+	"options_support_contact_chromeWebStoreURL_linkText": {
+		"message": "ストアページを開く",
+		"description": "オプション > サポート > お問い合わせ > chrome ウェブストア > リンクテキスト"
+	},
+
+	"options_support_contact_microsoftEdgeAddonsURL_labelText": {
+		"message": "Microsoft Edge アドオン：",
+		"description": "オプション > サポート > お問い合わせ > Microsoft Edge アドオン > ラベルテキスト"
+	},
+
+	"options_support_contact_microsoftEdgeAddonsURL_linkText": {
+		"message": "ストアページを開く",
+		"description": "オプション > サポート > お問い合わせ > Microsoft Edge アドオン > リンクテキスト"
+	},
+
+	"options_support_contact_developerEmail_labelText": {
+		"message": "メールアドレス：",
+		"description": "オプション > サポート > お問い合わせ > メールアドレス > ラベルテキスト"
+	},
+
+	"options_info_title": {
+		"message": "詳細情報",
+		"description": "オプション > 詳細情報 > タイトル"
+	},
+
+	"options_info_version_title": {
+		"message": "バージョン",
+		"description": "オプション > 詳細情報 > バージョン > タイトル"
+	},
+
+	"options_info_changelog_title": {
+		"message": "更新履歴",
+		"description": "オプション > 詳細情報 > 更新履歴 > タイトル"
+	},
+
+	"options_info_changelog_openChangelog": {
+		"message": "更新履歴ページを開く",
+		"description": "オプション > 詳細情報 > 更新履歴 > 更新履歴ページを開く"
+	},
+
+	"options_info_credits_title": {
+		"message": "クレジット",
+		"description": "オプション > 詳細情報 > クレジット > タイトル"
+	},
+
+	"options_info_credits_text1": {
+		"message": "※この拡張機能はbilibiliの公式のものではありません。",
+		"description": "オプション > 詳細情報 > クレジット > テキスト1"
+	},
+
+	"options_info_credits_text2": {
+		"message": "※bilibiliは上海幻電信息科技有限公司（Shanghai Hode Information Technology Co.,Ltd.）の登録商標です。この拡張機能はbilibiliとは連携していません。",
+		"description": "オプション > 詳細情報 > クレジット > テキスト2"
+	},
+
+	"options_info_credits_text3": {
+		"message": "Powered by bilibili-parse API © 2019 injahow",
+		"description": "オプション > 詳細情報 > クレジット > テキスト3"
+	},
+
+	"tutorial_browserTabTitle": {
+		"message": "チュートリアル - Bili2VRC",
+		"description": "チュートリアル > ブラウザタブのタイトル"
+	},
+
+	"tutorial_title": {
+		"message": "Bili2VRC チュートリアル",
+		"description": "チュートリアル > タイトル"
+	},
+
+	"tutorial_exitButton": {
+		"message": "完了",
+		"description": "チュートリアル > 終了ボタン"
+	},
+
+	"turorial_t01_title": {
+		"message": "動画を変換する",
+		"description": "チュートリアル > T01 > タイトル"
+	},
+
+	"turorial_t01_description": {
+		"message": "動画右下の「変換」ボタンを左クリックすると、動画を変換できます。",
+		"description": "チュートリアル > T01 > 説明"
+	},
+
+	"turorial_t02_title": {
+		"message": "変換履歴を見る",
+		"description": "チュートリアル > T02 > タイトル"
+	},
+
+	"turorial_t02_description": {
+		"message": "「変換」ボタンを右クリックすると、コンテキストメニューが表示されます。コンテキストメニューの「変換履歴」をクリックすると、変換履歴ページを見ることができます。",
+		"description": "チュートリアル > T02 > 説明"
+	}
+}

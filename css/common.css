@@ -1,0 +1,69 @@
+@charset "UTF-8";
+@import url("https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,400,1,0");
+@import url("https://fonts.googleapis.com/css2?family=Noto+Sans:ital,wght@0,100..900;1,100..900&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@100..900&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@100..900&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@100..900&display=swap");
+
+:root {
+	--bili2vrc-line-color1: #00000040;
+	--bili2vrc-line-color2: #FFFFFF40;
+}
+
+.bili2vrc-popup * {
+	all: revert;
+}
+
+[lang="en"] {
+	font-family: "Noto Sans", sans-serif;
+}
+
+[lang="zh-CN"] {
+	font-family: "Noto Sans SC", sans-serif;
+}
+
+[lang="zh-TW"] {
+	font-family: "Noto Sans TC", sans-serif;
+}
+
+[lang="ja"] {
+	font-family: "Noto Sans JP", sans-serif;
+}
+
+.material-symbols-rounded {
+	font-variation-settings:
+		'FILL' 1,
+		'wght' 400,
+		'GRAD' 0,
+		'opsz' 24;
+	-webkit-user-select: none;
+	user-select: none;
+}
+
+.bili2vrc-space-between {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+}
+
+.bili2vrc-underline {
+	border-bottom: 1px solid var(--bili2vrc-line-color1);
+}
+
+.bili2vrc-separator {
+	margin: 7px 0;
+	border-top: solid 1px var(--bili2vrc-line-color1);
+	border-bottom: solid 1px var(--bili2vrc-line-color2);
+}
+
+.bili2vrc-key {
+	margin: 0 4px;
+	padding: 0 5px;
+	border: 1px solid #B0B0B0;
+	border-bottom-width: 2px;
+	border-radius: 3px;
+	background: #F0F0F0;
+	color: #707070;
+	font-weight: bold;
+	font-size: 0.9em;
+}

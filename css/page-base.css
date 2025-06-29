@@ -1,0 +1,150 @@
+@charset "UTF-8";
+
+:root {
+	--bili2vrc-text-color: #31616b;
+	--bili2vrc-anchor-text-color: #0a96c1;
+	--bili2vrc-sidebar-width: 0px;
+	--bili2vrc-sidebar-text-color: #1c4b56;
+	--bili2vrc-sidebar-background-color: #daf6fc;
+	--bili2vrc-main-content-width: 800px;
+	--bili2vrc-main-content-background-color: #f6fdff;
+	--bili2vrc-button-height: 40px;
+	--bili2vrc-button-text-color: #f5ffff;
+	--bili2vrc-button-background-color: #067990;
+	--bili2vrc-circle-button-size: 40px;
+	--bili2vrc-circle-button-icon-size: 40px;
+}
+
+* {
+	line-height: 1.9rem;
+}
+
+html {
+	color: var(--bili2vrc-text-color);
+}
+
+body {
+	margin: 0;
+	font-size: 1.1rem;
+}
+
+/*
+---------------------------------------------------------------
+	Main
+---------------------------------------------------------------
+*/
+
+#main {
+	margin-left: var(--bili2vrc-sidebar-width);
+	padding-bottom: 130px;
+	min-height: 100vh;
+	background-color: var(--bili2vrc-main-content-background-color);
+	box-sizing: border-box;
+	overflow: auto;
+}
+#main-content {
+	margin: 0 auto;
+	padding: 50px 20px;
+	width: var(--bili2vrc-main-content-width);
+	height: 100%;
+}
+
+/*
+---------------------------------------------------------------
+	Other Styles
+---------------------------------------------------------------
+*/
+
+/* --- Text --- */
+
+p {
+	margin: 10px 0;
+}
+
+a {
+	text-decoration: none;
+	color: var(--bili2vrc-anchor-text-color);
+}
+a:hover {
+	filter: brightness(120%);
+}
+
+/* --- Header --- */
+
+h1 {
+	margin: 50px 0;
+}
+
+h2 {
+	margin: 70px 0 15px;
+	padding: 5px 0;
+	border-bottom: 1px solid var(--bili2vrc-line-color1);
+}
+
+h3 {
+	margin: 20px 0 5px;
+}
+
+ul {
+	margin: 5px 0;
+}
+
+/* --- Form --- */
+
+select {
+	padding: 2px 0;
+	height: min-content;
+	min-width: 250px;
+	text-align: center;
+	font-size: 0.9em;
+	line-height: 0.9em;
+}
+
+input[type="checkbox"] {
+	scale: 1.7;
+}
+
+button {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	padding: 3px 15px 3px 10px;
+	gap: 5px;
+	border: 1px solid var(--bili2vrc-button-background-color);
+	border-radius: 7px;
+	background-color: var(--bili2vrc-button-background-color);
+	color: var(--bili2vrc-button-text-color);
+	cursor: pointer;
+	transition: all 50ms ease;
+	font-size: 0.9em;
+	height: var(--bili2vrc-button-height);
+}
+button:hover {
+	filter: brightness(120%);
+}
+button:active:not(:disabled) {
+	background-color: var(--bili2vrc-button-text-color);
+	color: var(--bili2vrc-button-background-color);
+}
+button:disabled {
+	filter: grayscale(100%);
+	opacity: 50%;
+}
+button > div {
+	display: flex;
+	align-items: center;
+}
+button .material-symbols-rounded {
+	font-size: 1.5em;
+}
+
+.bili2vrc-circle-button {
+	padding: 0;
+	width: var(--bili2vrc-circle-button-size);
+	height: var(--bili2vrc-circle-button-size);
+	border-radius: calc(var(--bili2vrc-circle-button-size) / 2);
+	font-size: var(--bili2vrc-circle-button-icon-size);
+	line-height: var(--bili2vrc-circle-button-icon-size);
+	overflow: hidden;
+	transition: none;
+}

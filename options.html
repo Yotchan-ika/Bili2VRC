@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html data-bili2vrc-set-lang-attribute>
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title data-bili2vrc-msg="options_browserTabTitle"></title>
+		<link rel="stylesheet" href="css/common.css">
+		<link rel="stylesheet" href="css/page-base.css">
+		<link rel="stylesheet" href="css/popup.css">
+		<link rel="stylesheet" href="css/options.css">
+		<script type="text/javascript" src="js/utils/common-utils.js" defer></script>
+		<script type="text/javascript" src="js/utils/popup-utils.js" defer></script>
+		<script type="text/javascript" src="js/utils/tutorial-utils.js" defer></script>
+		<script type="text/javascript" src="js/options.js" defer></script>
+	</head>
+	<body>
+
+		<!--
+		=======================================================
+			Sidebar
+		=======================================================
+		-->
+		<div id="sidebar">
+			<div id="sidebar-content" data-bili2vrc-display-on-load hidden>
+				<img id="sidebar-logo" src="images/Logo_3200x900.svg" alt="Bili2VRC Logo">
+				<form name="tabs">
+					<nav id="sidebar-tabs">
+						<ul>
+
+							<!--
+							-----------------------------------
+								General
+							-----------------------------------
+							-->
+							<li>
+								<label>
+									<input type="radio" name="tabs" value="general" hidden checked>
+									<span class="material-symbols-rounded">settings</span>
+									<span data-bili2vrc-msg="options_sidebar_general"></span>
+								</label>
+							</li>
+
+							<!--
+							-----------------------------------
+								Support
+							-----------------------------------
+							-->
+							<li>
+								<label>
+									<input type="radio" name="tabs" value="support" hidden>
+									<span class="material-symbols-rounded">contact_support</span>
+									<span data-bili2vrc-msg="options_sidebar_support"></span>
+								</label>
+							</li>
+
+							<!--
+							-----------------------------------
+								Info
+							-----------------------------------
+							-->
+							<li>
+								<label>
+									<input type="radio" name="tabs" value="info" hidden>
+									<span class="material-symbols-rounded">notes</span>
+									<span data-bili2vrc-msg="options_sidebar_info"></span>
+								</label>
+							</li>
+
+						</ul>
+					</nav>
+				</form>
+			</div>
+		</div>
+
+		<!--
+		=======================================================
+			Main
+		=======================================================
+		-->
+		<div id="main">
+			<div id="main-content" data-bili2vrc-display-on-load hidden>
+				<form name="options">
+
+					<!--
+					-------------------------------------------
+						General
+					-------------------------------------------
+					-->
+					<div id="general" class="tab-content">
+						<h1 class="main-content-title" data-bili2vrc-msg="options_general_title"></h1>
+
+						<!-- Language -->
+						<label class="bili2vrc-option-item bili2vrc-space-between bili2vrc-underline">
+							<span data-bili2vrc-msg="options_general_language"></span>
+							<select name="language" data-bili2vrc-set-lang-attribute required>
+								<option value="default" data-bili2vrc-i18n="options_general_language_default"></option>
+								<option value="en" lang="en">English</option>
+								<option value="zh-CN" lang="zh-CN">简体中文</option>
+								<option value="zh-TW" lang="zh-TW">繁体中文</option>
+								<option value="ja" lang="ja">日本語</option>
+							</select>
+						</label>
+
+						<!-- History storage period -->
+						<label class="bili2vrc-option-item bili2vrc-space-between bili2vrc-underline">
+							<span data-bili2vrc-msg="options_general_historyRetentionPeriod"></span>
+							<select name="history-retention-period" data-bili2vrc-set-lang-attribute required>
+								<option value="0" data-bili2vrc-msg="options_general_historyRetentionPeriod_doNotRetain"></option>
+								<option value="1" data-bili2vrc-msg="options_general_historyRetentionPeriod_1hour"></option>
+								<option value="24" data-bili2vrc-msg="options_general_historyRetentionPeriod_24hours"></option>
+								<option value="168" data-bili2vrc-msg="options_general_historyRetentionPeriod_7days"></option>
+								<option value="720" data-bili2vrc-msg="options_general_historyRetentionPeriod_30days"></option>
+								<option value="2160" data-bili2vrc-msg="options_general_historyRetentionPeriod_90days"></option>
+							</select>
+						</label>
+
+						<!-- Insert button into video page -->
+						<label class="bili2vrc-option-item bili2vrc-space-between bili2vrc-underline">
+							<span data-bili2vrc-msg="options_general_insertButtonIntoVideoPage"></span>
+							<input type="checkbox" name="insert-button-into-video-page">
+						</label>
+
+						<!-- Tutorial -->
+						<div class="bili2vrc-option-item bili2vrc-space-between bili2vrc-underline">
+							<span data-bili2vrc-msg="options_general_tutorial"></span>
+							<button id="bili2vrc-view-tutorial-button">
+								<span class="material-symbols-rounded">school</span>
+								<span data-bili2vrc-msg="options_general_tutorial_viewTutorial"></span>
+							</button>
+						</div>
+
+					</div>
+
+					<!--
+					-------------------------------------------
+						Support
+					-------------------------------------------
+					-->
+					<div id="support" class="tab-content">
+						<h1 class="main-content-title" data-bili2vrc-msg="options_support_title"></h1>
+
+						<!-- Contact -->
+						<h2 data-bili2vrc-msg="options_support_contact_title"></h2>
+						<p data-bili2vrc-msg="options_support_contact_text1"></p>
+						<ul>
+							<li>
+								<span data-bili2vrc-msg="options_support_contact_chromeWebStoreURL_labelText"></span>
+								<a data-bili2vrc-dynamic-value="chrome-web-store-url-href" data-bili2vrc-msg="options_support_contact_chromeWebStoreURL_linkText" target="_blank"></a>
+							</li>
+							<li>
+								<span data-bili2vrc-msg="options_support_contact_microsoftEdgeAddonsURL_labelText"></span>
+								<a data-bili2vrc-dynamic-value="microsoft-edge-addons-url-href" data-bili2vrc-msg="options_support_contact_microsoftEdgeAddonsURL_linkText" target="_blank"></a>
+							</li>
+							<li>
+								<span data-bili2vrc-msg="options_support_contact_developerEmail_labelText"></span>
+								<a data-bili2vrc-dynamic-value="developer-email-href developer-email"></a>
+							</li>
+						</ul>
+
+					</div>
+
+					<!--
+					-------------------------------------------
+						Info
+					-------------------------------------------
+					-->
+					<div id="info" class="tab-content">
+						<h1 class="main-content-title" data-bili2vrc-msg="options_info_title" ></h1>
+
+						<h2 data-bili2vrc-msg="options_info_version_title"></h2>
+						<p data-bili2vrc-dynamic-value="version-text"></p>
+
+						<h2 data-bili2vrc-msg="options_info_changelog_title"></h2>
+						<button id="bili2vrc-open-changelog-button">
+							<span class="material-symbols-rounded">overview</span>
+							<span data-bili2vrc-msg="options_info_changelog_openChangelog"></span>
+						</button>
+
+						<h2 data-bili2vrc-msg="options_info_credits_title"></h2>
+						<p data-bili2vrc-msg="options_info_credits_text1"></p>
+						<p data-bili2vrc-msg="options_info_credits_text2"></p>
+						<p data-bili2vrc-msg="options_info_credits_text3"></p>
+
+					</div>
+
+				</form>
+			</div>
+		</div>
+
+	</body>
+</html>

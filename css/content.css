@@ -1,0 +1,63 @@
+@charset "UTF-8";
+
+:root {
+	--bili2vrc-context-menu-background-color: #000000D0;
+	--bili2vrc-context-menu-background-color-hover: #303030D0;
+	--bili2vrc-context-menu-text-color: #ffffff;
+	--bili2vrc-context-menu-separator-color: #606060D0;
+}
+
+/*
+---------------------------------------------------------------
+	Video Parsing Button
+---------------------------------------------------------------
+*/
+
+.bili2vrc-video-parse-video {
+	margin-right: 12px;
+}
+
+.bili2vrc-video-parse-video-inner {
+	position: relative;
+	display: inline-flex;
+	align-items: center;
+	user-select: none;
+}
+
+/*
+---------------------------------------------------------------
+	Custom Context Menu
+---------------------------------------------------------------
+*/
+
+.bili2vrc-context-menu {
+	position: absolute;
+	min-width: 100px;
+	border-radius: 5px;
+	overflow: hidden;
+	user-select: none;
+	z-index: 1000;
+}
+
+.bili2vrc-context-menu > ul {
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+
+.bili2vrc-context-menu > ul > li {
+	padding: 4px 20px;
+	height: 30px;
+	background-color: var(--bili2vrc-context-menu-background-color);
+	color: var(--bili2vrc-context-menu-text-color);
+	font-size: 12px;
+	line-height: 30px;
+	white-space: nowrap;
+	cursor: pointer;
+}
+.bili2vrc-context-menu > ul > li:not(:last-child) {
+	border-bottom: 1px solid var(--bili2vrc-context-menu-separator-color);
+}
+.bili2vrc-context-menu > ul > li:hover {
+	background-color: var(--bili2vrc-context-menu-background-color-hover);
+}
