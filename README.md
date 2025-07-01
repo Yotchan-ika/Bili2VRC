@@ -44,11 +44,11 @@ By using this project, you agree to abide by the external API providers' legal t
 
 ## Author
 
-Yotchan-ika  
-Contact: [ika.flowregit.dev@gmail.com](mailto:ika.flowregit.dev@gmail.com)
+Yotchan-ika (Squidtail)
+Contact: [squidtail.contact@gmail.com](mailto:squidtail.contact@gmail.com)
 
 ## License
 
 This source code is provided for educational or reference purposes only.
 Redistribution, modification, or commercial use without explicit permission is prohibited.
-Copyright (c) 2025 Yotchan-ika
+Copyright (c) 2025 Squidtail
