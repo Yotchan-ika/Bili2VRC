@@ -51,5 +51,7 @@ Contact: [squidtail.contact@gmail.com](mailto:squidtail.contact@gmail.com)
 ## License
 
 This source code is provided for educational or reference purposes only.
+
 Redistribution, modification, or commercial use without explicit permission is prohibited.
+
 Copyright (c) 2025 Squidtail
