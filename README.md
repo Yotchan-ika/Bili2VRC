@@ -45,7 +45,6 @@ By using this project, you agree to abide by the external API providers' legal t
 ## Author
 
 Yotchan-ika (Squidtail)
-
 Contact: [squidtail.contact@gmail.com](mailto:squidtail.contact@gmail.com)
 
 ## License
