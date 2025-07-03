@@ -50,4 +50,5 @@ Contact: [squidtail.contact@gmail.com](mailto:squidtail.contact@gmail.com)
 
 ## License
 
-[LICENSE](LICENSE)
+This project is licensed under a custom restrictive license.
+See [LICENSE.txt](./LICENSE.txt) for details.

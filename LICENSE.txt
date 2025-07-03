@@ -1,0 +1,15 @@
+Copyright (c) Squidtail, 2025
+
+All rights reserved.
+
+Permission is granted to individuals to download, view, and modify this software for **personal and non-commercial use only**.
+
+You may NOT:
+- Distribute, sublicense, or publicly share this software or any modified versions of it.
+- Repost or reupload the contents (including source code, binaries, or assets) to any website, repository, or platform.
+- Use the software or any part of it for commercial purposes without prior written permission.
+- Claim authorship of the original or modified work.
+
+Any other use of this software without explicit written permission from the copyright holder is strictly prohibited.
+
+If you wish to use this software beyond the terms above, please contact the author.
