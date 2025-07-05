@@ -20,7 +20,7 @@
 	"content_scripts": [
 		{
 			"matches": [
-				"<all_urls>"
+				"https://www.bilibili.com/*"
 			],
 			"css": [
 				"css/common.css",
@@ -45,7 +45,7 @@
 	"web_accessible_resources": [
 		{
 			"matches": [
-				"<all_urls>"
+				"https://www.bilibili.com/*"
 			],
 			"resources": [
 				"_locales/en/messages.json",
