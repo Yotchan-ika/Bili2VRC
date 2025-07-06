@@ -45,7 +45,7 @@
 	"web_accessible_resources": [
 		{
 			"matches": [
-				"https://www.bilibili.com/*"
+				"<all_urls>"
 			],
 			"resources": [
 				"_locales/en/messages.json",
