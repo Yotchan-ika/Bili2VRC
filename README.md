@@ -1,6 +1,6 @@
 # Bili2VRC
 
-A web extension that parseS the bilibili video and copies the parsed video URL to the clipboard.
+A web extension that parses the bilibili video and copies the parsed video URL to the clipboard.
 
 ## Features
 
@@ -15,7 +15,7 @@ A web extension that parseS the bilibili video and copies the parsed video URL t
 1. Open the store page
    - [Chrome Web Store](https://chromewebstore.google.com/detail/fojgodnomgghdjkfohljapkfbgicddpb)
    - [Microsoft Edge Addons](https://microsoftedge.microsoft.com/addons/detail/nlamopbkkcadijajjipdepfmicngablg)
-   - Firefox Browser Add-ons (preparing)
+   - [Firefox Browser Add-ons](https://addons.mozilla.org/firefox/addon/bili2vrc/)
 2. Click the install button
 
 ## Usage
