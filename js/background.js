@@ -35,6 +35,10 @@ async function onStartup() {
  */
 async function onInstalled(details) {
 
+	/* Clear storate data */
+	await browserObj.storage.local.clear();
+	await browserObj.storage.sync.clear();
+
 	/* Add context menus shown when the extension icon clicked */
 	browserObj.contextMenus.create({
 		id: 'parseVideo',
