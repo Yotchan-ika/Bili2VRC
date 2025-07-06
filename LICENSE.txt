@@ -2,7 +2,7 @@ Copyright (c) Squidtail, 2025
 
 All rights reserved.
 
-Permission is granted to individuals to download, view, and modify this software for **personal and non-commercial use only**.
+Permission is granted to individuals to download, view, and modify this software for personal and non-commercial use only.
 
 You may NOT:
 - Distribute, sublicense, or publicly share this software or any modified versions of it.
