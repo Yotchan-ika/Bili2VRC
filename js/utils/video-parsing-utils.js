@@ -58,7 +58,7 @@ async function onMessageReceive(request, sender, sendResponse) {
 
 		/* Parse the video */
 		case 'requestVideoParsing':
-			const parsingResult = await RequestVideoParsing(window.location.href);
+			const parsingResult = await requestVideoParsing(window.location.href);
 			if (parsingResult === true) {
 				sendResponse({status: 'successful'});
 			} else {
@@ -88,7 +88,7 @@ async function onMessageReceive(request, sender, sendResponse) {
  * @param {string} videoPageURL - Video page's URL
  * @returns {Promise.<boolean>} True: successfull, False: failed
  */
-async function RequestVideoParsing(videoPageURL) {
+async function requestVideoParsing(videoPageURL) {
 
 	try {
 

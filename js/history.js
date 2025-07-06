@@ -44,7 +44,7 @@ async function onVideoParsingButtonClick(event) {
 
 		/* Request video parsing */
 		if (historyItem) {
-			await RequestVideoParsing(historyItem.url);
+			await requestVideoParsing(historyItem.url);
 		} else {
 			throw new Error('Parsing history not found');
 		}
