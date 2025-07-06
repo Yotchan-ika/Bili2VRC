@@ -50,7 +50,7 @@
 	"web_accessible_resources": [
 		{
 			"matches": [
-				"https://www.bilibili.com"
+				"https://www.bilibili.com/*"
 			],
 			"resources": [
 				"_locales/en/messages.json",
