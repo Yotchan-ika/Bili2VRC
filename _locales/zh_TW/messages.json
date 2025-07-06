@@ -1,6 +1,6 @@
 {
 	"extension_name": {
-		"message": "Bili2VRC - 面向VRC的bilibili影片解析器",
+		"message": "Bili2VRC - 面向VRChat的bilibili影片解析器",
 		"description": "拡張機能 > 名称"
 	},
 
@@ -250,12 +250,12 @@
 	},
 
 	"options_info_credits_text1": {
-		"message": "※此擴充功能並非bilibili官方發布。",
+		"message": "※「VRChat」為 VRChat Inc. 的註冊商標或商標。本擴充功能並非經 VRChat Inc. 認可、合作或提供，為非官方的第三方工具。",
 		"description": "オプション > 詳細情報 > クレジット > テキスト1"
 	},
 
 	"options_info_credits_text2": {
-		"message": "※bilibili是上海幻電信息科技有限公司（Shanghai Hode Information Technology Co., Ltd.）的註冊商標。本擴充功能與bilibili無任何合作關係。",
+		"message": "※「bilibili」為上海幻電信息科技有限公司的註冊商標或商標。本擴充功能並非經 bilibili 認可、合作或提供，為非官方的第三方工具。",
 		"description": "オプション > 詳細情報 > クレジット > テキスト2"
 	},
 

@@ -1,6 +1,6 @@
 {
 	"extension_name": {
-		"message": "Bili2VRC - VRC向けbilibili動画変換ツール",
+		"message": "Bili2VRC - VRChat向けbilibili動画変換ツール",
 		"description": "拡張機能 > 名称"
 	},
 
@@ -250,12 +250,12 @@
 	},
 
 	"options_info_credits_text1": {
-		"message": "※この拡張機能はbilibiliの公式のものではありません。",
+		"message": "※「VRChat」は VRChat Inc. の登録商標または商標です。本拡張機能は VRChat Inc. により承認・提携・提供されたものではなく、非公式のサードパーティ製ツールです。",
 		"description": "オプション > 詳細情報 > クレジット > テキスト1"
 	},
 
 	"options_info_credits_text2": {
-		"message": "※bilibiliは上海幻電信息科技有限公司（Shanghai Hode Information Technology Co.,Ltd.）の登録商標です。この拡張機能はbilibiliとは連携していません。",
+		"message": "※「bilibili」は上海幻電信息科技有限公司（Shanghai Hode Information Technology Co., Ltd.）の登録商標または商標です。本拡張機能は bilibili により承認・提携・提供されたものではなく、非公式のサードパーティ製ツールです。",
 		"description": "オプション > 詳細情報 > クレジット > テキスト2"
 	},
 

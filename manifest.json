@@ -7,6 +7,11 @@
 	"icons": {
 		"256": "icons/ChromeIcon_256x256.png"
 	},
+	"host_permissions": [
+		"https://www.bilibili.com/*",
+		"https://api.bilibili.com/*",
+		"https://api.injahow.cn/bparse/*"
+	],
 	"permissions": [
 		"storage",
 		"tabs",
@@ -20,7 +25,7 @@
 	"content_scripts": [
 		{
 			"matches": [
-				"<all_urls>"
+				"https://www.bilibili.com/*"
 			],
 			"css": [
 				"css/common.css",
@@ -45,7 +50,7 @@
 	"web_accessible_resources": [
 		{
 			"matches": [
-				"<all_urls>"
+				"https://www.bilibili.com/*"
 			],
 			"resources": [
 				"_locales/en/messages.json",
@@ -100,16 +105,6 @@
 		}
 	],
 	"background": {
-		"scripts": [
-			"js/utils/common-utils.js",
-			"js/utils/history-utils.js",
-			"js/utils/tutorial-utils.js",
-			"js/background.js"
-		]
-	},
-	"browser_specific_settings": {
-		"gecko": {
-			"id": "bili2vrc@example.com"
-		}
+		"service_worker": "js/background.js"
 	}
 }

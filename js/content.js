@@ -9,7 +9,7 @@ executeOnWindowLoad(init);
 async function onVideoParsingButtonLeftClick(event) {
 
 	/* Parse the video */
-	await RequestVideoParsing(window.location.href);
+	await requestVideoParsing(window.location.href);
 
 }
 
@@ -80,7 +80,7 @@ async function onContextMenuClick(event) {
 
 			/* Parse the video*/
 			case 'parseVideo':
-				await RequestVideoParsing(window.location.href);
+				await requestVideoParsing(window.location.href);
 				break;
 
 			/* Video parsing history */

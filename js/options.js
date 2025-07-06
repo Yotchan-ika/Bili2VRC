@@ -15,11 +15,11 @@ const constantValues = {
 		attribute: 'href'
 	},
 	'developer-email-href': {
-		value: 'mailto:ika.flowregit.dev@gmail.com',
+		value: 'mailto:squidtail.contact@gmail.com',
 		attribute: 'href'
 	},
 	'developer-email': {
-		value: 'ika.flowregit.dev@gmail.com',
+		value: 'squidtail.contact@gmail.com',
 		attribute: undefined
 	}
 };

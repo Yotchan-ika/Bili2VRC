@@ -1,6 +1,6 @@
 {
 	"extension_name": {
-		"message": "Bili2VRC - Bilibili Video Parser for VRC",
+		"message": "Bili2VRC - Bilibili Video Parser for VRChat",
 		"description": "拡張機能 > 名称"
 	},
 
@@ -250,12 +250,12 @@
 	},
 
 	"options_info_credits_text1": {
-		"message": "* This extension is not an official Bilibili product but supports Bilibili content.",
+		"message": "* \"VRChat\" is a registered trademark (or trademark) of VRChat Inc. This extension is an unofficial third-party tool. It is not endorsed, affiliated with, or provided by VRChat Inc.",
 		"description": "オプション > 詳細情報 > クレジット > テキスト1"
 	},
 
 	"options_info_credits_text2": {
-		"message": "* Bilibili is a registered trademark of Shanghai Hode Information Technology Co.,Ltd. This extension is not affiliated with Bilibili.",
+		"message": "* \"bilibili\" is registered trademarks (or trademarks) of Shanghai Hode Information Technology Co., Ltd. This extension is an unofficial third-party tool. It is not endorsed, affiliated with, or provided by bilibili.",
 		"description": "オプション > 詳細情報 > クレジット > テキスト2"
 	},
 
