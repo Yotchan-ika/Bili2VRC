@@ -2,6 +2,12 @@
 
 executeOnWindowLoad(init);
 
+//	-----------------------------------------------------------
+//		Event Handler
+//	-----------------------------------------------------------
+
+//#region Event Handler
+
 /**
  * Handler executed when video parsing button left-clicked.
  * @param {Event} event - Event
@@ -135,6 +141,14 @@ async function onDataLoad() {
 
 }
 
+//#endregion
+
+//	-----------------------------------------------------------
+//		Page Initialization
+//	-----------------------------------------------------------
+
+//#region Page Initialization
+
 /**
  * Initialization.
  * @returns {Promise.<boolean>} True: successful, False: failed
@@ -209,7 +223,9 @@ async function waitForDataLoadComplete() {
 		const dataLoadedFlag = dataLoadedFlagElement.getAttribute('data-loaded');
 		if (dataLoadedFlag === 'true') {
 			try {
-				onDataLoad();
+				/* Add the button and context menu 5 seconds after the data finishes loading */
+				debug.log('Data load complete. Wait for 5 seconds.');
+				setTimeout(onDataLoad, 5000);
 			} catch (error) {
 				debug.log('Failed to insert the parse video button.');
 			}
@@ -327,3 +343,5 @@ function createContextMenuElement() {
 	return contextMenuElement;
 
 }
+
+//#endregion
