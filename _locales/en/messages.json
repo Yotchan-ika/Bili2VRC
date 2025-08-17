@@ -219,6 +219,16 @@
 		"description": "オプション > サポート > お問い合わせ > Microsoft Edge アドオン > リンクテキスト"
 	},
 
+	"options_support_contact_firefoxBrowserAddonsURL_labelText": {
+		"message": "Firefox Browser Add-ons: ",
+		"description": "オプション > サポート > お問い合わせ > Firefox Browser Add-ons > ラベルテキスト"
+	},
+
+	"options_support_contact_firefoxBrowserAddonsURL_linkText": {
+		"message": "Open the store page",
+		"description": "オプション > サポート > お問い合わせ > Firefox Browser Add-ons > リンクテキスト"
+	},
+
 	"options_support_contact_developerEmail_labelText": {
 		"message": "E-mail: ",
 		"description": "オプション > サポート > お問い合わせ > メールアドレス > ラベルテキスト"

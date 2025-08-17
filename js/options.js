@@ -14,6 +14,10 @@ const constantValues = {
 		value: 'https://microsoftedge.microsoft.com/addons/detail/nlamopbkkcadijajjipdepfmicngablg',
 		attribute: 'href'
 	},
+	'firefox-browser-addons-url-href': {
+		value: 'https://addons.mozilla.org/firefox/addon/bili2vrc/',
+		attribute: 'href'
+	},
 	'developer-email-href': {
 		value: 'mailto:squidtail.contact@gmail.com',
 		attribute: 'href'
