@@ -2,7 +2,7 @@
 	"manifest_version": 3,
 	"name": "__MSG_extension_name__",
 	"description": "__MSG_extension_description__",
-	"version": "2.0.0",
+	"version": "2.0.1",
 	"default_locale": "en",
 	"icons": {
 		"256": "icons/ChromeIcon_256x256.png"

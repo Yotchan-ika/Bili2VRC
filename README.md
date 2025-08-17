@@ -1,6 +1,6 @@
 # Bili2VRC
 
-A web extension that parseS the bilibili video and copies the parsed video URL to the clipboard.
+A web extension that parses the bilibili video and copies the parsed video URL to the clipboard.
 
 ## Features
 
