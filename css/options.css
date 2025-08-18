@@ -74,3 +74,25 @@
 	padding: 5px 2px;
 	align-items: end;
 }
+
+/*
+---------------------------------------------------------------
+	Table Style
+---------------------------------------------------------------
+*/
+
+th, td {
+	box-shadow: 0 5px 10px #00000030;
+}
+
+th {
+	padding: 2px 13px;
+	text-align: left;
+	background-color: var(--bili2vrc-table-header-background-color);
+	color: var(--bili2vrc-table-header-text-color);
+}
+
+td {
+	padding: 2px 13px;
+	background-color: var(--bili2vrc-main-content-background-color);
+}

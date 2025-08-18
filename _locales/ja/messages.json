@@ -200,7 +200,7 @@
 	},
 
 	"options_support_contact_chromeWebStoreURL_labelText": {
-		"message": "Chrome ウェブストア：",
+		"message": "Chrome ウェブストア",
 		"description": "オプション > サポート > お問い合わせ > chrome ウェブストア > ラベルテキスト"
 	},
 
@@ -210,7 +210,7 @@
 	},
 
 	"options_support_contact_microsoftEdgeAddonsURL_labelText": {
-		"message": "Microsoft Edge アドオン：",
+		"message": "Microsoft Edge アドオン",
 		"description": "オプション > サポート > お問い合わせ > Microsoft Edge アドオン > ラベルテキスト"
 	},
 
@@ -220,7 +220,7 @@
 	},
 
 	"options_support_contact_firefoxBrowserAddonsURL_labelText": {
-		"message": "Firefox Browser Add-ons：",
+		"message": "Firefox Browser Add-ons",
 		"description": "オプション > サポート > お問い合わせ > Firefox Browser Add-ons > ラベルテキスト"
 	},
 
@@ -230,7 +230,7 @@
 	},
 
 	"options_support_contact_developerEmail_labelText": {
-		"message": "メールアドレス：",
+		"message": "メールアドレス",
 		"description": "オプション > サポート > お問い合わせ > メールアドレス > ラベルテキスト"
 	},
 
