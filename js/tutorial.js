@@ -49,6 +49,11 @@ async function init() {
 		/* Display unknown error popup */
 		await showUnknownErrorPopup(error.stack);
 
+	} finally {
+
+		/* Display on load */
+		await displayContent();
+
 	}
 
 }
