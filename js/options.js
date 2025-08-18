@@ -18,6 +18,10 @@ const constantValues = {
 		value: 'https://addons.mozilla.org/firefox/addon/bili2vrc/',
 		attribute: 'href'
 	},
+	'github-url-href': {
+		value: 'https://github.com/Yotchan-ika/Bili2VRC',
+		attribute: 'href'
+	},
 	'developer-email-href': {
 		value: 'mailto:squidtail.contact@gmail.com',
 		attribute: 'href'

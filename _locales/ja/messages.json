@@ -229,6 +229,16 @@
 		"description": "オプション > サポート > お問い合わせ > Firefox Browser Add-ons > リンクテキスト"
 	},
 
+	"options_support_contact_githubURL_labelText": {
+		"message": "GitHub",
+		"description": "オプション > サポート > お問い合わせ > GitHub > ラベルテキスト"
+	},
+
+	"options_support_contact_githubURL_linkText": {
+		"message": "ブラウザで開く",
+		"description": "オプション > サポート > お問い合わせ > GitHub > ラベルテキスト"
+	},
+
 	"options_support_contact_developerEmail_labelText": {
 		"message": "メールアドレス",
 		"description": "オプション > サポート > お問い合わせ > メールアドレス > ラベルテキスト"
