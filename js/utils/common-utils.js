@@ -116,32 +116,21 @@ function getVersionText() {
  */
 async function getCurrentLanguage() {
 
-	/* Get browser object */
-	const browserObj = getBrowserObject();
-
 	/* Find current language code */
 	const optionLanguage = await loadOptionData(optionKeys.LANGUAGE);
-	const UILanguage = browserObj.i18n.getUILanguage();
-	let currentLanguage;
 	if (optionLanguage === 'default') {
-		if (supportedLanguages.includes(UILanguage)) {
-			currentLanguage = UILanguage;
-		} else {
-			currentLanguage = supportedLanguages[0];
-		}
+		return await getDefaultLanguage();
 	} else {
-		currentLanguage = optionLanguage;
+		return optionLanguage;
 	}
-
-	return currentLanguage;
 
 }
 
 /**
- * Get UI language code.
- * @returns {Promise.<string>} UI language code
+ * Get default language code.
+ * @returns {Promise.<string>} Default language code
  */
-async function getUILanguage() {
+async function getDefaultLanguage() {
 
 	/* Get browser object */
 	const browserObj = getBrowserObject();
@@ -151,7 +140,22 @@ async function getUILanguage() {
 	if (supportedLanguages.includes(UILanguage)) {
 		return UILanguage;
 	} else {
-		return supportedLanguages[0];
+
+		/* Match supported language against browser preferences */
+		/** @type {Array.<string>} */
+		const acceptLanguages = await browserObj.i18n.getAcceptLanguages();
+		const preferrdLanguage = acceptLanguages.find(acceptLanguage => (
+			supportedLanguages.includes(acceptLanguage)
+		));
+
+		/* If a supported language is found, use it as the UI language
+		   Otherwise, default to 'en' */
+		if (preferrdLanguage !== undefined) {
+			return preferrdLanguage;
+		} else {
+			return supportedLanguages[0];
+		}
+
 	}
 
 }
@@ -254,7 +258,7 @@ async function setResourceTexts() {
 	const currentLanguage = await getCurrentLanguage();
 
 	/* Get UI language code */
-	const UILanguage = await getUILanguage();
+	const UILanguage = await getDefaultLanguage();
 
 	/* Set resource texts in option's language */
 	let id;
