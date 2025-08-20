@@ -100,6 +100,16 @@
 		}
 	],
 	"background": {
-		"service_worker": "js/background.js"
+		"scripts": [
+			"js/utils/common-utils.js",
+			"js/utils/history-utils.js",
+			"js/utils/tutorial-utils.js",
+			"js/background.js"
+		]
+	},
+	"browser_specific_settings": {
+		"gecko": {
+			"id": "bili2vrc@example.com"
+		}
 	}
 }
