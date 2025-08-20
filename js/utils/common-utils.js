@@ -145,7 +145,9 @@ async function getDefaultLanguage() {
 		/** @type {Array.<string>} */
 		const acceptLanguages = await browserObj.i18n.getAcceptLanguages();
 		const preferrdLanguage = acceptLanguages.find(acceptLanguage => (
-			supportedLanguages.includes(acceptLanguage)
+			supportedLanguages
+				.map(supportedLanguage => supportedLanguage.toLowerCase())
+				.includes(acceptLanguage.toLowerCase())
 		));
 
 		/* If a supported language is found, use it as the UI language

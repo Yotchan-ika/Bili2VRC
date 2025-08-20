@@ -7,11 +7,6 @@
 	"icons": {
 		"256": "icons/ChromeIcon_256x256.png"
 	},
-	"host_permissions": [
-		"https://www.bilibili.com/*",
-		"https://api.bilibili.com/*",
-		"https://api.injahow.cn/bparse/*"
-	],
 	"permissions": [
 		"storage",
 		"tabs",
@@ -105,6 +100,16 @@
 		}
 	],
 	"background": {
-		"service_worker": "js/background.js"
+		"scripts": [
+			"js/utils/common-utils.js",
+			"js/utils/history-utils.js",
+			"js/utils/tutorial-utils.js",
+			"js/background.js"
+		]
+	},
+	"browser_specific_settings": {
+		"gecko": {
+			"id": "bili2vrc@example.com"
+		}
 	}
 }
