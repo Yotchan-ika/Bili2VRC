@@ -188,7 +188,7 @@ async function init() {
 		}
 
 		/* If button insertion is disabled on the video page, skip the subsequent operations */
-		const insertButtonIntoVideoPage = await getOptionData(optionKeys.INSERT_BUTTON_INTO_VIDEO_PAGE);
+		const insertButtonIntoVideoPage = await loadOptionData(optionKeys.INSERT_BUTTON_INTO_VIDEO_PAGE);
 		if (insertButtonIntoVideoPage === false) {
 			debug.log('Button insertion on the video page is disabled.');
 			return false;

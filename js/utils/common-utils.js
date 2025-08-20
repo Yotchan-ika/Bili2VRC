@@ -120,7 +120,7 @@ async function getCurrentLanguage() {
 	const browserObj = getBrowserObject();
 
 	/* Find current language code */
-	const optionLanguage = await getOptionData(optionKeys.LANGUAGE);
+	const optionLanguage = await loadOptionData(optionKeys.LANGUAGE);
 	const UILanguage = browserObj.i18n.getUILanguage();
 	let currentLanguage;
 	if (optionLanguage === 'default') {
@@ -172,33 +172,6 @@ async function getMessages(lang) {
 }
 
 /**
- * Get option data.
- * @param {string} key - Key of the option data
- * @returns {Promise.<*>} Option data
- */
-async function getOptionData(key) {
-
-	/* Get option data from storage */
-	const options = await loadFromStorage(storageKeys.OPTIONS, true) || {};
-	const defaultOptions = defaultStorageData[storageKeys.OPTIONS];
-
-	/* If the key is missing from the object,
-	   return a default value and save it by adding it to the options data */
-	if (key in options === false) {
-		if (key in defaultOptions === false) {
-			throw new Error(`Unknown option data key "${key}"`)
-		}
-		options[key] = defaultOptions[key];
-		await saveToStorage(storageKeys.OPTIONS, options, true);
-		debug.log(`New option data "${key}" created.`);
-		debug.log('Option data:', options);
-	}
-
-	return options[key];
-
-}
-
-/**
  * Check whether the current tab's URL is valid.
  * @param {string} currentTabURL Current tab's URL
  * @returns {boolean} True: valid, False: invalid
@@ -224,44 +197,13 @@ function isValidURL(currentTabURL) {
 async function getFormattedDatetime(timestamp, options) {
 
 	/* Get current language code */
-	const currentLanguage = await getOptionData(optionKeys.LANGUAGE);
+	const currentLanguage = await loadOptionData(optionKeys.LANGUAGE);
 
 	/* Format date and time */
 	const formatter = Intl.DateTimeFormat(currentLanguage, options);
 	const formattedDatetime = formatter.format(timestamp);
 
 	return formattedDatetime;
-
-}
-
-//#endregion
-
-//	-----------------------------------------------------------
-//		Setter
-//	-----------------------------------------------------------
-
-//#region Setter
-
-/**
- * Save option data.
- * @param {string} key - Key of the option data
- * @param {*} value - Value of option data
- */
-async function setOptionData(key, value) {
-
-	/* Get option data from storage */
-	const options = await loadFromStorage(storageKeys.OPTIONS, true) || {};
-	const defaultOptions = defaultStorageData[storageKeys.OPTIONS];
-
-	/* If the key is not in the default options, throw an error */
-	if (key in defaultOptions === false) {
-		throw new Error(`Unknown option data key "${key}"`)
-	}
-
-	/* Save option data */
-	options[key] = value;
-	await saveToStorage(storageKeys.OPTIONS, options, true);
-	debug.log('Option data:', options);
 
 }
 
@@ -494,6 +436,56 @@ async function saveToStorage(key, value, isSynced = false) {
  */
 function isCorrectStorageKey(key) {
 	return Object.keys(storageKeys).some(keyName => storageKeys[keyName] === key);
+}
+
+/**
+ * Load option data.
+ * @param {string} key - Key of the option data
+ * @returns {Promise.<*>} Option data
+ */
+async function loadOptionData(key) {
+
+	/* Get option data from storage */
+	const options = await loadFromStorage(storageKeys.OPTIONS, true) || {};
+	const defaultOptions = defaultStorageData[storageKeys.OPTIONS];
+
+	/* If the key is missing from the object,
+	   return a default value and save it by adding it to the options data */
+	if (key in options === false) {
+		if (key in defaultOptions === false) {
+			throw new Error(`Unknown option data key "${key}"`)
+		}
+		options[key] = defaultOptions[key];
+		await saveToStorage(storageKeys.OPTIONS, options, true);
+		debug.log(`New option data "${key}" created.`);
+		debug.log('Option data:', options);
+	}
+
+	return options[key];
+
+}
+
+/**
+ * Save option data.
+ * @param {string} key - Key of the option data
+ * @param {*} value - Value of option data
+ */
+async function saveOptionData(key, value) {
+
+	/* Get option data from storage */
+	const options = await loadFromStorage(storageKeys.OPTIONS, true) || {};
+	const defaultOptions = defaultStorageData[storageKeys.OPTIONS];
+
+	/* If the key is not in the default options, throw an error */
+	if (key in defaultOptions === false) {
+		throw new Error(`Unknown option data key "${key}"`)
+	}
+
+	/* Save option data */
+	options[key] = value;
+	await saveToStorage(storageKeys.OPTIONS, options, true);
+	debug.log('Option data:', options);
+
 }
 
 //#endregion

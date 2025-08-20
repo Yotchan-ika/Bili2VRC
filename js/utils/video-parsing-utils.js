@@ -206,7 +206,7 @@ async function parseVideo(bvid, p) {
 
 				/* Save parsing history */
 				try {
-					const historyRetentionPeriod = await getOptionData(optionKeys.HISTORY_RENTENTION_PERIOD);
+					const historyRetentionPeriod = await loadOptionData(optionKeys.HISTORY_RENTENTION_PERIOD);
 					if (historyRetentionPeriod > 0) {
 						await addHistory(videoInfo);
 					}

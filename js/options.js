@@ -55,7 +55,7 @@ async function init() {
 		setDynamicValues(constantValues);
 
 		/* Reflect option data to option page */
-		await setOptionDataToForm();
+		await saveOptionDataToForm();
 
 		/* Set visibility of tabs */
 		setTabVisibility();
@@ -103,15 +103,15 @@ async function onOpenChangelogButtonClick(event) {
 /**
  * Reflect option data to option page.
  */
-async function setOptionDataToForm() {
+async function saveOptionDataToForm() {
 
 	/** @type {HTMLFormElement} */
 	const form = document.forms['options'];
 
 	/* Set option data to form */
-	form.elements['language'].value = await getOptionData(optionKeys.LANGUAGE);
-	form.elements['history-retention-period'].value = await getOptionData(optionKeys.HISTORY_RENTENTION_PERIOD);
-	form.elements['insert-button-into-video-page'].checked = await getOptionData(optionKeys.INSERT_BUTTON_INTO_VIDEO_PAGE);
+	form.elements['language'].value = await loadOptionData(optionKeys.LANGUAGE);
+	form.elements['history-retention-period'].value = await loadOptionData(optionKeys.HISTORY_RENTENTION_PERIOD);
+	form.elements['insert-button-into-video-page'].checked = await loadOptionData(optionKeys.INSERT_BUTTON_INTO_VIDEO_PAGE);
 
 }
 

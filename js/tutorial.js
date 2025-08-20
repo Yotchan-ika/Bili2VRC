@@ -107,7 +107,7 @@ async function onOptionsChanged(event) {
 		const form = document.forms['options'];
 
 		/* Save language option */
-		await setOptionData(optionKeys.LANGUAGE, form.elements['language'].value);
+		await saveOptionData(optionKeys.LANGUAGE, form.elements['language'].value);
 
 		/* Update language texts */
 		await setLangAttributes();
@@ -179,6 +179,6 @@ async function setLanguageSelector() {
 	const form = document.forms['options'];
 
 	/* Set option data to form */
-	form.elements['language'].value = await getOptionData(optionKeys.LANGUAGE);
+	form.elements['language'].value = await loadOptionData(optionKeys.LANGUAGE);
 
 }
