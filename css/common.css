@@ -38,6 +38,7 @@
 		'opsz' 24;
 	-webkit-user-select: none;
 	user-select: none;
+	height: min-content;
 }
 
 .bili2vrc-space-between {

@@ -2,7 +2,7 @@
 
 :root {
 	--bili2vrc-video-height: calc(var(--bili2vrc-video-width) * 9 / 16);
-	--bili2vrc-video-width: 50vw;
+	--bili2vrc-video-width: 700px;
 }
 
 #main {
@@ -15,6 +15,7 @@
 
 #main-content {
 	margin: 0;
+	padding: 0;
 	width: 80%;
 	height: min-content;
 }
@@ -63,8 +64,15 @@
 	right: 0;
 }
 
+.bili2vrc-language-option-container {
+	display: flex;
+	align-items: center;
+	gap: 6px;
+}
+
 h1 {
 	margin: 0;
+	padding: 3px 0;
 }
 
 h2 {

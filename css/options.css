@@ -44,6 +44,7 @@
 #sidebar-tabs > ul > li > label {
 	display: flex;
 	align-items: center;
+	gap: 6px;
 	margin: 0 0 0 20px;
 	padding: 5px 10px;
 	text-decoration: none;
@@ -57,10 +58,6 @@
 }
 #sidebar-tabs > ul > li > label:has(input:checked) {
 	background-color: var(--bili2vrc-main-content-background-color);
-}
-#sidebar-tabs > ul > li > label > .material-symbols-rounded {
-	margin: 2px 6px 0 0;
-	font-size: 1.3em;
 }
 
 /*

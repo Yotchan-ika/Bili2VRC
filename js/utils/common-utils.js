@@ -237,6 +237,37 @@ async function getFormattedDatetime(timestamp, options) {
 //#endregion
 
 //	-----------------------------------------------------------
+//		Setter
+//	-----------------------------------------------------------
+
+//#region Setter
+
+/**
+ * Save option data.
+ * @param {string} key - Key of the option data
+ * @param {*} value - Value of option data
+ */
+async function setOptionData(key, value) {
+
+	/* Get option data from storage */
+	const options = await loadFromStorage(storageKeys.OPTIONS, true) || {};
+	const defaultOptions = defaultStorageData[storageKeys.OPTIONS];
+
+	/* If the key is not in the default options, throw an error */
+	if (key in defaultOptions === false) {
+		throw new Error(`Unknown option data key "${key}"`)
+	}
+
+	/* Save option data */
+	options[key] = value;
+	await saveToStorage(storageKeys.OPTIONS, options, true);
+	debug.log('Option data:', options);
+
+}
+
+//#endregion
+
+//	-----------------------------------------------------------
 //		HTML Control
 //	-----------------------------------------------------------
 
