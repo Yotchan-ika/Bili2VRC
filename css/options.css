@@ -69,7 +69,7 @@
 .bili2vrc-option-item {
 	margin-bottom: 20px;
 	padding: 5px 2px;
-	align-items: end;
+	align-items: flex-end;
 }
 
 /*

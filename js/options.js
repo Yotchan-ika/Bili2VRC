@@ -55,7 +55,7 @@ async function init() {
 		setDynamicValues(constantValues);
 
 		/* Reflect option data to option page */
-		await SetOptionDataToForm();
+		await setOptionDataToForm();
 
 		/* Set visibility of tabs */
 		setTabVisibility();
@@ -103,7 +103,7 @@ async function onOpenChangelogButtonClick(event) {
 /**
  * Reflect option data to option page.
  */
-async function SetOptionDataToForm() {
+async function setOptionDataToForm() {
 
 	/** @type {HTMLFormElement} */
 	const form = document.forms['options'];

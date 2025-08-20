@@ -173,7 +173,7 @@ async function getMessages(lang) {
 
 /**
  * Get option data.
- * @param {string} key Key of the option data
+ * @param {string} key - Key of the option data
  * @returns {Promise.<*>} Option data
  */
 async function getOptionData(key) {
@@ -466,7 +466,7 @@ async function saveToStorage(key, value, isSynced = false) {
 		throw new Error('Unknown storage key');
 	}
 
-	/* If the value is undefined/null, then throw error */
+	/* If the value is undefined/null, then throw an error */
 	if (value === undefined || value === null) {
 		throw new Error('Cannot save undefined/null to the storage');
 	}
