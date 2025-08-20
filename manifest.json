@@ -7,11 +7,6 @@
 	"icons": {
 		"256": "icons/ChromeIcon_256x256.png"
 	},
-	"host_permissions": [
-		"https://www.bilibili.com/*",
-		"https://api.bilibili.com/*",
-		"https://api.injahow.cn/bparse/*"
-	],
 	"permissions": [
 		"storage",
 		"tabs",
