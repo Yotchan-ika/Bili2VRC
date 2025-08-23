@@ -254,9 +254,9 @@ async function setLangAttributes() {
 }
 
 /**
- * Set resource texts in selected language.
+ * Set locale texts in selected language.
  */
-async function setResourceTexts() {
+async function setLocaleTexts() {
 
 	/* Get current language code */
 	const currentLanguage = await getCurrentLanguage();
@@ -264,7 +264,7 @@ async function setResourceTexts() {
 	/* Get UI language code */
 	const UILanguage = await getDefaultLanguage();
 
-	/* Set resource texts in option's language */
+	/* Set locale texts in option's language */
 	let id;
 	for (const element of document.querySelectorAll('[data-bili2vrc-msg]')) {
 		try {
@@ -278,7 +278,7 @@ async function setResourceTexts() {
 		}
 	}
 
-	/* Set resource texts in UI language */
+	/* Set locale texts in UI language */
 	for (const element of document.querySelectorAll('[data-bili2vrc-i18n]')) {
 		try {
 			id = element.getAttribute('data-bili2vrc-i18n');

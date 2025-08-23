@@ -111,7 +111,7 @@ async function onOptionsChanged(event) {
 
 		/* Update language texts */
 		await setLangAttributes();
-		await setResourceTexts();
+		await setLocaleTexts();
 
 	} catch (error) {
 
@@ -164,9 +164,9 @@ async function setTutorialPage() {
 	/* Reflect language option to language selector */
 	await setLanguageSelector();
 
-	/* Set resource texts */
+	/* Set locale texts */
 	await setLangAttributes();
-	await setResourceTexts();
+	await setLocaleTexts();
 
 }
 

@@ -186,9 +186,9 @@ async function setHistoryHTMLContent() {
 	/* If no history, display message */
 	await setNoHistoryMessage();
 
-	/* Set resource texts */
+	/* Set locale texts */
 	await setLangAttributes();
-	await setResourceTexts();
+	await setLocaleTexts();
 
 	/* Display content */
 	await displayContent();
@@ -208,7 +208,7 @@ async function setNoHistoryMessage() {
 		const textElement = document.createElement('div');
 		textElement.setAttribute('data-bili2vrc-msg', 'history_noHistoryMessage');
 		historyListElement.replaceChildren(textElement);
-		await setResourceTexts();
+		await setLocaleTexts();
 	}
 
 }
@@ -237,7 +237,7 @@ function getTitleText(historyItem) {
 
 /**
  * Create history item header element.
- * @param {string} messageID - Message ID of resource text
+ * @param {string} messageID - Message ID of locale text
  * @returns {HTMLElement} Header element
  */
 function createHistoryItemHeaderElement(messageID) {

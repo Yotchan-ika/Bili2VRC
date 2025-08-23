@@ -49,7 +49,7 @@ async function init() {
 
 		/* Set language texts */
 		await setLangAttributes();
-		await setResourceTexts();
+		await setLocaleTexts();
 
 		/* Set constant texts */
 		setDynamicValues(constantValues);
@@ -139,7 +139,7 @@ async function onOptionsChanged(event) {
 
 		/* Update language texts */
 		await setLangAttributes();
-		await setResourceTexts();
+		await setLocaleTexts();
 
 	} catch (error) {
 
