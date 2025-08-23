@@ -8,7 +8,8 @@
 		"256": "icons/ChromeIcon_256x256.png"
 	},
 	"host_permissions": [
-		"https://api.bilibili.com/*"
+		"https://api.bilibili.com/*",
+		"https://api.injahow.cn/bparse/*"
 	],
 	"permissions": [
 		"storage",

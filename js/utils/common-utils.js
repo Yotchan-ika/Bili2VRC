@@ -25,7 +25,8 @@ const storageKeys = Object.freeze({
 	HISTORY: 'history',
 	PARSING_STATUS: 'parsingStatus',
 	LAST_PARSING_TIMESTAMP: 'lastParsingTimestamp',
-	FINISHED_TUTORIAL_IDS: 'finishedTutorialIDs'
+	FINISHED_TUTORIAL_IDS: 'finishedTutorialIDs',
+	LAST_EXTENSION_VERSION: 'lastExtensionVersion',
 });
 
 /** @type {Object.<string, *>} Option data keys */
@@ -45,7 +46,8 @@ const defaultStorageData = Object.freeze({
 	[storageKeys.HISTORY]: [],
 	[storageKeys.PARSING_STATUS]: parsingStatuses.PARSABLE,
 	[storageKeys.LAST_PARSING_TIMESTAMP]: 0,
-	[storageKeys.FINISHED_TUTORIAL_IDS]: []
+	[storageKeys.FINISHED_TUTORIAL_IDS]: [],
+	[storageKeys.LAST_EXTENSION_VERSION]: '-'
 });
 
 /** @type {RegExp} Regexp to get BVID */

@@ -24,8 +24,11 @@ async function onStartup() {
 	/* Delete old parsing history item */
 	await deleteOldHistory(now);
 
-	/* Open tutorial page */
-	openTutorialIfHasUnfinishedTutorial();
+	/* If a new version is installed, open the changelog page */
+	if (await isNewVersionInstalled()) {
+		await openExtensionsPage('changelog.html');
+		openUnfinishedTutorial();
+	}
 
 }
 
@@ -60,8 +63,10 @@ async function onInstalled(details) {
 
 		/* On extension update */
 		case 'update':
-			await openExtensionsPage('changelog.html');
-			openTutorialIfHasUnfinishedTutorial();
+			if (await isNewVersionInstalled()) {
+				await openExtensionsPage('changelog.html');
+				openUnfinishedTutorial();
+			}
 			break;
 
 		default:
@@ -138,6 +143,28 @@ async function onContextMenuClick(info, tab) {
 		default:
 			throw new Error('Unknown context menu');
 
+	}
+
+}
+
+/**
+ * Whether a new version has been installed or not.
+ * @returns {Promise.<Boolean>} True: A new version is installed, False: A new version is not installed
+ */
+async function isNewVersionInstalled() {
+
+	/* Get the version saved at the previous browser startup and current version */
+	const lastExtensionVersion = await loadFromStorage(storageKeys.LAST_EXTENSION_VERSION, false);
+	const currentExtensionVersion = getVersionText();
+
+	/* Update the saved version */
+	await saveToStorage(storageKeys.LAST_EXTENSION_VERSION, currentExtensionVersion);
+
+	/* If the versions are different, a new version is installed */
+	if (lastExtensionVersion !== currentExtensionVersion) {
+		return true;
+	} else {
+		return false;
 	}
 
 }
