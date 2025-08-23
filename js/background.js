@@ -25,7 +25,7 @@ async function onStartup() {
 	await deleteOldHistory(now);
 
 	/* Open tutorial page */
-	openTutorialIfHasUnfinishedTutorial();
+	openUnfinishedTutorial();
 
 }
 
@@ -61,7 +61,7 @@ async function onInstalled(details) {
 		/* On extension update */
 		case 'update':
 			await openExtensionsPage('changelog.html');
-			openTutorialIfHasUnfinishedTutorial();
+			openUnfinishedTutorial();
 			break;
 
 		default:
