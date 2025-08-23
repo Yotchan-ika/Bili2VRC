@@ -77,8 +77,17 @@ async function onDeleteHistoryButtonClick(event) {
 		const historyItemElement = document.querySelector(`.bili2vrc-history-item[data-bili2vrc-history-id="${historyID}"]`);
 		historyItemElement.classList.add('bili2vrc-deleting');
 		setTimeout(async () => {
+
+			/* Remove history item */
 			historyItemElement.remove();
-			await setNoHistoryMessage();
+
+			/* Save the current scroll position, reload the page,
+			   and restore the scroll position */
+			const scrollX = window.scrollX;
+			const scrollY = window.scrollY;
+			await setHistoryHTMLContent();
+			window.scrollTo(scrollX, scrollY);
+
 		}, 200);
 
 		/* Show history deleted popup */
@@ -102,6 +111,7 @@ async function setHistoryHTMLContent() {
 
 	/* Get history list container element */
 	const historyListElement = document.getElementById('history-list');
+	historyListElement.replaceChildren();
 
 	/** @type {Array.<Object.<string, *>>} Get parsing history */
 	const history = await loadFromStorage(storageKeys.HISTORY);
