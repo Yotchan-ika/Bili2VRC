@@ -320,7 +320,7 @@ async function includeHTMLs() {
 
 /**
  * Set values to the document body dynamically.
- * @param {Object.<string, Object.<string, string>>} values
+ * @param {Object.<string, Object.<string, string>>} values - Dynamic values
  */
 function setDynamicValues(values) {
 
