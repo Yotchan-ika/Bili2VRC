@@ -1,33 +1,9 @@
 'use strict';
 
 /** @type {Array.<Object.<string, string>>} Constant texts */
-const constantValues = {
+const dynamicValues = {
 	'version-text': {
 		value: getVersionText(),
-		attribute: undefined
-	},
-	'chrome-web-store-url-href': {
-		value: 'https://chromewebstore.google.com/detail/fojgodnomgghdjkfohljapkfbgicddpb',
-		attribute: 'href'
-	},
-	'microsoft-edge-addons-url-href': {
-		value: 'https://microsoftedge.microsoft.com/addons/detail/nlamopbkkcadijajjipdepfmicngablg',
-		attribute: 'href'
-	},
-	'firefox-browser-addons-url-href': {
-		value: 'https://addons.mozilla.org/firefox/addon/bili2vrc/',
-		attribute: 'href'
-	},
-	'github-url-href': {
-		value: 'https://github.com/Yotchan-ika/Bili2VRC',
-		attribute: 'href'
-	},
-	'developer-email-href': {
-		value: 'mailto:squidtail.contact@gmail.com',
-		attribute: 'href'
-	},
-	'developer-email': {
-		value: 'squidtail.contact@gmail.com',
 		attribute: undefined
 	}
 };
@@ -49,10 +25,10 @@ async function init() {
 
 		/* Set language texts */
 		await setLangAttributes();
-		await setResourceTexts();
+		await setLocaleTexts();
 
 		/* Set constant texts */
-		setDynamicValues(constantValues);
+		setDynamicValues(dynamicValues);
 
 		/* Reflect option data to option page */
 		await saveOptionDataToForm();
@@ -139,7 +115,7 @@ async function onOptionsChanged(event) {
 
 		/* Update language texts */
 		await setLangAttributes();
-		await setResourceTexts();
+		await setLocaleTexts();
 
 	} catch (error) {
 

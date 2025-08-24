@@ -199,49 +199,34 @@
 		"description": "オプション > サポート > お問い合わせ > 本文1"
 	},
 
-	"options_support_contact_chromeWebStoreURL_labelText": {
+	"options_support_contact_openPage": {
+		"message": "開啟頁面",
+		"description": "オプション > サポート > お問い合わせ > ページを開く"
+	},
+
+	"options_support_contact_chromeWebStore": {
 		"message": "Chrome 線上應用程式商店",
-		"description": "オプション > サポート > お問い合わせ > chrome ウェブストア > ラベルテキスト"
+		"description": "オプション > サポート > お問い合わせ > Chrome ウェブストア"
 	},
 
-	"options_support_contact_chromeWebStoreURL_linkText": {
-		"message": "開啟商店頁面",
-		"description": "オプション > サポート > お問い合わせ > chrome ウェブストア > リンクテキスト"
-	},
-
-	"options_support_contact_microsoftEdgeAddonsURL_labelText": {
+	"options_support_contact_microsoftEdgeAddons": {
 		"message": "Microsoft Edge 外掛程式",
-		"description": "オプション > サポート > お問い合わせ > Microsoft Edge アドオン > ラベルテキスト"
+		"description": "オプション > サポート > お問い合わせ > Microsoft Edge アドオン"
 	},
 
-	"options_support_contact_microsoftEdgeAddonsURL_linkText": {
-		"message": "開啟商店頁面",
-		"description": "オプション > サポート > お問い合わせ > Microsoft Edge アドオン > リンクテキスト"
-	},
-
-	"options_support_contact_firefoxBrowserAddonsURL_labelText": {
+	"options_support_contact_firefoxBrowserAddons": {
 		"message": "Firefox Browser Add-ons",
-		"description": "オプション > サポート > お問い合わせ > Firefox Browser Add-ons > ラベルテキスト"
+		"description": "オプション > サポート > お問い合わせ > Firefox Browser Add-ons"
 	},
 
-	"options_support_contact_firefoxBrowserAddonsURL_linkText": {
-		"message": "開啟商店頁面",
-		"description": "オプション > サポート > お問い合わせ > Firefox Browser Add-ons > リンクテキスト"
-	},
-
-	"options_support_contact_githubURL_labelText": {
+	"options_support_contact_github": {
 		"message": "GitHub",
-		"description": "オプション > サポート > お問い合わせ > GitHub > ラベルテキスト"
+		"description": "オプション > サポート > お問い合わせ > GitHub"
 	},
 
-	"options_support_contact_githubURL_linkText": {
-		"message": "在瀏覽器中開啟",
-		"description": "オプション > サポート > お問い合わせ > GitHub > ラベルテキスト"
-	},
-
-	"options_support_contact_developerEmail_labelText": {
+	"options_support_contact_developerEmail": {
 		"message": "電子郵件地址",
-		"description": "オプション > サポート > お問い合わせ > メールアドレス > ラベルテキスト"
+		"description": "オプション > サポート > お問い合わせ > メールアドレス"
 	},
 
 	"options_info_title": {

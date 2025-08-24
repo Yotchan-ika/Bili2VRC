@@ -255,8 +255,8 @@ async function insertVideoParsingButton() {
 	const toolbarRightElementLastChild = toolbarRightElement.children[toolbarRightElement.children.length - 1];
 	toolbarRightElement.insertBefore(videoParsingButtonElement, toolbarRightElementLastChild);
 
-	/* Set resource texts */
-	await setResourceTexts();
+	/* Set locale texts */
+	await setLocaleTexts();
 
 }
 
@@ -300,8 +300,8 @@ async function insertContextMenu() {
 	const contextMenuElement = createContextMenuElement();
 	document.body.appendChild(contextMenuElement);
 
-	/* Set resource texts */
-	await setResourceTexts();
+	/* Set locale texts */
+	await setLocaleTexts();
 
 }
 

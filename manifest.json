@@ -96,6 +96,7 @@
 				"html/zh-TW/popup/processing.html",
 				"html/zh-TW/popup/too-frequent-parsing-request.html",
 				"html/zh-TW/popup/unknown-error.html",
+				"html/common/history-item.html",
 				"images/ButtonIcon_24x24.html",
 				"changelog.html",
 				"history.html",

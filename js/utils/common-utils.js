@@ -254,9 +254,9 @@ async function setLangAttributes() {
 }
 
 /**
- * Set resource texts in selected language.
+ * Set locale texts in selected language.
  */
-async function setResourceTexts() {
+async function setLocaleTexts() {
 
 	/* Get current language code */
 	const currentLanguage = await getCurrentLanguage();
@@ -264,7 +264,7 @@ async function setResourceTexts() {
 	/* Get UI language code */
 	const UILanguage = await getDefaultLanguage();
 
-	/* Set resource texts in option's language */
+	/* Set locale texts in option's language */
 	let id;
 	for (const element of document.querySelectorAll('[data-bili2vrc-msg]')) {
 		try {
@@ -278,7 +278,7 @@ async function setResourceTexts() {
 		}
 	}
 
-	/* Set resource texts in UI language */
+	/* Set locale texts in UI language */
 	for (const element of document.querySelectorAll('[data-bili2vrc-i18n]')) {
 		try {
 			id = element.getAttribute('data-bili2vrc-i18n');
@@ -320,20 +320,20 @@ async function includeHTMLs() {
 
 /**
  * Set values to the document body dynamically.
- * @param {Object.<string, Object.<string, string>>} values
+ * @param {Object.<string, Object.<string, string>>} values - Dynamic values
+ * @param {HTMLElement} [targetElement=document] - Target HTML element to set values
  */
-function setDynamicValues(values) {
+function setDynamicValues(values, targetElement = document) {
 
 	/* Set constant texts to HTML elements */
-	document.querySelectorAll('[data-bili2vrc-dynamic-value]').forEach(element => {
+	targetElement.querySelectorAll('[data-bili2vrc-dynamic-value]').forEach(element => {
 		const attributeValues = element.getAttribute('data-bili2vrc-dynamic-value').split(' ');
 		attributeValues.forEach(id => {
 			if (id in values) {
 				if (values[id].attribute) {
 					element.setAttribute(values[id].attribute, values[id].value);
 				} else {
-					const textNode = document.createTextNode(values[id].value);
-					element.replaceChildren(textNode);
+					element.innerHTML = values[id].value;
 				}
 			}
 		});

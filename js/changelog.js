@@ -12,7 +12,7 @@ async function init() {
 		/* includes HTML content */
 		await includeHTMLs();
 		await setLangAttributes();
-		await setResourceTexts();
+		await setLocaleTexts();
 
 		/* Display content */
 		await displayContent();
