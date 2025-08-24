@@ -364,8 +364,6 @@ async function getParsedVideoData(bvid, p) {
 		debug.log('bilibili-parse API:', parsedVideoData);
 
 		/* Set return value */
-
-
 		const result = {
 			parsedVideoURL: parsedVideoData.url,
 			parsedVideoQuality: parsedVideoData.quality,

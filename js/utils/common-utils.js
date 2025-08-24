@@ -321,19 +321,19 @@ async function includeHTMLs() {
 /**
  * Set values to the document body dynamically.
  * @param {Object.<string, Object.<string, string>>} values - Dynamic values
+ * @param {HTMLElement} [targetElement=document] - Target HTML element to set values
  */
-function setDynamicValues(values) {
+function setDynamicValues(values, targetElement = document) {
 
 	/* Set constant texts to HTML elements */
-	document.querySelectorAll('[data-bili2vrc-dynamic-value]').forEach(element => {
+	targetElement.querySelectorAll('[data-bili2vrc-dynamic-value]').forEach(element => {
 		const attributeValues = element.getAttribute('data-bili2vrc-dynamic-value').split(' ');
 		attributeValues.forEach(id => {
 			if (id in values) {
 				if (values[id].attribute) {
 					element.setAttribute(values[id].attribute, values[id].value);
 				} else {
-					const textNode = document.createTextNode(values[id].value);
-					element.replaceChildren(textNode);
+					element.innerHTML = values[id].value;
 				}
 			}
 		});
