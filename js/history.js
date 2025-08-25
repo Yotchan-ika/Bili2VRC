@@ -2,29 +2,11 @@
 
 executeOnWindowLoad(init);
 
-/**
- * Initialization.
- */
-async function init() {
+//	-----------------------------------------------------------
+//		Event Handler
+//	-----------------------------------------------------------
 
-	try {
-
-		const now = Date.now();
-
-		/* Delete old parsing history */
-		await deleteOldHistory(now);
-
-		/* Display the parsing history */
-		await setHistoryHTMLContent();
-
-	} catch (error) {
-
-		/* Display unknown error popup */
-		await showUnknownErrorPopup(error.stack);
-
-	}
-
-}
+//#region Event Handler
 
 /**
  * Handler executed when the video parsing button clicked.
@@ -78,16 +60,53 @@ async function onDeleteHistoryButtonClick(event) {
 		historyItemElement.classList.add('bili2vrc-deleting');
 		setTimeout(async () => {
 
+			/* Save parent element */
+			const parentElement = historyItemElement.parentElement;
+
 			/* Remove history item */
 			historyItemElement.remove();
 
-			/* Update history list */
-			await setHistoryHTMLContent();
+			/* If the parent element has no child elements, remove the parent element */
+			if (parentElement.childElementCount <= 1) {
+				parentElement.remove();
+			}
 
 		}, 200);
 
 		/* Show history deleted popup */
 		await showHistoryDeletedPopup();
+
+	} catch (error) {
+
+		/* Display unknown error popup */
+		await showUnknownErrorPopup(error.stack);
+
+	}
+
+}
+
+//#endregion
+
+//	-----------------------------------------------------------
+//		Initialization
+//	-----------------------------------------------------------
+
+//#region Initialization
+
+/**
+ * Initialization.
+ */
+async function init() {
+
+	try {
+
+		const now = Date.now();
+
+		/* Delete old parsing history */
+		await deleteOldHistory(now);
+
+		/* Display the parsing history */
+		await setHistoryHTMLContent();
 
 	} catch (error) {
 
@@ -147,41 +166,53 @@ async function setHistoryHTMLContent() {
 	}
 
 	/* Create hisotry item element and insert it to the page */
+	const fragment = document.createDocumentFragment();
 	if (historyOfToday.length > 0) {
-		historyListElement.appendChild(createHistoryItemHeaderElement('history_historyItemTitle_today'));
+		const containerElement = document.createElement('div');
+		containerElement.appendChild(createHistoryItemHeaderElement('history_historyItemTitle_today'));
 		for (const item of historyOfToday) {
 			const historyItemElement = await createHistoryItemElement(item);
-			historyListElement.appendChild(historyItemElement);
+			containerElement.appendChild(historyItemElement);
 		}
+		fragment.appendChild(containerElement);
 	}
 	if (historyOfYesterday.length > 0) {
-		historyListElement.appendChild(createHistoryItemHeaderElement('history_historyItemTitle_yesterday'));
+		const containerElement = document.createElement('div');
+		containerElement.appendChild(createHistoryItemHeaderElement('history_historyItemTitle_yesterday'));
 		for (const item of historyOfYesterday) {
 			const historyItemElement = await createHistoryItemElement(item);
-			historyListElement.appendChild(historyItemElement);
+			containerElement.appendChild(historyItemElement);
 		}
+		fragment.appendChild(containerElement);
 	}
 	if (historyOfLast7days.length > 0) {
-		historyListElement.appendChild(createHistoryItemHeaderElement('history_historyItemTitle_last7days'));
+		const containerElement = document.createElement('div');
+		containerElement.appendChild(createHistoryItemHeaderElement('history_historyItemTitle_last7days'));
 		for (const item of historyOfLast7days) {
 			const historyItemElement = await createHistoryItemElement(item);
-			historyListElement.appendChild(historyItemElement);
+			containerElement.appendChild(historyItemElement);
 		}
+		fragment.appendChild(containerElement);
 	}
 	if (historyOfLast30days.length > 0) {
-		historyListElement.appendChild(createHistoryItemHeaderElement('history_historyItemTitle_last30days'));
+		const containerElement = document.createElement('div');
+		containerElement.appendChild(createHistoryItemHeaderElement('history_historyItemTitle_last30days'));
 		for (const item of historyOfLast30days) {
 			const historyItemElement = await createHistoryItemElement(item);
-			historyListElement.appendChild(historyItemElement);
+			containerElement.appendChild(historyItemElement);
 		}
+		fragment.appendChild(containerElement);
 	}
 	if (historyOfEarlier.length > 0) {
-		historyListElement.appendChild(createHistoryItemHeaderElement('history_historyItemTitle_earlier'));
+		const containerElement = document.createElement('div');
+		containerElement.appendChild(createHistoryItemHeaderElement('history_historyItemTitle_earlier'));
 		for (const item of historyOfEarlier) {
 			const historyItemElement = await createHistoryItemElement(item);
-			historyListElement.appendChild(historyItemElement);
+			containerElement.appendChild(historyItemElement);
 		}
+		fragment.appendChild(containerElement);
 	}
+	historyListElement.appendChild(fragment);
 
 	/* If no history, display message */
 	await setNoHistoryMessage();
@@ -232,12 +263,6 @@ function getTitleText(historyItem) {
 
 }
 
-//	-----------------------------------------------------------
-//		Create History Item Element
-//	-----------------------------------------------------------
-
-//#region Craete History Item Element
-
 /**
  * Create history item header element.
  * @param {string} messageID - Message ID of locale text
@@ -257,13 +282,14 @@ function createHistoryItemHeaderElement(messageID) {
 /**
  * Create history item element.
  * @param {Object.<string, *>} historyItem - History item data
- * @returns {Promise.<HTMLElement>} History item element
+ * @returns {Promise.<HTMLTemplateElement>} History item element
  */
 async function createHistoryItemElement(historyItem) {
 
 	/* Create history item element */
-	const tempElement = document.createElement('div');
-	tempElement.innerHTML = await loadTextFile('html/common/history-item.html');
+	// const tempElement = document.createElement('div');
+	const template = document.createElement('template');
+	template.innerHTML = await loadTextFile('html/common/history-item.html');
 
 	/* Format parsed date and time */
 	const formatOptions = {
@@ -290,15 +316,15 @@ async function createHistoryItemElement(historyItem) {
 		'parsing-datetime': 	{value: parsedDatetime, 			attribute: undefined},
 		'parsing-button-icon': 	{value: buttonIcon, 				attribute: undefined},
 	};
-	setDynamicValues(dynamicValues, tempElement);
+	setDynamicValues(dynamicValues, template.content);
 
 	/* Add eventListener */
-	const videoParsingButtonElement = tempElement.querySelector('.bili2vrc-history-item-video-parsing-button');
-	const deleteHistoryButtonElement = tempElement.querySelector('.bili2vrc-history-item-delete-history-button');
+	const videoParsingButtonElement = template.content.querySelector('.bili2vrc-history-item-video-parsing-button');
+	const deleteHistoryButtonElement = template.content.querySelector('.bili2vrc-history-item-delete-history-button');
 	videoParsingButtonElement.addEventListener('click', onVideoParsingButtonClick);
 	deleteHistoryButtonElement.addEventListener('click', onDeleteHistoryButtonClick);
 
-	return tempElement.firstElementChild;
+	return template.content.firstElementChild;
 
 }
 
