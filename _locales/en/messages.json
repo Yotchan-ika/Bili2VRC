@@ -199,39 +199,34 @@
 		"description": "オプション > サポート > お問い合わせ > 本文1"
 	},
 
-	"options_support_contact_chromeWebStoreURL_labelText": {
-		"message": "Chrome Web Store: ",
-		"description": "オプション > サポート > お問い合わせ > chrome ウェブストア > ラベルテキスト"
+	"options_support_contact_openPage": {
+		"message": "Open the page",
+		"description": "オプション > サポート > お問い合わせ > ページを開く"
 	},
 
-	"options_support_contact_chromeWebStoreURL_linkText": {
-		"message": "Open the store page",
-		"description": "オプション > サポート > お問い合わせ > chrome ウェブストア > リンクテキスト"
+	"options_support_contact_chromeWebStore": {
+		"message": "Chrome Web Store",
+		"description": "オプション > サポート > お問い合わせ > Chrome ウェブストア"
 	},
 
-	"options_support_contact_microsoftEdgeAddonsURL_labelText": {
-		"message": "Microsoft Edge Addons: ",
-		"description": "オプション > サポート > お問い合わせ > Microsoft Edge アドオン > ラベルテキスト"
+	"options_support_contact_microsoftEdgeAddons": {
+		"message": "Microsoft Edge Addons",
+		"description": "オプション > サポート > お問い合わせ > Microsoft Edge アドオン"
 	},
 
-	"options_support_contact_microsoftEdgeAddonsURL_linkText": {
-		"message": "Open the store page",
-		"description": "オプション > サポート > お問い合わせ > Microsoft Edge アドオン > リンクテキスト"
+	"options_support_contact_firefoxBrowserAddons": {
+		"message": "Firefox Browser Add-ons",
+		"description": "オプション > サポート > お問い合わせ > Firefox Browser Add-ons"
 	},
 
-	"options_support_contact_firefoxBrowserAddonsURL_labelText": {
-		"message": "Firefox Browser Add-ons: ",
-		"description": "オプション > サポート > お問い合わせ > Firefox Browser Add-ons > ラベルテキスト"
+	"options_support_contact_github": {
+		"message": "GitHub",
+		"description": "オプション > サポート > お問い合わせ > GitHub"
 	},
 
-	"options_support_contact_firefoxBrowserAddonsURL_linkText": {
-		"message": "Open the store page",
-		"description": "オプション > サポート > お問い合わせ > Firefox Browser Add-ons > リンクテキスト"
-	},
-
-	"options_support_contact_developerEmail_labelText": {
-		"message": "E-mail: ",
-		"description": "オプション > サポート > お問い合わせ > メールアドレス > ラベルテキスト"
+	"options_support_contact_developerEmail": {
+		"message": "E-mail",
+		"description": "オプション > サポート > お問い合わせ > メールアドレス"
 	},
 
 	"options_info_title": {

@@ -38,6 +38,7 @@
 		'opsz' 24;
 	-webkit-user-select: none;
 	user-select: none;
+	height: min-content;
 }
 
 .bili2vrc-space-between {
@@ -66,4 +67,22 @@
 	color: #707070;
 	font-weight: bold;
 	font-size: 0.9em;
+}
+
+/*
+---------------------------------------------------------------
+	For Firefox
+---------------------------------------------------------------
+*/
+
+@supports (-moz-appearance: none) {
+	.material-symbols-rounded:lang(ja) {
+		transform: translateY(0.02em);
+	}
+	.material-symbols-rounded:lang(zh-CN) {
+		transform: translateY(0.06em);
+	}
+	.material-symbols-rounded:lang(zh-TW) {
+		transform: translateY(0.09em);
+	}
 }

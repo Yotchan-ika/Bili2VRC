@@ -21,16 +21,34 @@
 		=======================================================
 		-->
 		<div id="main">
-			<div id="main-content">
+			<div id="main-content" data-bili2vrc-display-on-load hidden>
 
-				<h1 data-bili2vrc-msg="tutorial_title"></h1>
+				<div class="bili2vrc-space-between">
+					<h1 data-bili2vrc-msg="tutorial_title"></h1>
+					<form name="options">
+						<label class="bili2vrc-language-option-container">
+							<span class="material-symbols-rounded">language</span>
+							<select name="language" data-bili2vrc-set-lang-attribute required>
+								<option value="default" data-bili2vrc-i18n="options_general_language_default"></option>
+								<option value="en" lang="en">English</option>
+								<option value="zh-CN" lang="zh-CN">简体中文</option>
+								<option value="zh-TW" lang="zh-TW">繁体中文</option>
+								<option value="ja" lang="ja">日本語</option>
+							</select>
+						</label>
+					</form>
+				</div>
 
-				<h2 id="bili2vrc-title">-</h2>
-				<div id="bili2vrc-description">-</div>
+				<h2 id="bili2vrc-title">### ERROR ###</h2>
 
-				<video id="bili2vrc-video" controls autoplay loop>
-					<source id="bili2vrc-video-source" type="video/mp4" src="">
-				</video>
+				<div class="description-container">
+					<div id="bili2vrc-description">### ERROR ###</div>
+					<video id="bili2vrc-video" controls autoplay loop>
+						<source id="bili2vrc-video-source" type="video/mp4" src="">
+					</video>
+				</div>
+
+				<div class="bili2vrc-separator" style="margin: 10px 0;"></div>
 
 				<div id="bili2vrc-button-container">
 

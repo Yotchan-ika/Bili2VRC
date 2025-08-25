@@ -118,7 +118,7 @@ async function requestVideoParsing(videoPageURL) {
 		) {
 			await updateLastUsedTimestamp(historyItem.bvid, historyItem.p, now);
 			try {
-				await navigator.clipboard.writeText(historyItem.parsedVideoUrl);
+				await navigator.clipboard.writeText(historyItem.parsedVideoURL);
 				await showClipboardWriteSuccessfulPopup(historyItem.parsedVideoQuality, historyItem.title);
 				return true;
 			} catch (error) {
@@ -166,47 +166,46 @@ async function parseVideo(bvid, p) {
 		await showProcessingPopup();
 		await saveToStorage(storageKeys.PARSING_STATUS, parsingStatuses.PARSING);
 
-		/* Get detailed video info */
-		let videoInfo;
-		try {
-			videoInfo = await getDetailedVideoInfo(bvid, p);
-			videoInfo.url = getVideoPageURL(bvid, p);
-		} catch (error) {
-			debug.log(error);
-			videoInfo.bvid = bvid;
-			videoInfo.p = p;
-		}
+		/* Set default value */
+		const basicVideoInfo = {
+			bvid: bvid,
+			p: p,
+			url: getVideoPageURL(bvid, p)
+		};
+		debug.log('basic video info:', basicVideoInfo);
 
-		/* Retain current timestamp */
-		const now = Date.now();
-		const formattedNow = new Date(now).toString();
+		/* Get detailed video info */
+		const detailedVideoInfo = await getDetailedVideoInfo(bvid, p);
+		debug.log('detailed video info:', detailedVideoInfo);
 
 		/* Send parsing request to Web API */
-		let parsedVideoData;
-		try {
-			parsedVideoData = await getParsedVideoData(bvid, p);
-			videoInfo.historyID = now;
-			videoInfo.lastParsingTimestamp = now;
-			videoInfo.formattedLastParsingTimestamp = formattedNow;
-			videoInfo.lastUsedTimestamp = now;
-			videoInfo.formattedLastUsedTimestamp = formattedNow;
-			videoInfo.parsedVideoUrl = parsedVideoData.url;
-			videoInfo.parsedVideoQuality = parsedVideoData.quality;
-		} catch (error) {
-			await showFetchFailedPopup(error.stack);
+		const parsedVideoData = await getParsedVideoData(bvid, p);
+		if (parsedVideoData === undefined) {
 			return false;
 		}
+		debug.log('parsed video info:', parsedVideoData);
 
-		debug.log('detailed video info:', videoInfo);
+		/* Get history item info to add to history */
+		const historyItemInfo = getHistoryItemInfo(Date.now());
+		debug.log('history item info:', historyItemInfo);
 
-		switch (parsedVideoData.code) {
+		/* Construct video info */
+		const videoInfo = {
+			...basicVideoInfo,
+			...detailedVideoInfo,
+			...parsedVideoData,
+			...historyItemInfo
+		};
+		debug.log('video info:', videoInfo);
+
+		switch (videoInfo.parsedVideoResponseCode) {
 
 			/* Parsing successful */
 			case 0:
 
 				/* Save parsing history */
 				try {
-					const historyRetentionPeriod = await getOptionData(optionKeys.HISTORY_RENTENTION_PERIOD);
+					const historyRetentionPeriod = await loadOptionData(optionKeys.HISTORY_RENTENTION_PERIOD);
 					if (historyRetentionPeriod > 0) {
 						await addHistory(videoInfo);
 					}
@@ -216,8 +215,8 @@ async function parseVideo(bvid, p) {
 
 				/* Copy the parsed video's URL to the clipboard */
 				try {
-					await navigator.clipboard.writeText(parsedVideoData.url);
-					await showParsingSuccessfulPopup(parsedVideoData.quality, videoInfo.title);
+					await navigator.clipboard.writeText(videoInfo.parsedVideoURL);
+					await showParsingSuccessfulPopup(videoInfo.parsedVideoQuality, videoInfo.title);
 				} catch (error) {
 					await showClipboardWriteFailedPopup(error.stack);
 					return false;
@@ -227,12 +226,12 @@ async function parseVideo(bvid, p) {
 
 			/* Parsing failed */
 			case 1:
-				await showParsingFailedPopup(parsedVideoData.message);
+				await showParsingFailedPopup(videoInfo.parsedVideoResponseMessage);
 				return false;
 
 			/* Other error */
 			default:
-				const errorMessage = `API Error: API returned unknown code ${parsedVideoData.code}.`;
+				const errorMessage = `API Error: API returned unknown code ${videoInfo.parsedVideoResponseCode}.`;
 				await showUnknownErrorPopup(errorMessage);
 				return false;
 
@@ -300,27 +299,45 @@ function getBvidAndPageNoFromURL(videoPageURL) {
  */
 async function getDetailedVideoInfo(bvid, p) {
 
-	/* Create request URL */
-	const requestURL = new URL(detailedVideoInfoEndpoint);
-	requestURL.searchParams.set('bvid', bvid);
+	/* Set default return value */
+	const result = {
+		bvid: bvid,
+		p: p,
+		thumbnail: undefined,
+		uploader: '---',
+		cid: undefined,
+		title: '---',
+		subtitle: undefined
+	};
 
-	/* Send request */
-	const response = await fetch(requestURL);
-	const detailedVideoInfo = await response.json();
-	const pageInfo = detailedVideoInfo.data.pages.find(page => page.page === p);
-	debug.log('bilibili API:', detailedVideoInfo);
+	try {
 
-	/* extract video info */
-	const result = {};
-	result.bvid = bvid;
-	result.p = p;
-	result.thumbnail = detailedVideoInfo.data.pic;
-	result.uploader = detailedVideoInfo.data.owner.name;
-	result.cid = pageInfo.cid;
-	result.title = detailedVideoInfo.data.title;
-	result.subtitle = (detailedVideoInfo.data.pages.length > 1) ? pageInfo.part : undefined;
+		/* Create request URL */
+		const requestURL = new URL(detailedVideoInfoEndpoint);
+		requestURL.searchParams.set('bvid', bvid);
 
-	return result;
+		/* Send request */
+		const response = await fetch(requestURL);
+		const detailedVideoInfo = await response.json();
+		debug.log('bilibili API:', detailedVideoInfo);
+
+		/* extract video info */
+		const pageInfo = detailedVideoInfo.data.pages.find(page => page.page === p);
+		result.cid = pageInfo.cid;
+		result.title = detailedVideoInfo.data.title;
+		result.subtitle = (detailedVideoInfo.data.pages.length > 1) ? pageInfo.part : undefined;
+		result.uploader = detailedVideoInfo.data.owner.name;
+		result.thumbnail = detailedVideoInfo.data.pic;
+
+	} catch (error) {
+
+		debug.log(error);
+
+	} finally {
+
+		return result;
+
+	}
 
 }
 
@@ -332,19 +349,58 @@ async function getDetailedVideoInfo(bvid, p) {
  */
 async function getParsedVideoData(bvid, p) {
 
-	/* Create request URL */
-	const requestURL = new URL(videoParsingEndpoint);
-	requestURL.searchParams.set('bv', bvid);
-	requestURL.searchParams.set('p', p);
-	requestURL.searchParams.set('format', 'mp4');
-	requestURL.searchParams.set('otype', 'json');
+	try {
 
-	/* Send request */
-	const response = await fetch(requestURL);
-	const parsedVideoData = await response.json();
-	debug.log('bilibili-parse API:', parsedVideoData);
+		/* Create request URL */
+		const requestURL = new URL(videoParsingEndpoint);
+		requestURL.searchParams.set('bv', bvid);
+		requestURL.searchParams.set('p', p);
+		requestURL.searchParams.set('format', 'mp4');
+		requestURL.searchParams.set('otype', 'json');
 
-	return parsedVideoData;
+		/* Send request */
+		const response = await fetch(requestURL);
+		const parsedVideoData = await response.json();
+		debug.log('bilibili-parse API:', parsedVideoData);
+
+		/* Set return value */
+		const result = {
+			parsedVideoURL: parsedVideoData.url,
+			parsedVideoQuality: parsedVideoData.quality,
+			parsedVideoResponseCode: parsedVideoData.code,
+			parsedVideoResponseMessage: parsedVideoData.message
+		};
+
+		return result;
+
+	} catch (error) {
+
+		/* Display fetch failed popup */
+		await showFetchFailedPopup(error.stack);
+
+		return undefined;
+
+	}
+
+}
+
+/**
+ * Get history info.
+ * @param {number} now - Current timestamp
+ * @returns {Object.<string, *>} History info
+ */
+function getHistoryItemInfo(now) {
+
+	const formattedNow = new Date(now).toString();
+	const result = {
+		historyID: now,
+		lastParsingTimestamp: now,
+		formattedLastParsingTimestamp: formattedNow,
+		lastUsedTimestamp: now,
+		formattedLastUsedTimestamp: formattedNow,
+	};
+
+	return result;
 
 }
 

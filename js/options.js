@@ -1,29 +1,9 @@
 'use strict';
 
 /** @type {Array.<Object.<string, string>>} Constant texts */
-const constantValues = {
+const dynamicValues = {
 	'version-text': {
 		value: getVersionText(),
-		attribute: undefined
-	},
-	'chrome-web-store-url-href': {
-		value: 'https://chromewebstore.google.com/detail/fojgodnomgghdjkfohljapkfbgicddpb',
-		attribute: 'href'
-	},
-	'microsoft-edge-addons-url-href': {
-		value: 'https://microsoftedge.microsoft.com/addons/detail/nlamopbkkcadijajjipdepfmicngablg',
-		attribute: 'href'
-	},
-	'firefox-browser-addons-url-href': {
-		value: 'https://addons.mozilla.org/firefox/addon/bili2vrc/',
-		attribute: 'href'
-	},
-	'developer-email-href': {
-		value: 'mailto:squidtail.contact@gmail.com',
-		attribute: 'href'
-	},
-	'developer-email': {
-		value: 'squidtail.contact@gmail.com',
 		attribute: undefined
 	}
 };
@@ -45,13 +25,13 @@ async function init() {
 
 		/* Set language texts */
 		await setLangAttributes();
-		await setResourceTexts();
+		await setLocaleTexts();
 
 		/* Set constant texts */
-		setDynamicValues(constantValues);
+		setDynamicValues(dynamicValues);
 
 		/* Reflect option data to option page */
-		await SetOptionDataToForm();
+		await saveOptionDataToForm();
 
 		/* Set visibility of tabs */
 		setTabVisibility();
@@ -99,15 +79,15 @@ async function onOpenChangelogButtonClick(event) {
 /**
  * Reflect option data to option page.
  */
-async function SetOptionDataToForm() {
+async function saveOptionDataToForm() {
 
 	/** @type {HTMLFormElement} */
 	const form = document.forms['options'];
 
 	/* Set option data to form */
-	form.elements['language'].value = await getOptionData(optionKeys.LANGUAGE);
-	form.elements['history-retention-period'].value = await getOptionData(optionKeys.HISTORY_RENTENTION_PERIOD);
-	form.elements['insert-button-into-video-page'].checked = await getOptionData(optionKeys.INSERT_BUTTON_INTO_VIDEO_PAGE);
+	form.elements['language'].value = await loadOptionData(optionKeys.LANGUAGE);
+	form.elements['history-retention-period'].value = await loadOptionData(optionKeys.HISTORY_RENTENTION_PERIOD);
+	form.elements['insert-button-into-video-page'].checked = await loadOptionData(optionKeys.INSERT_BUTTON_INTO_VIDEO_PAGE);
 
 }
 
@@ -135,7 +115,7 @@ async function onOptionsChanged(event) {
 
 		/* Update language texts */
 		await setLangAttributes();
-		await setResourceTexts();
+		await setLocaleTexts();
 
 	} catch (error) {
 

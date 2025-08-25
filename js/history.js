@@ -2,29 +2,11 @@
 
 executeOnWindowLoad(init);
 
-/**
- * Initialization.
- */
-async function init() {
+//	-----------------------------------------------------------
+//		Event Handler
+//	-----------------------------------------------------------
 
-	try {
-
-		const now = Date.now();
-
-		/* Delete old parsing history */
-		await deleteOldHistory(now);
-
-		/* Display the parsing history */
-		await setHistoryHTMLContent();
-
-	} catch (error) {
-
-		/* Display unknown error popup */
-		await showUnknownErrorPopup(error.stack);
-
-	}
-
-}
+//#region Event Handler
 
 /**
  * Handler executed when the video parsing button clicked.
@@ -77,12 +59,54 @@ async function onDeleteHistoryButtonClick(event) {
 		const historyItemElement = document.querySelector(`.bili2vrc-history-item[data-bili2vrc-history-id="${historyID}"]`);
 		historyItemElement.classList.add('bili2vrc-deleting');
 		setTimeout(async () => {
+
+			/* Save parent element */
+			const parentElement = historyItemElement.parentElement;
+
+			/* Remove history item */
 			historyItemElement.remove();
-			await setNoHistoryMessage();
+
+			/* If the parent element has no child elements, remove the parent element */
+			if (parentElement.childElementCount <= 1) {
+				parentElement.remove();
+			}
+
 		}, 200);
 
 		/* Show history deleted popup */
 		await showHistoryDeletedPopup();
+
+	} catch (error) {
+
+		/* Display unknown error popup */
+		await showUnknownErrorPopup(error.stack);
+
+	}
+
+}
+
+//#endregion
+
+//	-----------------------------------------------------------
+//		Initialization
+//	-----------------------------------------------------------
+
+//#region Initialization
+
+/**
+ * Initialization.
+ */
+async function init() {
+
+	try {
+
+		const now = Date.now();
+
+		/* Delete old parsing history */
+		await deleteOldHistory(now);
+
+		/* Display the parsing history */
+		await setHistoryHTMLContent();
 
 	} catch (error) {
 
@@ -100,8 +124,13 @@ async function setHistoryHTMLContent() {
 
 	const currentDatetime = new Date();
 
+	/* Save the current scroll position */
+	const scrollX = window.scrollX;
+	const scrollY = window.scrollY;
+
 	/* Get history list container element */
 	const historyListElement = document.getElementById('history-list');
+	historyListElement.replaceChildren();
 
 	/** @type {Array.<Object.<string, *>>} Get parsing history */
 	const history = await loadFromStorage(storageKeys.HISTORY);
@@ -137,51 +166,66 @@ async function setHistoryHTMLContent() {
 	}
 
 	/* Create hisotry item element and insert it to the page */
+	const fragment = document.createDocumentFragment();
 	if (historyOfToday.length > 0) {
-		historyListElement.appendChild(createHistoryItemHeaderElement('history_historyItemTitle_today'));
+		const containerElement = document.createElement('div');
+		containerElement.appendChild(createHistoryItemHeaderElement('history_historyItemTitle_today'));
 		for (const item of historyOfToday) {
 			const historyItemElement = await createHistoryItemElement(item);
-			historyListElement.appendChild(historyItemElement);
+			containerElement.appendChild(historyItemElement);
 		}
+		fragment.appendChild(containerElement);
 	}
 	if (historyOfYesterday.length > 0) {
-		historyListElement.appendChild(createHistoryItemHeaderElement('history_historyItemTitle_yesterday'));
+		const containerElement = document.createElement('div');
+		containerElement.appendChild(createHistoryItemHeaderElement('history_historyItemTitle_yesterday'));
 		for (const item of historyOfYesterday) {
 			const historyItemElement = await createHistoryItemElement(item);
-			historyListElement.appendChild(historyItemElement);
+			containerElement.appendChild(historyItemElement);
 		}
+		fragment.appendChild(containerElement);
 	}
 	if (historyOfLast7days.length > 0) {
-		historyListElement.appendChild(createHistoryItemHeaderElement('history_historyItemTitle_last7days'));
+		const containerElement = document.createElement('div');
+		containerElement.appendChild(createHistoryItemHeaderElement('history_historyItemTitle_last7days'));
 		for (const item of historyOfLast7days) {
 			const historyItemElement = await createHistoryItemElement(item);
-			historyListElement.appendChild(historyItemElement);
+			containerElement.appendChild(historyItemElement);
 		}
+		fragment.appendChild(containerElement);
 	}
 	if (historyOfLast30days.length > 0) {
-		historyListElement.appendChild(createHistoryItemHeaderElement('history_historyItemTitle_last30days'));
+		const containerElement = document.createElement('div');
+		containerElement.appendChild(createHistoryItemHeaderElement('history_historyItemTitle_last30days'));
 		for (const item of historyOfLast30days) {
 			const historyItemElement = await createHistoryItemElement(item);
-			historyListElement.appendChild(historyItemElement);
+			containerElement.appendChild(historyItemElement);
 		}
+		fragment.appendChild(containerElement);
 	}
 	if (historyOfEarlier.length > 0) {
-		historyListElement.appendChild(createHistoryItemHeaderElement('history_historyItemTitle_earlier'));
+		const containerElement = document.createElement('div');
+		containerElement.appendChild(createHistoryItemHeaderElement('history_historyItemTitle_earlier'));
 		for (const item of historyOfEarlier) {
 			const historyItemElement = await createHistoryItemElement(item);
-			historyListElement.appendChild(historyItemElement);
+			containerElement.appendChild(historyItemElement);
 		}
+		fragment.appendChild(containerElement);
 	}
+	historyListElement.appendChild(fragment);
 
 	/* If no history, display message */
 	await setNoHistoryMessage();
 
-	/* Set resource texts */
+	/* Set locale texts */
 	await setLangAttributes();
-	await setResourceTexts();
+	await setLocaleTexts();
 
 	/* Display content */
 	await displayContent();
+
+	/* Restore the scroll position */
+	window.scrollTo(scrollX, scrollY);
 
 }
 
@@ -198,7 +242,7 @@ async function setNoHistoryMessage() {
 		const textElement = document.createElement('div');
 		textElement.setAttribute('data-bili2vrc-msg', 'history_noHistoryMessage');
 		historyListElement.replaceChildren(textElement);
-		await setResourceTexts();
+		await setLocaleTexts();
 	}
 
 }
@@ -219,15 +263,9 @@ function getTitleText(historyItem) {
 
 }
 
-//	-----------------------------------------------------------
-//		Create History Item Element
-//	-----------------------------------------------------------
-
-//#region Craete History Item Element
-
 /**
  * Create history item header element.
- * @param {string} messageID - Message ID of resource text
+ * @param {string} messageID - Message ID of locale text
  * @returns {HTMLElement} Header element
  */
 function createHistoryItemHeaderElement(messageID) {
@@ -244,281 +282,49 @@ function createHistoryItemHeaderElement(messageID) {
 /**
  * Create history item element.
  * @param {Object.<string, *>} historyItem - History item data
- * @returns {Promise.<HTMLDivElement>} History item element
+ * @returns {Promise.<HTMLTemplateElement>} History item element
  */
 async function createHistoryItemElement(historyItem) {
 
-	/* Create history item inner element */
-	const historyItemInnerElement = document.createElement('div');
-	historyItemInnerElement.classList.add('bili2vrc-history-item-inner');
-	historyItemInnerElement.appendChild(createThumbnailContainerElement());
-	historyItemInnerElement.appendChild(await createVideoInfoContainerElement());
-
 	/* Create history item element */
-	const historyItemElement = document.createElement('div');
-	historyItemElement.setAttribute('data-bili2vrc-history-id', historyItem.historyID);
-	historyItemElement.classList.add('bili2vrc-history-item');
-	historyItemElement.classList.add('bili2vrc-underline');
-	historyItemElement.appendChild(historyItemInnerElement);
+	// const tempElement = document.createElement('div');
+	const template = document.createElement('template');
+	template.innerHTML = await loadTextFile('html/common/history-item.html');
 
-	return historyItemElement;
+	/* Format parsed date and time */
+	const formatOptions = {
+		month: 'short',
+		day: 'numeric',
+		hour: 'numeric',
+		minute: 'numeric',
+		hour12: true
+	};
+	const parsedDatetime = await getFormattedDatetime(historyItem.lastParsingTimestamp, formatOptions);
 
-	/**
-	 * Create thumbnail container element.
-	 * @returns {HTMLDivElement} Thumbnail container element
-	 */
-	function createThumbnailContainerElement() {
+	/* Set dynamic values */
+	const subtitle = historyItem.subtitle || '';
+	const buttonIcon = await loadTextFile('images/ButtonIcon_24x24.html');
+	const dynamicValues = {
+		'history-id': 			{value: historyItem.historyID, 		attribute: 'data-bili2vrc-history-id'},
+		'url-href': 			{value: historyItem.url, 			attribute: 'href'},
+		'title': 				{value: historyItem.title, 			attribute: undefined},
+		'title-title': 			{value: historyItem.title, 			attribute: 'title'},
+		'title-alt': 			{value: getTitleText(historyItem), 	attribute: 'alt'},
+		'subtitle': 			{value: subtitle, 					attribute: undefined},
+		'uploader': 			{value: historyItem.uploader, 		attribute: undefined},
+		'thumbnail-src': 		{value: historyItem.thumbnail, 		attribute: 'src'},
+		'parsing-datetime': 	{value: parsedDatetime, 			attribute: undefined},
+		'parsing-button-icon': 	{value: buttonIcon, 				attribute: undefined},
+	};
+	setDynamicValues(dynamicValues, template.content);
 
-		/* Create thumbnail image element */
-		const thumbnailElement = document.createElement('img');
-		thumbnailElement.setAttribute('src', historyItem.thumbnail);
-		thumbnailElement.setAttribute('alt', historyItem.title);
-		thumbnailElement.classList.add('bili2vrc-history-item-thumbnail');
-		const thumbnailAnchorElement = createAnchorElement(
-			thumbnailElement,
-			historyItem.url,
-			getTitleText(historyItem)
-		);
+	/* Add eventListener */
+	const videoParsingButtonElement = template.content.querySelector('.bili2vrc-history-item-video-parsing-button');
+	const deleteHistoryButtonElement = template.content.querySelector('.bili2vrc-history-item-delete-history-button');
+	videoParsingButtonElement.addEventListener('click', onVideoParsingButtonClick);
+	deleteHistoryButtonElement.addEventListener('click', onDeleteHistoryButtonClick);
 
-		/* Create thumbnail container element */
-		const thumbnailContainerElement = document.createElement('div');
-		thumbnailContainerElement.classList.add('bili2vrc-history-item-thumbnail-container');
-		thumbnailContainerElement.appendChild(thumbnailAnchorElement);
-
-		return thumbnailContainerElement;
-
-	}
-
-	/**
-	 * Create video info container.
-	 * @returns {Promise.<HTMLDivElement>} Video info container
-	 */
-	async function createVideoInfoContainerElement() {
-
-		/* Create video info container element */
-		const videoInfoContainerElement = document.createElement('div');
-		videoInfoContainerElement.classList.add('bili2vrc-history-item-video-info-container');
-		videoInfoContainerElement.appendChild(await createVideoInfoElement());
-		videoInfoContainerElement.appendChild(await createButtonContainerElement());
-
-		return videoInfoContainerElement;
-
-		/**
-		 * Create video info element.
-		 * @returns {Promise.<HTMLDivElement>} Video info element
-		 */
-		async function createVideoInfoElement() {
-
-			/* Create video info */
-			const videoInfoElement = document.createElement('div');
-			videoInfoElement.classList.add('bili2vrc-history-item-video-info');
-			videoInfoElement.appendChild(createTitleContainerElement());
-			videoInfoElement.appendChild(await createDetailedVideoInfoContainerElement());
-
-			return videoInfoElement;
-
-			/**
-			 * Create title container.
-			 * @returns {HTMLAnchorElement} Title container
-			 */
-			function createTitleContainerElement() {
-
-				/* Create title */
-				const titleElement = document.createElement('div');
-				titleElement.classList.add('bili2vrc-history-item-title');
-				titleElement.textContent = historyItem.title;
-
-				/* Create subtitle */
-				const subtitleElement = document.createElement('div');
-				subtitleElement.classList.add('bili2vrc-history-item-subtitle');
-				subtitleElement.textContent = historyItem.subtitle;
-
-				/* Create title container */
-				const titleContainerElement = document.createElement('div');
-				titleContainerElement.setAttribute('lang', 'zh-CN');
-				titleContainerElement.append(titleElement);
-				titleContainerElement.append(subtitleElement);
-				const titleContainerAnchorElement = createAnchorElement(
-					titleContainerElement,
-					historyItem.url,
-					getTitleText(historyItem)
-				);
-
-				return titleContainerAnchorElement
-
-			}
-
-			/**
-			 * Craete detailed video info container.
-			 * @returns {Promise.<HTMLDivElement>} Detailed video info container
-			 */
-			async function createDetailedVideoInfoContainerElement() {
-
-				/* Create container */
-				const detailedVideoInfoContainerElement = document.createElement('div');
-				detailedVideoInfoContainerElement.classList.add('bili2vrc-history-item-detailed-video-info-container');
-				detailedVideoInfoContainerElement.appendChild(createUploaderContainerElement());
-				detailedVideoInfoContainerElement.appendChild(await createParsingDatetimeContainerElemenet());
-
-				return detailedVideoInfoContainerElement;
-
-				/**
-				 * Create uploader container.
-				 * @returns {HTMLDivElement} Uploader container
-				 */
-				function createUploaderContainerElement() {
-
-					/* Create uploader icon element */
-					const uploaderIconElement = document.createElement('span');
-					uploaderIconElement.classList.add('material-symbols-rounded');
-					uploaderIconElement.textContent = 'account_circle';
-
-					/* Create uploader text element */
-					const uploaderTextElement = document.createElement('span');
-					uploaderTextElement.textContent = historyItem.uploader;
-
-					/* Create uploader container element */
-					const uploaderContainerElement = document.createElement('div');
-					uploaderContainerElement.setAttribute('lang', 'zh-CN');
-					uploaderContainerElement.classList.add('bili2vrc-history-item-detailed-video-info-item');
-					uploaderContainerElement.appendChild(uploaderIconElement);
-					uploaderContainerElement.appendChild(uploaderTextElement);
-
-					return uploaderContainerElement;
-
-				}
-
-				/**
-				 * Create parsing date and time container.
-				 * @returns {Promise.<HTMLDivElement>} Parsing date and time container
-				 */
-				async function createParsingDatetimeContainerElemenet() {
-
-					/* Create parsing datetime icon element */
-					const parsingDatetimeIconElement = document.createElement('span');
-					parsingDatetimeIconElement.classList.add('material-symbols-rounded');
-					parsingDatetimeIconElement.textContent = 'history';
-
-					/* Create uploader text element */
-					const formatOptions = {
-						month: 'short',
-						day: 'numeric',
-						hour: 'numeric',
-						minute: 'numeric',
-						hour12: true
-					};
-					const parsingDatetimeTextElement = document.createElement('span');
-					parsingDatetimeTextElement.textContent = await getFormattedDatetime(historyItem.lastParsingTimestamp, formatOptions);
-
-					/* Create parsing datetime container element */
-					const parsingDatetimeContainerElement = document.createElement('div');
-					parsingDatetimeContainerElement.setAttribute('data-bili2vrc-set-lang-attribute', '');
-					parsingDatetimeContainerElement.classList.add('bili2vrc-history-item-detailed-video-info-item');
-					parsingDatetimeContainerElement.appendChild(parsingDatetimeIconElement);
-					parsingDatetimeContainerElement.appendChild(parsingDatetimeTextElement);
-
-					return parsingDatetimeContainerElement;
-
-				}
-
-			}
-
-
-
-		}
-
-		/**
-		 * Create button container.
-		 * @returns {Promise.<HTMLDivElement>} Button container
-		 */
-		async function createButtonContainerElement() {
-
-			/* Create button contaienr */
-			const buttonContainerElement = document.createElement('div');
-			buttonContainerElement.classList.add('bili2vrc-history-item-button-container');
-			buttonContainerElement.appendChild(await createVideoParsingButtonElement());
-			buttonContainerElement.appendChild(createDeleteHistoryButtonElement());
-
-			return buttonContainerElement;
-
-			/**
-			 * Create video parsing button.
-			 * @returns {Promise.<HTMLButtonElement>} Video parsing button
-			 */
-			async function createVideoParsingButtonElement() {
-
-				/* Create video parsing button icon */
-				const videoParsingButtonIconElement = document.createElement('div');
-				videoParsingButtonIconElement.innerHTML = await loadTextFile('images/ButtonIcon_24x24.svg');
-
-				/* Create video parsing button text */
-				const videoParsingButtonTextElement = document.createElement('div');
-				videoParsingButtonTextElement.setAttribute('data-bili2vrc-msg', 'history_videoParsingButton');
-
-				/* Create video parsing button */
-				const videoParsingButtonElement = document.createElement('button');
-				videoParsingButtonElement.setAttribute('data-bili2vrc-history-id', historyItem.historyID);
-				videoParsingButtonElement.classList.add('bili2vrc-history-item-button');
-				videoParsingButtonElement.classList.add('bili2vrc-history-item-video-parsing-button');
-				videoParsingButtonElement.addEventListener('click', onVideoParsingButtonClick);
-				videoParsingButtonElement.appendChild(videoParsingButtonIconElement);
-				videoParsingButtonElement.appendChild(videoParsingButtonTextElement);
-
-				return videoParsingButtonElement;
-
-			}
-
-			/**
-			 * Create delete history button.
-			 * @returns {HTMLButtonElement} Delete history button
-			 */
-			function createDeleteHistoryButtonElement() {
-
-				/* Create delete history button icon */
-				const deleteHistoryButtonIconElement = document.createElement('div');
-				deleteHistoryButtonIconElement.classList.add('material-symbols-rounded');
-				deleteHistoryButtonIconElement.textContent = 'delete'
-
-				/* Create delete history button text */
-				const deleteHistoryButtonTextElement = document.createElement('div');
-				deleteHistoryButtonTextElement.setAttribute('data-bili2vrc-msg', 'history_deleteHistoryButton');
-
-				/* Create delete history button */
-				const deleteHistoryButtonElement = document.createElement('button');
-				deleteHistoryButtonElement.setAttribute('data-bili2vrc-history-id', historyItem.historyID);
-				deleteHistoryButtonElement.classList.add('bili2vrc-history-item-button');
-				deleteHistoryButtonElement.classList.add('bili2vrc-history-item-delete-history-button');
-				deleteHistoryButtonElement.addEventListener('click', onDeleteHistoryButtonClick);
-				deleteHistoryButtonElement.appendChild(deleteHistoryButtonIconElement);
-				deleteHistoryButtonElement.appendChild(deleteHistoryButtonTextElement);
-
-				return deleteHistoryButtonElement;
-
-			}
-
-		}
-
-	}
-
-	/**
-	 * Create anchor element.
-	 * @param {HTMLElement} child - Inner HTML element or text node
-	 * @param {string} href - URL text
-	 * @param {stirng} title - Text displayed on mouse hover
-	 * @returns {HTMLAnchorElement} Anchor Element
-	 */
-	function createAnchorElement(child, href, title = '') {
-
-		/* Create anchor element */
-		const anchorElement = document.createElement('a');
-		anchorElement.setAttribute('href', href);
-		anchorElement.setAttribute('title', title);
-		anchorElement.setAttribute('target', '_blank');
-		anchorElement.appendChild(child);
-
-		return anchorElement;
-
-	}
+	return template.content.firstElementChild;
 
 }
 

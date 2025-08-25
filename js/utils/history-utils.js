@@ -145,7 +145,7 @@ async function deleteOldHistory(now) {
 
 		/** @type {Array.<Object.<string, *>>} */
 		const history = await loadFromStorage(storageKeys.HISTORY);
-		const historyRetentionPeriod = await getOptionData(optionKeys.HISTORY_RENTENTION_PERIOD);
+		const historyRetentionPeriod = await loadOptionData(optionKeys.HISTORY_RENTENTION_PERIOD);
 		const historyRetentionEarliestTimestamp = now - (1000 * 60 * 60 * historyRetentionPeriod);
 
 		/* Delete old history */

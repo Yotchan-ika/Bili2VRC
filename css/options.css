@@ -44,6 +44,7 @@
 #sidebar-tabs > ul > li > label {
 	display: flex;
 	align-items: center;
+	gap: 6px;
 	margin: 0 0 0 20px;
 	padding: 5px 10px;
 	text-decoration: none;
@@ -58,10 +59,6 @@
 #sidebar-tabs > ul > li > label:has(input:checked) {
 	background-color: var(--bili2vrc-main-content-background-color);
 }
-#sidebar-tabs > ul > li > label > .material-symbols-rounded {
-	margin: 2px 6px 0 0;
-	font-size: 1.3em;
-}
 
 /*
 ---------------------------------------------------------------
@@ -72,5 +69,27 @@
 .bili2vrc-option-item {
 	margin-bottom: 20px;
 	padding: 5px 2px;
-	align-items: end;
+	align-items: flex-end;
+}
+
+/*
+---------------------------------------------------------------
+	Table Style
+---------------------------------------------------------------
+*/
+
+th, td {
+	box-shadow: 0 5px 10px #00000030;
+}
+
+th {
+	padding: 2px 13px;
+	text-align: left;
+	background-color: var(--bili2vrc-table-header-background-color);
+	color: var(--bili2vrc-table-header-text-color);
+}
+
+td {
+	padding: 2px 13px;
+	background-color: var(--bili2vrc-main-content-background-color);
 }

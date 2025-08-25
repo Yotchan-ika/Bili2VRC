@@ -25,7 +25,8 @@ const storageKeys = Object.freeze({
 	HISTORY: 'history',
 	PARSING_STATUS: 'parsingStatus',
 	LAST_PARSING_TIMESTAMP: 'lastParsingTimestamp',
-	FINISHED_TUTORIAL_IDS: 'finishedTutorialIDs'
+	FINISHED_TUTORIAL_IDS: 'finishedTutorialIDs',
+	LAST_EXTENSION_VERSION: 'lastExtensionVersion',
 });
 
 /** @type {Object.<string, *>} Option data keys */
@@ -45,7 +46,8 @@ const defaultStorageData = Object.freeze({
 	[storageKeys.HISTORY]: [],
 	[storageKeys.PARSING_STATUS]: parsingStatuses.PARSABLE,
 	[storageKeys.LAST_PARSING_TIMESTAMP]: 0,
-	[storageKeys.FINISHED_TUTORIAL_IDS]: []
+	[storageKeys.FINISHED_TUTORIAL_IDS]: [],
+	[storageKeys.LAST_EXTENSION_VERSION]: '-'
 });
 
 /** @type {RegExp} Regexp to get BVID */
@@ -116,32 +118,21 @@ function getVersionText() {
  */
 async function getCurrentLanguage() {
 
-	/* Get browser object */
-	const browserObj = getBrowserObject();
-
 	/* Find current language code */
-	const optionLanguage = await getOptionData(optionKeys.LANGUAGE);
-	const UILanguage = browserObj.i18n.getUILanguage();
-	let currentLanguage;
+	const optionLanguage = await loadOptionData(optionKeys.LANGUAGE);
 	if (optionLanguage === 'default') {
-		if (supportedLanguages.includes(UILanguage)) {
-			currentLanguage = UILanguage;
-		} else {
-			currentLanguage = supportedLanguages[0];
-		}
+		return await getDefaultLanguage();
 	} else {
-		currentLanguage = optionLanguage;
+		return optionLanguage;
 	}
-
-	return currentLanguage;
 
 }
 
 /**
- * Get UI language code.
- * @returns {Promise.<string>} UI language code
+ * Get default language code.
+ * @returns {Promise.<string>} Default language code
  */
-async function getUILanguage() {
+async function getDefaultLanguage() {
 
 	/* Get browser object */
 	const browserObj = getBrowserObject();
@@ -151,7 +142,24 @@ async function getUILanguage() {
 	if (supportedLanguages.includes(UILanguage)) {
 		return UILanguage;
 	} else {
-		return supportedLanguages[0];
+
+		/* Match supported language against browser preferences */
+		/** @type {Array.<string>} */
+		const acceptLanguages = await browserObj.i18n.getAcceptLanguages();
+		const preferrdLanguage = acceptLanguages.find(acceptLanguage => (
+			supportedLanguages
+				.map(supportedLanguage => supportedLanguage.toLowerCase())
+				.includes(acceptLanguage.toLowerCase())
+		));
+
+		/* If a supported language is found, use it as the UI language
+		   Otherwise, default to 'en' */
+		if (preferrdLanguage !== undefined) {
+			return preferrdLanguage;
+		} else {
+			return supportedLanguages[0];
+		}
+
 	}
 
 }
@@ -169,33 +177,6 @@ async function getMessages(lang) {
 	} catch (error) {
 		throw new Error('Failed to read messages');
 	}
-}
-
-/**
- * Get option data.
- * @param {string} key Key of the option data
- * @returns {Promise.<*>} Option data
- */
-async function getOptionData(key) {
-
-	/* Get option data from storage */
-	const options = await loadFromStorage(storageKeys.OPTIONS, true) || {};
-	const defaultOptions = defaultStorageData[storageKeys.OPTIONS];
-
-	/* If the key is missing from the object,
-	   return a default value and save it by adding it to the options data */
-	if (key in options === false) {
-		if (key in defaultOptions === false) {
-			throw new Error(`Unknown option data key "${key}"`)
-		}
-		options[key] = defaultOptions[key];
-		await saveToStorage(storageKeys.OPTIONS, options, true);
-		debug.log(`New option data "${key}" created.`);
-		debug.log('Option data:', options);
-	}
-
-	return options[key];
-
 }
 
 /**
@@ -224,7 +205,7 @@ function isValidURL(currentTabURL) {
 async function getFormattedDatetime(timestamp, options) {
 
 	/* Get current language code */
-	const currentLanguage = await getOptionData(optionKeys.LANGUAGE);
+	const currentLanguage = await loadOptionData(optionKeys.LANGUAGE);
 
 	/* Format date and time */
 	const formatter = Intl.DateTimeFormat(currentLanguage, options);
@@ -273,17 +254,17 @@ async function setLangAttributes() {
 }
 
 /**
- * Set resource texts in selected language.
+ * Set locale texts in selected language.
  */
-async function setResourceTexts() {
+async function setLocaleTexts() {
 
 	/* Get current language code */
 	const currentLanguage = await getCurrentLanguage();
 
 	/* Get UI language code */
-	const UILanguage = await getUILanguage();
+	const UILanguage = await getDefaultLanguage();
 
-	/* Set resource texts in option's language */
+	/* Set locale texts in option's language */
 	let id;
 	for (const element of document.querySelectorAll('[data-bili2vrc-msg]')) {
 		try {
@@ -297,7 +278,7 @@ async function setResourceTexts() {
 		}
 	}
 
-	/* Set resource texts in UI language */
+	/* Set locale texts in UI language */
 	for (const element of document.querySelectorAll('[data-bili2vrc-i18n]')) {
 		try {
 			id = element.getAttribute('data-bili2vrc-i18n');
@@ -339,20 +320,20 @@ async function includeHTMLs() {
 
 /**
  * Set values to the document body dynamically.
- * @param {Object.<string, Object.<string, string>>} values
+ * @param {Object.<string, Object.<string, string>>} values - Dynamic values
+ * @param {HTMLElement} [targetElement=document] - Target HTML element to set values
  */
-function setDynamicValues(values) {
+function setDynamicValues(values, targetElement = document) {
 
 	/* Set constant texts to HTML elements */
-	document.querySelectorAll('[data-bili2vrc-dynamic-value]').forEach(element => {
+	targetElement.querySelectorAll('[data-bili2vrc-dynamic-value]').forEach(element => {
 		const attributeValues = element.getAttribute('data-bili2vrc-dynamic-value').split(' ');
 		attributeValues.forEach(id => {
 			if (id in values) {
 				if (values[id].attribute) {
 					element.setAttribute(values[id].attribute, values[id].value);
 				} else {
-					const textNode = document.createTextNode(values[id].value);
-					element.replaceChildren(textNode);
+					element.innerHTML = values[id].value;
 				}
 			}
 		});
@@ -435,7 +416,7 @@ async function saveToStorage(key, value, isSynced = false) {
 		throw new Error('Unknown storage key');
 	}
 
-	/* If the value is undefined/null, then throw error */
+	/* If the value is undefined/null, then throw an error */
 	if (value === undefined || value === null) {
 		throw new Error('Cannot save undefined/null to the storage');
 	}
@@ -463,6 +444,56 @@ async function saveToStorage(key, value, isSynced = false) {
  */
 function isCorrectStorageKey(key) {
 	return Object.keys(storageKeys).some(keyName => storageKeys[keyName] === key);
+}
+
+/**
+ * Load option data.
+ * @param {string} key - Key of the option data
+ * @returns {Promise.<*>} Option data
+ */
+async function loadOptionData(key) {
+
+	/* Get option data from storage */
+	const options = await loadFromStorage(storageKeys.OPTIONS, true) || {};
+	const defaultOptions = defaultStorageData[storageKeys.OPTIONS];
+
+	/* If the key is missing from the object,
+	   return a default value and save it by adding it to the options data */
+	if (key in options === false) {
+		if (key in defaultOptions === false) {
+			throw new Error(`Unknown option data key "${key}"`)
+		}
+		options[key] = defaultOptions[key];
+		await saveToStorage(storageKeys.OPTIONS, options, true);
+		debug.log(`New option data "${key}" created.`);
+		debug.log('Option data:', options);
+	}
+
+	return options[key];
+
+}
+
+/**
+ * Save option data.
+ * @param {string} key - Key of the option data
+ * @param {*} value - Value of option data
+ */
+async function saveOptionData(key, value) {
+
+	/* Get option data from storage */
+	const options = await loadFromStorage(storageKeys.OPTIONS, true) || {};
+	const defaultOptions = defaultStorageData[storageKeys.OPTIONS];
+
+	/* If the key is not in the default options, throw an error */
+	if (key in defaultOptions === false) {
+		throw new Error(`Unknown option data key "${key}"`)
+	}
+
+	/* Save option data */
+	options[key] = value;
+	await saveToStorage(storageKeys.OPTIONS, options, true);
+	debug.log('Option data:', options);
+
 }
 
 //#endregion

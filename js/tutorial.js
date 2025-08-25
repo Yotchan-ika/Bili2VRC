@@ -23,6 +23,7 @@ async function init() {
 		backButtonElement.addEventListener('click', onBackButtonClick);
 		nextButtonElement.addEventListener('click', onNextButtonClick);
 		closeButtonElement.addEventListener('click', onCloseButtonClick);
+		document.forms['options'].addEventListener('change', onOptionsChanged);
 
 		/* Reset tutorials if all tutorials has done */
 		if (tutorials.length <= 0) {
@@ -48,6 +49,11 @@ async function init() {
 
 		/* Display unknown error popup */
 		await showUnknownErrorPopup(error.stack);
+
+	} finally {
+
+		/* Display on load */
+		await displayContent();
 
 	}
 
@@ -90,6 +96,33 @@ async function onCloseButtonClick() {
 }
 
 /**
+ * Processing execute when language option is changed.
+ * @param {Event} event - Event
+ */
+async function onOptionsChanged(event) {
+
+	try {
+
+		/** @type {HTMLFormElement} */
+		const form = document.forms['options'];
+
+		/* Save language option */
+		await saveOptionData(optionKeys.LANGUAGE, form.elements['language'].value);
+
+		/* Update language texts */
+		await setLangAttributes();
+		await setLocaleTexts();
+
+	} catch (error) {
+
+		/* Display unknown error popup */
+		await showUnknownErrorPopup(error.stack);
+
+	}
+
+}
+
+/**
  * Display the tutorial's page.
  */
 async function setTutorialPage() {
@@ -128,8 +161,24 @@ async function setTutorialPage() {
 		nextButtonElement.removeAttribute('disabled');
 	}
 
-	/* Set resource texts */
+	/* Reflect language option to language selector */
+	await setLanguageSelector();
+
+	/* Set locale texts */
 	await setLangAttributes();
-	await setResourceTexts();
+	await setLocaleTexts();
+
+}
+
+/**
+ * Reflect language option to language selector.
+ */
+async function setLanguageSelector() {
+
+	/** @type {HTMLFormElement} */
+	const form = document.forms['options'];
+
+	/* Set option data to form */
+	form.elements['language'].value = await loadOptionData(optionKeys.LANGUAGE);
 
 }

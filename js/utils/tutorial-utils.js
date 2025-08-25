@@ -3,7 +3,7 @@
 /**
  * Open the tutorial page.
  */
-async function openTutorialIfHasUnfinishedTutorial() {
+async function openUnfinishedTutorial() {
 
 	/* Open the page if there are any incomplete tutorials */
 	const unfinishedTutorials = await getUnfinishedTutorials();

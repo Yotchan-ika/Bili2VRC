@@ -2,13 +2,12 @@
 	"manifest_version": 3,
 	"name": "__MSG_extension_name__",
 	"description": "__MSG_extension_description__",
-	"version": "2.0.1",
+	"version": "2.0.2",
 	"default_locale": "en",
 	"icons": {
 		"256": "icons/ChromeIcon_256x256.png"
 	},
 	"host_permissions": [
-		"https://www.bilibili.com/*",
 		"https://api.bilibili.com/*",
 		"https://api.injahow.cn/bparse/*"
 	],
@@ -97,6 +96,7 @@
 				"html/zh-TW/popup/processing.html",
 				"html/zh-TW/popup/too-frequent-parsing-request.html",
 				"html/zh-TW/popup/unknown-error.html",
+				"html/common/history-item.html",
 				"images/ButtonIcon_24x24.html",
 				"changelog.html",
 				"history.html",
