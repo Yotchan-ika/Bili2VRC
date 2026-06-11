@@ -8,7 +8,7 @@
 
 /* API URL */
 const detailedVideoInfoEndpoint = 'https://api.bilibili.com/x/web-interface/view';
-const videoParsingEndpoint = 'https://api.injahow.cn/bparse/';
+const videoParsingEndpoint = 'https://api.squidtail.com/bili2vrc/parse/';
 
 /* Video page URL */
 const videoPageURLFormat = 'https://www.bilibili.com/video/{bvid}/?p={p}';
