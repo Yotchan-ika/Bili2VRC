@@ -33,7 +33,7 @@ A web extension that parses the bilibili video and copies the parsed video URL t
 This project integrates the following third-party web APIs:
 
 - Bilibili Video Info API (https://api.bilibili.com/x/web-interface/view), developed by Bilibili Inc.
-- [bilibili-parse](https://github.com/injahow/bilibili-parse) (https://api.injahow.cn/bparse/), provided by injahow
+- bilibili-parse (https://github.com/injahow/bilibili-parse), provided by injahow
 
 Please note:
 - These APIs are not part of this project's codebase — they are externally maintained by their respective developers.
@@ -46,7 +46,7 @@ By using this project, you agree to abide by the external API providers' legal t
 
 Yotchan-ika (Squidtail)
 
-Contact: [squidtail.contact@gmail.com](mailto:squidtail.contact@gmail.com)
+Contact: [contact@squidtail.com](mailto:contact@squidtail.com)
 
 ## License
 
