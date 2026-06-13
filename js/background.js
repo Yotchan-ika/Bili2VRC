@@ -10,7 +10,10 @@ if (typeof importScripts === 'function') {
 const browserObj = getBrowserObject();
 browserObj.runtime.onStartup.addListener(onStartup);
 browserObj.runtime.onInstalled.addListener(onInstalled);
-browserObj.runtime.onMessage.addListener(onMessageReceive);
+browserObj.runtime.onMessage.addListener((request, sender, sendResponse) => {
+	onMessageReceive(request, sender, sendResponse).catch(error => debug.error(error));
+	return true;
+});
 browserObj.action.onClicked.addListener(onExtensionIconClick);
 browserObj.contextMenus.onClicked.addListener(onContextMenuClick);
 
@@ -43,6 +46,7 @@ async function onInstalled(details) {
 	// await browserObj.storage.sync.clear();
 
 	/* Add context menus shown when the extension icon clicked */
+	await browserObj.contextMenus.removeAll();
 	browserObj.contextMenus.create({
 		id: 'parseVideo',
 		title: browserObj.i18n.getMessage('contextMenu_parseVideo'),

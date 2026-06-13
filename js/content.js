@@ -2,6 +2,10 @@
 
 executeOnWindowLoad(init);
 
+const dataLoadRetryInterval = 500;
+const dataLoadMaxWaitTime = 1000 * 30;
+const dataLoadInsertDelay = 1000 * 5;
+
 //	-----------------------------------------------------------
 //		Event Handler
 //	-----------------------------------------------------------
@@ -121,6 +125,11 @@ async function onDataLoad() {
 
 	try {
 
+		if (document.getElementById('bili2vrc-context-menu') || document.getElementById('bili2vrc-parse-video-button')) {
+			debug.log('Video parsing UI has already been inserted.');
+			return;
+		}
+
 		/* Add event listeners */
 		document.addEventListener('click', onDocumentClick);
 
@@ -161,7 +170,10 @@ async function init() {
 
 		/* Begin listening for messages */
 		const browserObj = getBrowserObject();
-		browserObj.runtime.onMessage.addListener(onMessageReceive);
+		browserObj.runtime.onMessage.addListener((request, sender, sendResponse) => {
+			onMessageReceive(request, sender, sendResponse).catch(error => debug.error(error));
+			return true;
+		});
 
 		/* Reset parsing status */
 		await saveToStorage(storageKeys.PARSING_STATUS, parsingStatuses.PARSABLE);
@@ -195,7 +207,7 @@ async function init() {
 		}
 
 		/* Wait for data loading to complete */
-		await waitForDataLoadComplete();
+		await waitForDataLoadComplete(Date.now());
 
 		return true;
 
@@ -213,7 +225,7 @@ async function init() {
 /**
  * Wait for data loading to complete, and insert parse video button.
  */
-async function waitForDataLoadComplete() {
+async function waitForDataLoadComplete(startTimestamp) {
 
 	/* Get HTML element with the attribute "data-loaded" */
 	const dataLoadedFlagElement = document.querySelector('[data-loaded]');
@@ -225,7 +237,7 @@ async function waitForDataLoadComplete() {
 			try {
 				/* Add the button and context menu 5 seconds after the data finishes loading */
 				debug.log('Data load complete. Wait for 5 seconds.');
-				setTimeout(onDataLoad, 5000);
+				setTimeout(onDataLoad, dataLoadInsertDelay);
 			} catch (error) {
 				debug.log('Failed to insert the parse video button.');
 			}
@@ -233,10 +245,15 @@ async function waitForDataLoadComplete() {
 		}
 	}
 
+	if (Date.now() - startTimestamp > dataLoadMaxWaitTime) {
+		debug.warn('Timed out while waiting for video page data to load.');
+		return;
+	}
+
 	/* Retry */
 	setTimeout(async () => {
-		await waitForDataLoadComplete();
-	}, 500);
+		await waitForDataLoadComplete(startTimestamp);
+	}, dataLoadRetryInterval);
 
 }
 
@@ -252,8 +269,15 @@ async function insertVideoParsingButton() {
 
 	/* Insert parse video button into toolbar element */
 	const toolbarRightElement = document.querySelector('.video-toolbar-right');
+	if (toolbarRightElement === null) {
+		throw new Error('Cannot find video toolbar');
+	}
 	const toolbarRightElementLastChild = toolbarRightElement.children[toolbarRightElement.children.length - 1];
-	toolbarRightElement.insertBefore(videoParsingButtonElement, toolbarRightElementLastChild);
+	if (toolbarRightElementLastChild) {
+		toolbarRightElement.insertBefore(videoParsingButtonElement, toolbarRightElementLastChild);
+	} else {
+		toolbarRightElement.appendChild(videoParsingButtonElement);
+	}
 
 	/* Set locale texts */
 	await setLocaleTexts();
@@ -267,7 +291,7 @@ async function insertVideoParsingButton() {
 async function createVideoParsingButton() {
 
 	/* Load HTML of the parse vide button icon */
-	const htmlText = await loadTextFile('images/ButtonIcon_24x24.html');
+	const htmlText = await loadTextFile('images/ButtonIcon_24x24.html', true);
 
 	/* Create text element */
 	const VideoParsingButtonTextElement = document.createElement('span');

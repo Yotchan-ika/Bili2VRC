@@ -72,6 +72,12 @@ const maxDiagnosticLogCount = 200;
 /** @type {RegExp} Regexp to get BVID */
 const getBVIDRegexp = /https:\/\/www.bilibili.com\/.*(BV[a-zA-Z0-9]{10})/;
 
+/** @type {number} Default timeout duration for fetch requests (ms) */
+const defaultFetchTimeout = 1000 * 15;
+
+/** @type {Map.<string, *>} Cache for extension package resources */
+const extensionResourceCache = new Map();
+
 //#endregion
 
 //	-----------------------------------------------------------
@@ -272,7 +278,7 @@ async function getDefaultLanguage() {
 async function getMessages(lang) {
 	try {
 		const path = `_locales/${lang.replaceAll('-', '_')}/messages.json`;
-		const messages = await loadJSONFile(path);
+		const messages = await loadJSONFile(path, true);
 		return messages;
 	} catch (error) {
 		throw new Error('Failed to read messages');
@@ -387,13 +393,15 @@ async function setLocaleTexts() {
 	/* Get UI language code */
 	const UILanguage = await getDefaultLanguage();
 
+	const currentLanguageMessages = await getMessages(currentLanguage);
+	const uiLanguageMessages = (UILanguage === currentLanguage) ? currentLanguageMessages : await getMessages(UILanguage);
+
 	/* Set locale texts in option's language */
 	let id;
 	for (const element of document.querySelectorAll('[data-bili2vrc-msg]')) {
 		try {
 			id = element.getAttribute('data-bili2vrc-msg');
-			const messages = await getMessages(currentLanguage);
-			element.innerHTML = messages[id].message;
+			element.innerHTML = currentLanguageMessages[id].message;
 			element.setAttribute('lang', currentLanguage);
 		} catch (error) {
 			debug.error(`Cannot read message of "${id}" in "${currentLanguage}".`);
@@ -405,8 +413,7 @@ async function setLocaleTexts() {
 	for (const element of document.querySelectorAll('[data-bili2vrc-i18n]')) {
 		try {
 			id = element.getAttribute('data-bili2vrc-i18n');
-			const messages = await getMessages(UILanguage);
-			element.innerHTML = messages[id].message;
+			element.innerHTML = uiLanguageMessages[id].message;
 			element.setAttribute('lang', UILanguage);
 		} catch (error) {
 			debug.error(`Cannot read message of "${id}" in "${currentLanguage}".`);
@@ -513,7 +520,7 @@ async function loadFromStorage(key, isSynced = false) {
 	}
 
 	/* Return the value if the data exists */
-	if (key in result) {
+	if (Object.prototype.hasOwnProperty.call(result, key)) {
 		if (result[key] !== undefined && result[key] !== null) {
 			return result[key];
 		}
@@ -664,6 +671,58 @@ async function openExtensionsPage(path) {
 //#endregion
 
 //	-----------------------------------------------------------
+//		Clipboard API
+//	-----------------------------------------------------------
+
+//#region Clipboard API
+
+/**
+ * Write text to the clipboard.
+ * @param {string} text - Text to write
+ */
+async function writeTextToClipboard(text) {
+
+	if (typeof text !== 'string' || text.length === 0) {
+		throw new Error('Clipboard text is empty');
+	}
+
+	try {
+		if (navigator.clipboard && navigator.clipboard.writeText) {
+			await navigator.clipboard.writeText(text);
+			return;
+		}
+	} catch (error) {
+		debug.warn('navigator.clipboard.writeText failed. Trying fallback copy.', error);
+	}
+
+	if (document.queryCommandSupported && document.queryCommandSupported('copy') === false) {
+		throw new Error('Clipboard copy is not supported');
+	}
+
+	const textarea = document.createElement('textarea');
+	textarea.value = text;
+	textarea.setAttribute('readonly', '');
+	textarea.style.position = 'fixed';
+	textarea.style.left = '-9999px';
+	textarea.style.top = '0';
+	document.body.appendChild(textarea);
+
+	try {
+		textarea.focus();
+		textarea.select();
+		const isCopied = document.execCommand('copy');
+		if (isCopied === false) {
+			throw new Error('Fallback clipboard copy failed');
+		}
+	} finally {
+		textarea.remove();
+	}
+
+}
+
+//#endregion
+
+//	-----------------------------------------------------------
 //		File I/O
 //	-----------------------------------------------------------
 
@@ -672,15 +731,27 @@ async function openExtensionsPage(path) {
 /**
  * Load text file.
  * @param {string} path - File path to load
+ * @param {boolean} useCache - Whether to use cached response
  * @returns {Promise.<string>} Loaded text
  */
-async function loadTextFile(path) {
+async function loadTextFile(path, useCache = false) {
+
+	if (useCache && extensionResourceCache.has(path)) {
+		return extensionResourceCache.get(path);
+	}
 
 	/* Load text file */
 	const browserObj = getBrowserObject();
 	const url = browserObj.runtime.getURL(path);
-	const response = await fetch(url);
+	const response = await fetchWithTimeout(url);
+	if (response.ok === false) {
+		throw new Error(`Failed to load text file "${path}"`);
+	}
 	const text = await response.text();
+
+	if (useCache) {
+		extensionResourceCache.set(path, text);
+	}
 
 	return text;
 
@@ -689,17 +760,53 @@ async function loadTextFile(path) {
 /**
  * Load JSON file.
  * @param {string} path - File path to load
+ * @param {boolean} useCache - Whether to use cached response
  * @returns {Promise.<Object.<string, *>>} Loaded text
  */
-async function loadJSONFile(path) {
+async function loadJSONFile(path, useCache = false) {
+
+	if (useCache && extensionResourceCache.has(path)) {
+		return extensionResourceCache.get(path);
+	}
 
 	/* Load text file */
 	const browserObj = getBrowserObject();
 	const url = browserObj.runtime.getURL(path);
-	const response = await fetch(url);
+	const response = await fetchWithTimeout(url);
+	if (response.ok === false) {
+		throw new Error(`Failed to load JSON file "${path}"`);
+	}
 	const json = await response.json();
 
+	if (useCache) {
+		extensionResourceCache.set(path, json);
+	}
+
 	return json;
+
+}
+
+/**
+ * Fetch with timeout.
+ * @param {RequestInfo|URL} resource - Resource to fetch
+ * @param {Object.<string, *>} options - Fetch options
+ * @param {number} timeout - Timeout duration (ms)
+ * @returns {Promise.<Response>} Fetch response
+ */
+async function fetchWithTimeout(resource, options = {}, timeout = defaultFetchTimeout) {
+
+	const controller = new AbortController();
+	const timeoutID = setTimeout(() => controller.abort(), timeout);
+
+	try {
+		const fetchOptions = {
+			...options,
+			signal: controller.signal
+		};
+		return await fetch(resource, fetchOptions);
+	} finally {
+		clearTimeout(timeoutID);
+	}
 
 }
 
