@@ -38,11 +38,19 @@ async function onVideoParsingButtonRightClick(event) {
 		const contextMenuElement = document.getElementById('bili2vrc-context-menu');
 		contextMenuElement.style.display = 'block';
 
-		/* Display the context menu at the mouse cursor position */
-		const left = event.pageX - (contextMenuElement.getBoundingClientRect().width / 2);
-		const top = event.pageY + 15;
+		/* Display the context menu near the mouse cursor within the viewport */
+		const menuRect = contextMenuElement.getBoundingClientRect();
+		const margin = 8;
+		const left = Math.min(
+			Math.max(event.clientX - (menuRect.width / 2), margin),
+			window.innerWidth - menuRect.width - margin
+		);
+		const top = Math.min(
+			event.clientY + 15,
+			window.innerHeight - menuRect.height - margin
+		);
 		contextMenuElement.style.left = left + 'px';
-		contextMenuElement.style.top = top + 'px';
+		contextMenuElement.style.top = Math.max(top, margin) + 'px';
 
 	} catch (error) {
 
