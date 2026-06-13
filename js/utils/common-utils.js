@@ -27,31 +27,56 @@ const storageKeys = Object.freeze({
 	LAST_PARSING_TIMESTAMP: 'lastParsingTimestamp',
 	FINISHED_TUTORIAL_IDS: 'finishedTutorialIDs',
 	LAST_EXTENSION_VERSION: 'lastExtensionVersion',
+	DIAGNOSTIC_LOGS: 'diagnosticLogs',
 });
 
 /** @type {Object.<string, *>} Option data keys */
 const optionKeys = Object.freeze({
 	LANGUAGE: 'language',
+	APPEARANCE_THEME: 'appearanceTheme',
 	HISTORY_RENTENTION_PERIOD: 'historyRententionPeriod',
-	INSERT_BUTTON_INTO_VIDEO_PAGE: 'insertButtonIntoVideoPage'
+	INSERT_BUTTON_INTO_VIDEO_PAGE: 'insertButtonIntoVideoPage',
+	PARSING_SERVER_ENDPOINT: 'parsingServerEndpoint'
 });
+
+/** @type {Object.<string, string>} Appearance theme values */
+const appearanceThemes = Object.freeze({
+	AUTO: 'auto',
+	LIGHT: 'light',
+	DARK: 'dark'
+});
+
+/** @type {string} Default video parsing server endpoint */
+const defaultVideoParsingEndpoint = 'https://api.squidtail.com/bili2vrc/parse/';
 
 /** @type {Object.<string, *>} Default storage data */
 const defaultStorageData = Object.freeze({
 	[storageKeys.OPTIONS]: {
 		[optionKeys.LANGUAGE]: 'default',
+		[optionKeys.APPEARANCE_THEME]: appearanceThemes.AUTO,
 		[optionKeys.HISTORY_RENTENTION_PERIOD]: 168,
-		[optionKeys.INSERT_BUTTON_INTO_VIDEO_PAGE]: true
+		[optionKeys.INSERT_BUTTON_INTO_VIDEO_PAGE]: true,
+		[optionKeys.PARSING_SERVER_ENDPOINT]: defaultVideoParsingEndpoint
 	},
 	[storageKeys.HISTORY]: [],
 	[storageKeys.PARSING_STATUS]: parsingStatuses.PARSABLE,
 	[storageKeys.LAST_PARSING_TIMESTAMP]: 0,
 	[storageKeys.FINISHED_TUTORIAL_IDS]: [],
-	[storageKeys.LAST_EXTENSION_VERSION]: '-'
+	[storageKeys.LAST_EXTENSION_VERSION]: '-',
+	[storageKeys.DIAGNOSTIC_LOGS]: []
 });
+
+/** @type {number} Maximum number of diagnostic logs to keep */
+const maxDiagnosticLogCount = 200;
 
 /** @type {RegExp} Regexp to get BVID */
 const getBVIDRegexp = /https:\/\/www.bilibili.com\/.*(BV[a-zA-Z0-9]{10})/;
+
+/** @type {number} Default timeout duration for fetch requests (ms) */
+const defaultFetchTimeout = 1000 * 15;
+
+/** @type {Map.<string, *>} Cache for extension package resources */
+const extensionResourceCache = new Map();
 
 //#endregion
 
@@ -63,9 +88,18 @@ const getBVIDRegexp = /https:\/\/www.bilibili.com\/.*(BV[a-zA-Z0-9]{10})/;
 
 /** @type {Object.<string, Function>} Custom console object */
 let debug = {
-	log: (...args) => console.log('[Bili2VRC]', ...args),
-	warn: (...args) => console.warn('[Bili2VRC]', ...args),
-	error: (...args) => console.error('[Bili2VRC]', ...args)
+	log: (...args) => {
+		console.log('[Bili2VRC]', ...args);
+		recordDiagnosticLog('log', args);
+	},
+	warn: (...args) => {
+		console.warn('[Bili2VRC]', ...args);
+		recordDiagnosticLog('warn', args);
+	},
+	error: (...args) => {
+		console.error('[Bili2VRC]', ...args);
+		recordDiagnosticLog('error', args);
+	}
 };
 
 //#endregion
@@ -109,6 +143,78 @@ function getVersionText() {
 	const versionText = browserObj.runtime.getManifest().version;
 
 	return versionText;
+
+}
+
+/**
+ * Record diagnostic log to local storage.
+ * @param {string} level - Log level
+ * @param {Array.<*>} args - Log arguments
+ */
+async function recordDiagnosticLog(level, args) {
+
+	try {
+		const browserObj = getBrowserObject();
+		if (browserObj.storage === undefined || browserObj.storage.local === undefined) {
+			return;
+		}
+
+		const result = await browserObj.storage.local.get([storageKeys.DIAGNOSTIC_LOGS]);
+		const logs = Array.isArray(result[storageKeys.DIAGNOSTIC_LOGS]) ? result[storageKeys.DIAGNOSTIC_LOGS] : [];
+		logs.push({
+			timestamp: Date.now(),
+			level: level,
+			context: getDiagnosticContext(),
+			message: args.map(serializeDiagnosticLogValue).join(' ')
+		});
+
+		await browserObj.storage.local.set({
+			[storageKeys.DIAGNOSTIC_LOGS]: logs.slice(-maxDiagnosticLogCount)
+		});
+	} catch (error) {
+		/* Ignore diagnostic logging errors. */
+	}
+
+}
+
+/**
+ * Serialize a log value for diagnostic export.
+ * @param {*} value - Log value
+ * @returns {string} Serialized value
+ */
+function serializeDiagnosticLogValue(value) {
+
+	if (value instanceof Error) {
+		return value.stack || value.message;
+	}
+
+	if (typeof value === 'string') {
+		return value;
+	}
+
+	try {
+		return JSON.stringify(value);
+	} catch (error) {
+		return String(value);
+	}
+
+}
+
+/**
+ * Get current diagnostic context.
+ * @returns {string} Current context
+ */
+function getDiagnosticContext() {
+
+	try {
+		if (typeof location !== 'undefined') {
+			return location.href;
+		}
+	} catch (error) {
+		/* DO NOTHING */
+	}
+
+	return 'service-worker';
 
 }
 
@@ -172,7 +278,7 @@ async function getDefaultLanguage() {
 async function getMessages(lang) {
 	try {
 		const path = `_locales/${lang.replaceAll('-', '_')}/messages.json`;
-		const messages = await loadJSONFile(path);
+		const messages = await loadJSONFile(path, true);
 		return messages;
 	} catch (error) {
 		throw new Error('Failed to read messages');
@@ -229,11 +335,34 @@ async function getFormattedDatetime(timestamp, options) {
  */
 function executeOnWindowLoad(callback) {
 
+	const wrappedCallback = async () => {
+		await applyAppearanceTheme();
+		await callback();
+	};
+
 	/* If the window is already loaded, execute immediately */
 	if (document.readyState === 'complete') {
-		callback();
+		wrappedCallback();
 	} else {
-		window.addEventListener('load', callback);
+		window.addEventListener('load', wrappedCallback);
+	}
+
+}
+
+/**
+ * Apply appearance theme to the current document.
+ */
+async function applyAppearanceTheme() {
+
+	try {
+		const theme = await loadOptionData(optionKeys.APPEARANCE_THEME);
+		if (Object.values(appearanceThemes).includes(theme)) {
+			document.documentElement.setAttribute('data-bili2vrc-theme', theme);
+		} else {
+			document.documentElement.setAttribute('data-bili2vrc-theme', appearanceThemes.AUTO);
+		}
+	} catch (error) {
+		document.documentElement.setAttribute('data-bili2vrc-theme', appearanceThemes.AUTO);
 	}
 
 }
@@ -264,13 +393,15 @@ async function setLocaleTexts() {
 	/* Get UI language code */
 	const UILanguage = await getDefaultLanguage();
 
+	const currentLanguageMessages = await getMessages(currentLanguage);
+	const uiLanguageMessages = (UILanguage === currentLanguage) ? currentLanguageMessages : await getMessages(UILanguage);
+
 	/* Set locale texts in option's language */
 	let id;
 	for (const element of document.querySelectorAll('[data-bili2vrc-msg]')) {
 		try {
 			id = element.getAttribute('data-bili2vrc-msg');
-			const messages = await getMessages(currentLanguage);
-			element.innerHTML = messages[id].message;
+			element.innerHTML = currentLanguageMessages[id].message;
 			element.setAttribute('lang', currentLanguage);
 		} catch (error) {
 			debug.error(`Cannot read message of "${id}" in "${currentLanguage}".`);
@@ -282,8 +413,7 @@ async function setLocaleTexts() {
 	for (const element of document.querySelectorAll('[data-bili2vrc-i18n]')) {
 		try {
 			id = element.getAttribute('data-bili2vrc-i18n');
-			const messages = await getMessages(UILanguage);
-			element.innerHTML = messages[id].message;
+			element.innerHTML = uiLanguageMessages[id].message;
 			element.setAttribute('lang', UILanguage);
 		} catch (error) {
 			debug.error(`Cannot read message of "${id}" in "${currentLanguage}".`);
@@ -390,7 +520,7 @@ async function loadFromStorage(key, isSynced = false) {
 	}
 
 	/* Return the value if the data exists */
-	if (key in result) {
+	if (Object.prototype.hasOwnProperty.call(result, key)) {
 		if (result[key] !== undefined && result[key] !== null) {
 			return result[key];
 		}
@@ -541,6 +671,58 @@ async function openExtensionsPage(path) {
 //#endregion
 
 //	-----------------------------------------------------------
+//		Clipboard API
+//	-----------------------------------------------------------
+
+//#region Clipboard API
+
+/**
+ * Write text to the clipboard.
+ * @param {string} text - Text to write
+ */
+async function writeTextToClipboard(text) {
+
+	if (typeof text !== 'string' || text.length === 0) {
+		throw new Error('Clipboard text is empty');
+	}
+
+	try {
+		if (navigator.clipboard && navigator.clipboard.writeText) {
+			await navigator.clipboard.writeText(text);
+			return;
+		}
+	} catch (error) {
+		debug.warn('navigator.clipboard.writeText failed. Trying fallback copy.', error);
+	}
+
+	if (document.queryCommandSupported && document.queryCommandSupported('copy') === false) {
+		throw new Error('Clipboard copy is not supported');
+	}
+
+	const textarea = document.createElement('textarea');
+	textarea.value = text;
+	textarea.setAttribute('readonly', '');
+	textarea.style.position = 'fixed';
+	textarea.style.left = '-9999px';
+	textarea.style.top = '0';
+	document.body.appendChild(textarea);
+
+	try {
+		textarea.focus();
+		textarea.select();
+		const isCopied = document.execCommand('copy');
+		if (isCopied === false) {
+			throw new Error('Fallback clipboard copy failed');
+		}
+	} finally {
+		textarea.remove();
+	}
+
+}
+
+//#endregion
+
+//	-----------------------------------------------------------
 //		File I/O
 //	-----------------------------------------------------------
 
@@ -549,15 +731,27 @@ async function openExtensionsPage(path) {
 /**
  * Load text file.
  * @param {string} path - File path to load
+ * @param {boolean} useCache - Whether to use cached response
  * @returns {Promise.<string>} Loaded text
  */
-async function loadTextFile(path) {
+async function loadTextFile(path, useCache = false) {
+
+	if (useCache && extensionResourceCache.has(path)) {
+		return extensionResourceCache.get(path);
+	}
 
 	/* Load text file */
 	const browserObj = getBrowserObject();
 	const url = browserObj.runtime.getURL(path);
-	const response = await fetch(url);
+	const response = await fetchWithTimeout(url);
+	if (response.ok === false) {
+		throw new Error(`Failed to load text file "${path}"`);
+	}
 	const text = await response.text();
+
+	if (useCache) {
+		extensionResourceCache.set(path, text);
+	}
 
 	return text;
 
@@ -566,17 +760,53 @@ async function loadTextFile(path) {
 /**
  * Load JSON file.
  * @param {string} path - File path to load
+ * @param {boolean} useCache - Whether to use cached response
  * @returns {Promise.<Object.<string, *>>} Loaded text
  */
-async function loadJSONFile(path) {
+async function loadJSONFile(path, useCache = false) {
+
+	if (useCache && extensionResourceCache.has(path)) {
+		return extensionResourceCache.get(path);
+	}
 
 	/* Load text file */
 	const browserObj = getBrowserObject();
 	const url = browserObj.runtime.getURL(path);
-	const response = await fetch(url);
+	const response = await fetchWithTimeout(url);
+	if (response.ok === false) {
+		throw new Error(`Failed to load JSON file "${path}"`);
+	}
 	const json = await response.json();
 
+	if (useCache) {
+		extensionResourceCache.set(path, json);
+	}
+
 	return json;
+
+}
+
+/**
+ * Fetch with timeout.
+ * @param {RequestInfo|URL} resource - Resource to fetch
+ * @param {Object.<string, *>} options - Fetch options
+ * @param {number} timeout - Timeout duration (ms)
+ * @returns {Promise.<Response>} Fetch response
+ */
+async function fetchWithTimeout(resource, options = {}, timeout = defaultFetchTimeout) {
+
+	const controller = new AbortController();
+	const timeoutID = setTimeout(() => controller.abort(), timeout);
+
+	try {
+		const fetchOptions = {
+			...options,
+			signal: controller.signal
+		};
+		return await fetch(resource, fetchOptions);
+	} finally {
+		clearTimeout(timeoutID);
+	}
 
 }
 

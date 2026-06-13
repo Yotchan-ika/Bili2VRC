@@ -8,6 +8,22 @@
 :root {
 	--bili2vrc-line-color1: #00000040;
 	--bili2vrc-line-color2: #FFFFFF40;
+	color-scheme: light;
+}
+
+:root[data-bili2vrc-theme="dark"] {
+	--bili2vrc-line-color1: #FFFFFF30;
+	--bili2vrc-line-color2: #00000040;
+	color-scheme: dark;
+}
+
+@media (prefers-color-scheme: dark) {
+	:root:not([data-bili2vrc-theme]),
+	:root[data-bili2vrc-theme="auto"] {
+		--bili2vrc-line-color1: #FFFFFF30;
+		--bili2vrc-line-color2: #00000040;
+		color-scheme: dark;
+	}
 }
 
 .bili2vrc-popup * {
@@ -84,5 +100,20 @@
 	}
 	.material-symbols-rounded:lang(zh-TW) {
 		transform: translateY(0.09em);
+	}
+}
+
+:root[data-bili2vrc-theme="dark"] .bili2vrc-key {
+	border-color: #6f8a91;
+	background: #203339;
+	color: #d7edf2;
+}
+
+@media (prefers-color-scheme: dark) {
+	:root:not([data-bili2vrc-theme]) .bili2vrc-key,
+	:root[data-bili2vrc-theme="auto"] .bili2vrc-key {
+		border-color: #6f8a91;
+		background: #203339;
+		color: #d7edf2;
 	}
 }

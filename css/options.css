@@ -93,3 +93,21 @@ td {
 	padding: 2px 13px;
 	background-color: var(--bili2vrc-main-content-background-color);
 }
+
+/*
+---------------------------------------------------------------
+	Diagnostics
+---------------------------------------------------------------
+*/
+
+.bili2vrc-diagnostics-options {
+	display: grid;
+	gap: 8px;
+	margin: 12px 0 20px;
+}
+
+.bili2vrc-diagnostics-options label {
+	display: flex;
+	align-items: center;
+	gap: 12px;
+}

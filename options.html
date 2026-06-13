@@ -101,6 +101,16 @@
 							</select>
 						</label>
 
+						<!-- Appearance theme -->
+						<label class="bili2vrc-option-item bili2vrc-space-between bili2vrc-underline">
+							<span data-bili2vrc-msg="options_general_appearanceTheme"></span>
+							<select name="appearance-theme" data-bili2vrc-set-lang-attribute required>
+								<option value="auto" data-bili2vrc-msg="options_general_appearanceTheme_auto"></option>
+								<option value="light" data-bili2vrc-msg="options_general_appearanceTheme_light"></option>
+								<option value="dark" data-bili2vrc-msg="options_general_appearanceTheme_dark"></option>
+							</select>
+						</label>
+
 						<!-- History storage period -->
 						<label class="bili2vrc-option-item bili2vrc-space-between bili2vrc-underline">
 							<span data-bili2vrc-msg="options_general_historyRetentionPeriod"></span>
@@ -118,6 +128,12 @@
 						<label class="bili2vrc-option-item bili2vrc-space-between bili2vrc-underline">
 							<span data-bili2vrc-msg="options_general_insertButtonIntoVideoPage"></span>
 							<input type="checkbox" name="insert-button-into-video-page">
+						</label>
+
+						<!-- Parsing server endpoint -->
+						<label class="bili2vrc-option-item bili2vrc-space-between bili2vrc-underline">
+							<span data-bili2vrc-msg="options_general_parsingServerEndpoint"></span>
+							<input type="url" name="parsing-server-endpoint" placeholder="https://api.squidtail.com/bili2vrc/parse/" required>
 						</label>
 
 						<!-- Tutorial -->
@@ -187,10 +203,32 @@
 							<!-- E-mail -->
 							<tr>
 								<th><span data-bili2vrc-msg="options_support_contact_developerEmail"></span></th>
-								<td><a href="mailto:squidtail.contact@gmail.com">squidtail.contact@gmail.com</a></td>
+								<td><a href="mailto:contact@squidtail.com">contact@squidtail.com</a></td>
 							</tr>
 
 						</table>
+
+						<!-- Diagnostics -->
+						<h2 data-bili2vrc-msg="options_support_diagnostics_title"></h2>
+						<p data-bili2vrc-msg="options_support_diagnostics_text1"></p>
+						<div class="bili2vrc-diagnostics-options">
+							<label>
+								<input type="checkbox" name="diagnostics-include-logs" checked>
+								<span data-bili2vrc-msg="options_support_diagnostics_includeLogs"></span>
+							</label>
+							<label>
+								<input type="checkbox" name="diagnostics-include-options">
+								<span data-bili2vrc-msg="options_support_diagnostics_includeOptions"></span>
+							</label>
+							<label>
+								<input type="checkbox" name="diagnostics-include-history">
+								<span data-bili2vrc-msg="options_support_diagnostics_includeHistory"></span>
+							</label>
+						</div>
+						<button id="bili2vrc-export-diagnostics-button">
+							<span class="material-symbols-rounded">download</span>
+							<span data-bili2vrc-msg="options_support_diagnostics_export"></span>
+						</button>
 
 					</div>
 

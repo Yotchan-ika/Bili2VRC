@@ -134,6 +134,26 @@
 		"description": "オプション > 全般 > 言語 > 既定の言語"
 	},
 
+	"options_general_appearanceTheme": {
+		"message": "Theme",
+		"description": "Options > General > Theme"
+	},
+
+	"options_general_appearanceTheme_auto": {
+		"message": "Auto",
+		"description": "Options > General > Theme"
+	},
+
+	"options_general_appearanceTheme_light": {
+		"message": "Light",
+		"description": "Options > General > Theme"
+	},
+
+	"options_general_appearanceTheme_dark": {
+		"message": "Dark",
+		"description": "Options > General > Theme"
+	},
+
 	"options_general_historyRetentionPeriod": {
 		"message": "動画変換履歴の保存期間",
 		"description": "オプション > 全般 > 動画変換履歴の保存期間"
@@ -172,6 +192,11 @@
 	"options_general_insertButtonIntoVideoPage": {
 		"message": "動画ページに動画変換ボタンを挿入する",
 		"description": "オプション > 全般 > 動画ページに動画変換ボタンを挿入する"
+	},
+
+	"options_general_parsingServerEndpoint": {
+		"message": "Video parsing server endpoint",
+		"description": "Options > General > Video parsing server endpoint"
 	},
 
 	"options_general_tutorial": {
@@ -227,6 +252,36 @@
 	"options_support_contact_developerEmail": {
 		"message": "メールアドレス",
 		"description": "オプション > サポート > お問い合わせ > メールアドレス"
+	},
+
+	"options_support_diagnostics_title": {
+		"message": "Diagnostics",
+		"description": "Options > Support > Diagnostics"
+	},
+
+	"options_support_diagnostics_text1": {
+		"message": "Choose the data to include, then export a diagnostics file for troubleshooting.",
+		"description": "Options > Support > Diagnostics"
+	},
+
+	"options_support_diagnostics_includeLogs": {
+		"message": "Diagnostic logs",
+		"description": "Options > Support > Diagnostics"
+	},
+
+	"options_support_diagnostics_includeOptions": {
+		"message": "Options",
+		"description": "Options > Support > Diagnostics"
+	},
+
+	"options_support_diagnostics_includeHistory": {
+		"message": "Video parsing history",
+		"description": "Options > Support > Diagnostics"
+	},
+
+	"options_support_diagnostics_export": {
+		"message": "Export diagnostics",
+		"description": "Options > Support > Diagnostics"
 	},
 
 	"options_info_title": {

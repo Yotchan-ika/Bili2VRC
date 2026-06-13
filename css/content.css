@@ -31,7 +31,7 @@
 */
 
 .bili2vrc-context-menu {
-	position: absolute;
+	position: fixed;
 	min-width: 100px;
 	border-radius: 5px;
 	overflow: hidden;
