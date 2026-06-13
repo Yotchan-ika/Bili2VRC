@@ -27,6 +27,7 @@ const storageKeys = Object.freeze({
 	LAST_PARSING_TIMESTAMP: 'lastParsingTimestamp',
 	FINISHED_TUTORIAL_IDS: 'finishedTutorialIDs',
 	LAST_EXTENSION_VERSION: 'lastExtensionVersion',
+	DIAGNOSTIC_LOGS: 'diagnosticLogs',
 });
 
 /** @type {Object.<string, *>} Option data keys */
@@ -61,8 +62,12 @@ const defaultStorageData = Object.freeze({
 	[storageKeys.PARSING_STATUS]: parsingStatuses.PARSABLE,
 	[storageKeys.LAST_PARSING_TIMESTAMP]: 0,
 	[storageKeys.FINISHED_TUTORIAL_IDS]: [],
-	[storageKeys.LAST_EXTENSION_VERSION]: '-'
+	[storageKeys.LAST_EXTENSION_VERSION]: '-',
+	[storageKeys.DIAGNOSTIC_LOGS]: []
 });
+
+/** @type {number} Maximum number of diagnostic logs to keep */
+const maxDiagnosticLogCount = 200;
 
 /** @type {RegExp} Regexp to get BVID */
 const getBVIDRegexp = /https:\/\/www.bilibili.com\/.*(BV[a-zA-Z0-9]{10})/;
@@ -77,9 +82,18 @@ const getBVIDRegexp = /https:\/\/www.bilibili.com\/.*(BV[a-zA-Z0-9]{10})/;
 
 /** @type {Object.<string, Function>} Custom console object */
 let debug = {
-	log: (...args) => console.log('[Bili2VRC]', ...args),
-	warn: (...args) => console.warn('[Bili2VRC]', ...args),
-	error: (...args) => console.error('[Bili2VRC]', ...args)
+	log: (...args) => {
+		console.log('[Bili2VRC]', ...args);
+		recordDiagnosticLog('log', args);
+	},
+	warn: (...args) => {
+		console.warn('[Bili2VRC]', ...args);
+		recordDiagnosticLog('warn', args);
+	},
+	error: (...args) => {
+		console.error('[Bili2VRC]', ...args);
+		recordDiagnosticLog('error', args);
+	}
 };
 
 //#endregion
@@ -123,6 +137,78 @@ function getVersionText() {
 	const versionText = browserObj.runtime.getManifest().version;
 
 	return versionText;
+
+}
+
+/**
+ * Record diagnostic log to local storage.
+ * @param {string} level - Log level
+ * @param {Array.<*>} args - Log arguments
+ */
+async function recordDiagnosticLog(level, args) {
+
+	try {
+		const browserObj = getBrowserObject();
+		if (browserObj.storage === undefined || browserObj.storage.local === undefined) {
+			return;
+		}
+
+		const result = await browserObj.storage.local.get([storageKeys.DIAGNOSTIC_LOGS]);
+		const logs = Array.isArray(result[storageKeys.DIAGNOSTIC_LOGS]) ? result[storageKeys.DIAGNOSTIC_LOGS] : [];
+		logs.push({
+			timestamp: Date.now(),
+			level: level,
+			context: getDiagnosticContext(),
+			message: args.map(serializeDiagnosticLogValue).join(' ')
+		});
+
+		await browserObj.storage.local.set({
+			[storageKeys.DIAGNOSTIC_LOGS]: logs.slice(-maxDiagnosticLogCount)
+		});
+	} catch (error) {
+		/* Ignore diagnostic logging errors. */
+	}
+
+}
+
+/**
+ * Serialize a log value for diagnostic export.
+ * @param {*} value - Log value
+ * @returns {string} Serialized value
+ */
+function serializeDiagnosticLogValue(value) {
+
+	if (value instanceof Error) {
+		return value.stack || value.message;
+	}
+
+	if (typeof value === 'string') {
+		return value;
+	}
+
+	try {
+		return JSON.stringify(value);
+	} catch (error) {
+		return String(value);
+	}
+
+}
+
+/**
+ * Get current diagnostic context.
+ * @returns {string} Current context
+ */
+function getDiagnosticContext() {
+
+	try {
+		if (typeof location !== 'undefined') {
+			return location.href;
+		}
+	} catch (error) {
+		/* DO NOTHING */
+	}
+
+	return 'service-worker';
 
 }
 

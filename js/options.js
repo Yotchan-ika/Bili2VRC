@@ -22,6 +22,7 @@ async function init() {
 		document.forms['tabs'].addEventListener('change', setTabVisibility);
 		document.getElementById('bili2vrc-view-tutorial-button').addEventListener('click', onViewTutorialButtonClick);
 		document.getElementById('bili2vrc-open-changelog-button').addEventListener('click', onOpenChangelogButtonClick);
+		document.getElementById('bili2vrc-export-diagnostics-button').addEventListener('click', onExportDiagnosticsButtonClick);
 
 		/* Set language texts */
 		await setLangAttributes();
@@ -94,6 +95,35 @@ async function saveOptionDataToForm() {
 }
 
 /**
+ * Handler executed when the export diagnostics button clicked.
+ * @param {Event} event - Event
+ */
+async function onExportDiagnosticsButtonClick(event) {
+
+	try {
+
+		/* Do not update the page */
+		event.preventDefault();
+
+		const diagnostics = await createDiagnosticsExportData();
+		const blob = new Blob([JSON.stringify(diagnostics, null, '\t')], {type: 'application/json'});
+		const url = URL.createObjectURL(blob);
+		const link = document.createElement('a');
+		link.href = url;
+		link.download = `bili2vrc-diagnostics-${Date.now()}.json`;
+		link.click();
+		URL.revokeObjectURL(url);
+
+	} catch (error) {
+
+		/* Display unknown error popup */
+		await showUnknownErrorPopup(error.stack);
+
+	}
+
+}
+
+/**
  * Processing execute when options are changed.
  * @param {Event} event - Event
  */
@@ -162,6 +192,41 @@ function normalizeParsingServerEndpoint(endpoint) {
 	} catch (error) {
 		return defaultVideoParsingEndpoint;
 	}
+
+}
+
+/**
+ * Create diagnostics export data from selected categories.
+ * @returns {Promise.<Object.<string, *>>} Diagnostics export data
+ */
+async function createDiagnosticsExportData() {
+
+	/** @type {HTMLFormElement} */
+	const form = document.forms['options'];
+
+	const diagnostics = {
+		generatedAt: new Date().toISOString(),
+		extensionVersion: getVersionText(),
+		userAgent: navigator.userAgent,
+		selected: {
+			logs: form.elements['diagnostics-include-logs'].checked,
+			options: form.elements['diagnostics-include-options'].checked,
+			history: form.elements['diagnostics-include-history'].checked
+		},
+		data: {}
+	};
+
+	if (diagnostics.selected.logs) {
+		diagnostics.data.logs = await loadFromStorage(storageKeys.DIAGNOSTIC_LOGS);
+	}
+	if (diagnostics.selected.options) {
+		diagnostics.data.options = await loadFromStorage(storageKeys.OPTIONS, true);
+	}
+	if (diagnostics.selected.history) {
+		diagnostics.data.history = await loadFromStorage(storageKeys.HISTORY);
+	}
+
+	return diagnostics;
 
 }
 
