@@ -8,7 +8,6 @@
 
 /* API URL */
 const detailedVideoInfoEndpoint = 'https://api.bilibili.com/x/web-interface/view';
-const videoParsingEndpoint = 'https://api.squidtail.com/bili2vrc/parse/';
 
 /* Video page URL */
 const videoPageURLFormat = 'https://www.bilibili.com/video/{bvid}/?p={p}';
@@ -352,7 +351,7 @@ async function getParsedVideoData(bvid, p) {
 	try {
 
 		/* Create request URL */
-		const requestURL = new URL(videoParsingEndpoint);
+		const requestURL = new URL(await getVideoParsingEndpoint());
 		requestURL.searchParams.set('bv', bvid);
 		requestURL.searchParams.set('p', p);
 		requestURL.searchParams.set('format', 'mp4');
@@ -380,6 +379,26 @@ async function getParsedVideoData(bvid, p) {
 
 		return undefined;
 
+	}
+
+}
+
+/**
+ * Get video parsing server endpoint.
+ * @returns {Promise.<string>} Video parsing server endpoint
+ */
+async function getVideoParsingEndpoint() {
+
+	try {
+		const endpoint = await loadOptionData(optionKeys.PARSING_SERVER_ENDPOINT);
+		const url = new URL(endpoint);
+		if (['http:', 'https:'].includes(url.protocol) === false) {
+			throw new Error('Unsupported protocol');
+		}
+		return url.toString();
+	} catch (error) {
+		debug.warn('Invalid parsing server endpoint. Use default endpoint.', error);
+		return defaultVideoParsingEndpoint;
 	}
 
 }

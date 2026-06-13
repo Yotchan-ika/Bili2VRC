@@ -88,6 +88,7 @@ async function saveOptionDataToForm() {
 	form.elements['language'].value = await loadOptionData(optionKeys.LANGUAGE);
 	form.elements['history-retention-period'].value = await loadOptionData(optionKeys.HISTORY_RENTENTION_PERIOD);
 	form.elements['insert-button-into-video-page'].checked = await loadOptionData(optionKeys.INSERT_BUTTON_INTO_VIDEO_PAGE);
+	form.elements['parsing-server-endpoint'].value = await loadOptionData(optionKeys.PARSING_SERVER_ENDPOINT);
 
 }
 
@@ -106,7 +107,8 @@ async function onOptionsChanged(event) {
 		const options = {
 			[optionKeys.LANGUAGE]: form.elements['language'].value,
 			[optionKeys.HISTORY_RENTENTION_PERIOD]: Number(form.elements['history-retention-period'].value),
-			[optionKeys.INSERT_BUTTON_INTO_VIDEO_PAGE]: form.elements['insert-button-into-video-page'].checked
+			[optionKeys.INSERT_BUTTON_INTO_VIDEO_PAGE]: form.elements['insert-button-into-video-page'].checked,
+			[optionKeys.PARSING_SERVER_ENDPOINT]: normalizeParsingServerEndpoint(form.elements['parsing-server-endpoint'].value)
 		};
 		debug.log('options:', options);
 
@@ -122,6 +124,25 @@ async function onOptionsChanged(event) {
 		/* Display unknown error popup */
 		await showUnknownErrorPopup(error.stack);
 
+	}
+
+}
+
+/**
+ * Normalize parsing server endpoint option.
+ * @param {string} endpoint - Server endpoint
+ * @returns {string} Normalized endpoint
+ */
+function normalizeParsingServerEndpoint(endpoint) {
+
+	try {
+		const url = new URL(endpoint);
+		if (['http:', 'https:'].includes(url.protocol) === false) {
+			throw new Error('Unsupported protocol');
+		}
+		return url.toString();
+	} catch (error) {
+		return defaultVideoParsingEndpoint;
 	}
 
 }

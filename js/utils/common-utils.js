@@ -33,15 +33,20 @@ const storageKeys = Object.freeze({
 const optionKeys = Object.freeze({
 	LANGUAGE: 'language',
 	HISTORY_RENTENTION_PERIOD: 'historyRententionPeriod',
-	INSERT_BUTTON_INTO_VIDEO_PAGE: 'insertButtonIntoVideoPage'
+	INSERT_BUTTON_INTO_VIDEO_PAGE: 'insertButtonIntoVideoPage',
+	PARSING_SERVER_ENDPOINT: 'parsingServerEndpoint'
 });
+
+/** @type {string} Default video parsing server endpoint */
+const defaultVideoParsingEndpoint = 'https://api.squidtail.com/bili2vrc/parse/';
 
 /** @type {Object.<string, *>} Default storage data */
 const defaultStorageData = Object.freeze({
 	[storageKeys.OPTIONS]: {
 		[optionKeys.LANGUAGE]: 'default',
 		[optionKeys.HISTORY_RENTENTION_PERIOD]: 168,
-		[optionKeys.INSERT_BUTTON_INTO_VIDEO_PAGE]: true
+		[optionKeys.INSERT_BUTTON_INTO_VIDEO_PAGE]: true,
+		[optionKeys.PARSING_SERVER_ENDPOINT]: defaultVideoParsingEndpoint
 	},
 	[storageKeys.HISTORY]: [],
 	[storageKeys.PARSING_STATUS]: parsingStatuses.PARSABLE,
