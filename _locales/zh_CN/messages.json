@@ -134,6 +134,26 @@
 		"description": "オプション > 全般 > 言語 > 既定の言語"
 	},
 
+	"options_general_appearanceTheme": {
+		"message": "Theme",
+		"description": "Options > General > Theme"
+	},
+
+	"options_general_appearanceTheme_auto": {
+		"message": "Auto",
+		"description": "Options > General > Theme"
+	},
+
+	"options_general_appearanceTheme_light": {
+		"message": "Light",
+		"description": "Options > General > Theme"
+	},
+
+	"options_general_appearanceTheme_dark": {
+		"message": "Dark",
+		"description": "Options > General > Theme"
+	},
+
 	"options_general_historyRetentionPeriod": {
 		"message": "视频解析记录的保存期限",
 		"description": "オプション > 全般 > 動画変換履歴の保存期間"

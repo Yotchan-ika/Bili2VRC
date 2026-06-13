@@ -32,9 +32,17 @@ const storageKeys = Object.freeze({
 /** @type {Object.<string, *>} Option data keys */
 const optionKeys = Object.freeze({
 	LANGUAGE: 'language',
+	APPEARANCE_THEME: 'appearanceTheme',
 	HISTORY_RENTENTION_PERIOD: 'historyRententionPeriod',
 	INSERT_BUTTON_INTO_VIDEO_PAGE: 'insertButtonIntoVideoPage',
 	PARSING_SERVER_ENDPOINT: 'parsingServerEndpoint'
+});
+
+/** @type {Object.<string, string>} Appearance theme values */
+const appearanceThemes = Object.freeze({
+	AUTO: 'auto',
+	LIGHT: 'light',
+	DARK: 'dark'
 });
 
 /** @type {string} Default video parsing server endpoint */
@@ -44,6 +52,7 @@ const defaultVideoParsingEndpoint = 'https://api.squidtail.com/bili2vrc/parse/';
 const defaultStorageData = Object.freeze({
 	[storageKeys.OPTIONS]: {
 		[optionKeys.LANGUAGE]: 'default',
+		[optionKeys.APPEARANCE_THEME]: appearanceThemes.AUTO,
 		[optionKeys.HISTORY_RENTENTION_PERIOD]: 168,
 		[optionKeys.INSERT_BUTTON_INTO_VIDEO_PAGE]: true,
 		[optionKeys.PARSING_SERVER_ENDPOINT]: defaultVideoParsingEndpoint
@@ -234,11 +243,34 @@ async function getFormattedDatetime(timestamp, options) {
  */
 function executeOnWindowLoad(callback) {
 
+	const wrappedCallback = async () => {
+		await applyAppearanceTheme();
+		await callback();
+	};
+
 	/* If the window is already loaded, execute immediately */
 	if (document.readyState === 'complete') {
-		callback();
+		wrappedCallback();
 	} else {
-		window.addEventListener('load', callback);
+		window.addEventListener('load', wrappedCallback);
+	}
+
+}
+
+/**
+ * Apply appearance theme to the current document.
+ */
+async function applyAppearanceTheme() {
+
+	try {
+		const theme = await loadOptionData(optionKeys.APPEARANCE_THEME);
+		if (Object.values(appearanceThemes).includes(theme)) {
+			document.documentElement.setAttribute('data-bili2vrc-theme', theme);
+		} else {
+			document.documentElement.setAttribute('data-bili2vrc-theme', appearanceThemes.AUTO);
+		}
+	} catch (error) {
+		document.documentElement.setAttribute('data-bili2vrc-theme', appearanceThemes.AUTO);
 	}
 
 }

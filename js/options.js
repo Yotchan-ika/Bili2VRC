@@ -86,6 +86,7 @@ async function saveOptionDataToForm() {
 
 	/* Set option data to form */
 	form.elements['language'].value = await loadOptionData(optionKeys.LANGUAGE);
+	form.elements['appearance-theme'].value = await loadOptionData(optionKeys.APPEARANCE_THEME);
 	form.elements['history-retention-period'].value = await loadOptionData(optionKeys.HISTORY_RENTENTION_PERIOD);
 	form.elements['insert-button-into-video-page'].checked = await loadOptionData(optionKeys.INSERT_BUTTON_INTO_VIDEO_PAGE);
 	form.elements['parsing-server-endpoint'].value = await loadOptionData(optionKeys.PARSING_SERVER_ENDPOINT);
@@ -106,6 +107,7 @@ async function onOptionsChanged(event) {
 		/** @type {Object.<string, *>} Option data */
 		const options = {
 			[optionKeys.LANGUAGE]: form.elements['language'].value,
+			[optionKeys.APPEARANCE_THEME]: normalizeAppearanceTheme(form.elements['appearance-theme'].value),
 			[optionKeys.HISTORY_RENTENTION_PERIOD]: Number(form.elements['history-retention-period'].value),
 			[optionKeys.INSERT_BUTTON_INTO_VIDEO_PAGE]: form.elements['insert-button-into-video-page'].checked,
 			[optionKeys.PARSING_SERVER_ENDPOINT]: normalizeParsingServerEndpoint(form.elements['parsing-server-endpoint'].value)
@@ -116,6 +118,7 @@ async function onOptionsChanged(event) {
 		await saveToStorage(storageKeys.OPTIONS, options, true);
 
 		/* Update language texts */
+		await applyAppearanceTheme();
 		await setLangAttributes();
 		await setLocaleTexts();
 
@@ -125,6 +128,21 @@ async function onOptionsChanged(event) {
 		await showUnknownErrorPopup(error.stack);
 
 	}
+
+}
+
+/**
+ * Normalize appearance theme option.
+ * @param {string} theme - Appearance theme
+ * @returns {string} Normalized appearance theme
+ */
+function normalizeAppearanceTheme(theme) {
+
+	if (Object.values(appearanceThemes).includes(theme)) {
+		return theme;
+	}
+
+	return appearanceThemes.AUTO;
 
 }
 
