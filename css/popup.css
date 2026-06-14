@@ -12,6 +12,33 @@
 	--bili2vrc-popup-blue-background: hsl(200deg 70% 90%);
 }
 
+:root[data-bili2vrc-theme="dark"] {
+	--bili2vrc-popup-green-text: hsl(130deg 65% 84%);
+	--bili2vrc-popup-green-border: hsl(130deg 60% 55%);
+	--bili2vrc-popup-green-background: hsl(130deg 45% 16%);
+	--bili2vrc-popup-red-text: hsl(0deg 75% 86%);
+	--bili2vrc-popup-red-border: hsl(0deg 65% 58%);
+	--bili2vrc-popup-red-background: hsl(0deg 45% 17%);
+	--bili2vrc-popup-blue-text: hsl(200deg 75% 86%);
+	--bili2vrc-popup-blue-border: hsl(200deg 65% 58%);
+	--bili2vrc-popup-blue-background: hsl(200deg 45% 17%);
+}
+
+@media (prefers-color-scheme: dark) {
+	:root:not([data-bili2vrc-theme]),
+	:root[data-bili2vrc-theme="auto"] {
+		--bili2vrc-popup-green-text: hsl(130deg 65% 84%);
+		--bili2vrc-popup-green-border: hsl(130deg 60% 55%);
+		--bili2vrc-popup-green-background: hsl(130deg 45% 16%);
+		--bili2vrc-popup-red-text: hsl(0deg 75% 86%);
+		--bili2vrc-popup-red-border: hsl(0deg 65% 58%);
+		--bili2vrc-popup-red-background: hsl(0deg 45% 17%);
+		--bili2vrc-popup-blue-text: hsl(200deg 75% 86%);
+		--bili2vrc-popup-blue-border: hsl(200deg 65% 58%);
+		--bili2vrc-popup-blue-background: hsl(200deg 45% 17%);
+	}
+}
+
 .bili2vrc-popup {
 	position: fixed;
 	margin: 0 auto;

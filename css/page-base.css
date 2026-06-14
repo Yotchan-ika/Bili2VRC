@@ -17,6 +17,33 @@
 	--bili2vrc-circle-button-icon-size: 40px;
 }
 
+:root[data-bili2vrc-theme="dark"] {
+	--bili2vrc-text-color: #d6eef3;
+	--bili2vrc-anchor-text-color: #78d8ef;
+	--bili2vrc-sidebar-text-color: #d6eef3;
+	--bili2vrc-sidebar-background-color: #12333c;
+	--bili2vrc-main-content-background-color: #071b22;
+	--bili2vrc-button-text-color: #071b22;
+	--bili2vrc-button-background-color: #78d8ef;
+	--bili2vrc-table-header-text-color: #071b22;
+	--bili2vrc-table-header-background-color: #78d8ef;
+}
+
+@media (prefers-color-scheme: dark) {
+	:root:not([data-bili2vrc-theme]),
+	:root[data-bili2vrc-theme="auto"] {
+		--bili2vrc-text-color: #d6eef3;
+		--bili2vrc-anchor-text-color: #78d8ef;
+		--bili2vrc-sidebar-text-color: #d6eef3;
+		--bili2vrc-sidebar-background-color: #12333c;
+		--bili2vrc-main-content-background-color: #071b22;
+		--bili2vrc-button-text-color: #071b22;
+		--bili2vrc-button-background-color: #78d8ef;
+		--bili2vrc-table-header-text-color: #071b22;
+		--bili2vrc-table-header-background-color: #78d8ef;
+	}
+}
+
 * {
 	line-height: 1.9rem;
 }
@@ -93,13 +120,19 @@ ul {
 
 /* --- Form --- */
 
-select {
+select,
+input[type="url"] {
 	padding: 2px 0;
 	height: min-content;
 	min-width: 250px;
 	text-align: center;
 	font-size: 0.9em;
 	line-height: 0.9em;
+	background-color: var(--bili2vrc-main-content-background-color);
+	color: var(--bili2vrc-text-color);
+	border: 1px solid var(--bili2vrc-line-color1);
+	border-radius: 4px;
+	box-sizing: border-box;
 }
 
 input[type="checkbox"] {

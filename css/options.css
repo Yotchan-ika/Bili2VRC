@@ -72,6 +72,21 @@
 	align-items: flex-end;
 }
 
+.bili2vrc-option-note {
+	display: grid;
+	gap: 6px;
+	align-items: flex-start;
+}
+
+.bili2vrc-option-note p {
+	margin: 0;
+}
+
+.bili2vrc-option-note p:not(:first-child) {
+	overflow-wrap: anywhere;
+	font-size: 0.95em;
+}
+
 /*
 ---------------------------------------------------------------
 	Table Style
@@ -92,4 +107,22 @@ th {
 td {
 	padding: 2px 13px;
 	background-color: var(--bili2vrc-main-content-background-color);
+}
+
+/*
+---------------------------------------------------------------
+	Diagnostics
+---------------------------------------------------------------
+*/
+
+.bili2vrc-diagnostics-options {
+	display: grid;
+	gap: 8px;
+	margin: 12px 0 20px;
+}
+
+.bili2vrc-diagnostics-options label {
+	display: flex;
+	align-items: center;
+	gap: 12px;
 }
