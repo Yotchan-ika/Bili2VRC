@@ -8,7 +8,6 @@
 
 /* API URL */
 const detailedVideoInfoEndpoint = 'https://api.bilibili.com/x/web-interface/view';
-const videoParsingEndpoint = 'https://api.squidtail.com/bili2vrc/parse/';
 
 /* Video page URL */
 const videoPageURLFormat = 'https://www.bilibili.com/video/{bvid}/?p={p}';
@@ -39,6 +38,9 @@ const videoQualityTexts = Object.freeze({
 
 /* Interval ID to update remaining cooldown time */
 let popupIntervalID;
+
+/* Whether a video parsing request is already being handled in this page */
+let isVideoParsingRequestLocked = false;
 
 //	-----------------------------------------------------------
 //		Handler
@@ -90,6 +92,13 @@ async function onMessageReceive(request, sender, sendResponse) {
  */
 async function requestVideoParsing(videoPageURL) {
 
+	if (isVideoParsingRequestLocked) {
+		debug.log('Video cannot be parsed because another request is already being handled.');
+		return false;
+	}
+
+	isVideoParsingRequestLocked = true;
+
 	try {
 
 		const now = Date.now();
@@ -110,15 +119,18 @@ async function requestVideoParsing(videoPageURL) {
 			return false;
 		}
 
+		const channel = await loadOptionData(optionKeys.PARSING_CHANNEL);
 		/* Search parsing history */
 		const historyItem = await getHistoryItem(videoInfo.bvid, videoInfo.p, now);
 		if (
 			historyItem &&
-			historyItem.lastParsingTimestamp > now - reuseExpirationTime
+			historyItem.parsingChannel === channel &&
+			historyItem.lastParsingTimestamp > now - reuseExpirationTime &&
+			await validateCachedVideoURL(historyItem.parsedVideoURL)
 		) {
 			await updateLastUsedTimestamp(historyItem.bvid, historyItem.p, now);
 			try {
-				await navigator.clipboard.writeText(historyItem.parsedVideoURL);
+				await writeTextToClipboard(historyItem.parsedVideoURL);
 				await showClipboardWriteSuccessfulPopup(historyItem.parsedVideoQuality, historyItem.title);
 				return true;
 			} catch (error) {
@@ -135,9 +147,7 @@ async function requestVideoParsing(videoPageURL) {
 		}
 
 		/* Parse the video */
-		const parsingResult = await parseVideo(videoInfo.bvid, videoInfo.p);
-
-		return parsingResult;
+		return await parseVideo(videoInfo.bvid, videoInfo.p, channel);
 
 	} catch (error) {
 
@@ -145,6 +155,10 @@ async function requestVideoParsing(videoPageURL) {
 		await showUnknownErrorPopup(error.stack);
 
 		return false;
+
+	} finally {
+
+		isVideoParsingRequestLocked = false;
 
 	}
 
@@ -154,20 +168,22 @@ async function requestVideoParsing(videoPageURL) {
  * Parse the current tab's video.
  * @param {string} bvid - Video ID (bvid)
  * @param {number} p - Video page number (p)
+ * @param {string} channel - Selected parsing channel
  * @returns {Promise.<boolean>} True: successful, False: failed
  */
-async function parseVideo(bvid, p) {
+async function parseVideo(bvid, p, channel) {
 
 	debug.log('Parsing the video...');
 
 	try {
 
 		/* Display processing popup */
-		await showProcessingPopup();
 		await saveToStorage(storageKeys.PARSING_STATUS, parsingStatuses.PARSING);
+		await showProcessingPopup();
 
 		/* Set default value */
 		const basicVideoInfo = {
+			parsingChannel: channel,
 			bvid: bvid,
 			p: p,
 			url: getVideoPageURL(bvid, p)
@@ -179,7 +195,7 @@ async function parseVideo(bvid, p) {
 		debug.log('detailed video info:', detailedVideoInfo);
 
 		/* Send parsing request to Web API */
-		const parsedVideoData = await getParsedVideoData(bvid, p);
+		const parsedVideoData = await getParsedVideoData(bvid, p, channel);
 		if (parsedVideoData === undefined) {
 			return false;
 		}
@@ -215,7 +231,7 @@ async function parseVideo(bvid, p) {
 
 				/* Copy the parsed video's URL to the clipboard */
 				try {
-					await navigator.clipboard.writeText(videoInfo.parsedVideoURL);
+					await writeTextToClipboard(videoInfo.parsedVideoURL);
 					await showParsingSuccessfulPopup(videoInfo.parsedVideoQuality, videoInfo.title);
 				} catch (error) {
 					await showClipboardWriteFailedPopup(error.stack);
@@ -249,11 +265,15 @@ async function parseVideo(bvid, p) {
 	} finally {
 
 		/* Reset parsing status */
-		const now = Date.now();
-		const parsingStatus = await loadFromStorage(storageKeys.PARSING_STATUS);
-		if (parsingStatus !== parsingStatuses.PARSABLE) {
-			await saveToStorage(storageKeys.PARSING_STATUS, parsingStatuses.PARSABLE);
-			await saveToStorage(storageKeys.LAST_PARSING_TIMESTAMP, now);
+		try {
+			const now = Date.now();
+			const parsingStatus = await loadFromStorage(storageKeys.PARSING_STATUS);
+			if (parsingStatus !== parsingStatuses.PARSABLE) {
+				await saveToStorage(storageKeys.PARSING_STATUS, parsingStatuses.PARSABLE);
+				await saveToStorage(storageKeys.LAST_PARSING_TIMESTAMP, now);
+			}
+		} catch (error) {
+			debug.error(error);
 		}
 
 	}
@@ -278,14 +298,12 @@ function getBvidAndPageNoFromURL(videoPageURL) {
 	}
 
 	/* Get video page number (p) */
-	const url = new URL(videoPageURL)
-	const params = new URLSearchParams(url.search);
-	const pageNo = Number(params.get('p'));
-	if (pageNo) {
-		videoInfo.p = pageNo;
-	} else {
-		videoInfo.p = 1;
+	const url = new URL(videoPageURL);
+	const pageNo = Number(url.searchParams.get('p') || 1);
+	if (!Number.isSafeInteger(pageNo) || pageNo < 1) {
+		throw new Error('Invalid video page number');
 	}
+	videoInfo.p = pageNo;
 
 	return videoInfo;
 
@@ -317,27 +335,36 @@ async function getDetailedVideoInfo(bvid, p) {
 		requestURL.searchParams.set('bvid', bvid);
 
 		/* Send request */
-		const response = await fetch(requestURL);
+		const response = await fetchWithTimeout(requestURL, {}, videoParsingFetchTimeout);
+		if (response.ok === false) {
+			throw new Error(`Bilibili API returned HTTP ${response.status}`);
+		}
 		const detailedVideoInfo = await response.json();
 		debug.log('bilibili API:', detailedVideoInfo);
 
+		if (detailedVideoInfo.code !== 0 || detailedVideoInfo.data === undefined) {
+			throw new Error(`Bilibili API returned code ${detailedVideoInfo.code}`);
+		}
+
 		/* extract video info */
-		const pageInfo = detailedVideoInfo.data.pages.find(page => page.page === p);
+		const pages = Array.isArray(detailedVideoInfo.data.pages) ? detailedVideoInfo.data.pages : [];
+		const pageInfo = pages.find(page => page.page === p);
+		if (pageInfo === undefined) {
+			throw new Error('Bilibili API returned no page info');
+		}
 		result.cid = pageInfo.cid;
 		result.title = detailedVideoInfo.data.title;
-		result.subtitle = (detailedVideoInfo.data.pages.length > 1) ? pageInfo.part : undefined;
-		result.uploader = detailedVideoInfo.data.owner.name;
+		result.subtitle = (pages.length > 1) ? pageInfo.part : undefined;
+		result.uploader = detailedVideoInfo.data.owner ? detailedVideoInfo.data.owner.name : result.uploader;
 		result.thumbnail = detailedVideoInfo.data.pic;
 
 	} catch (error) {
 
 		debug.log(error);
 
-	} finally {
-
-		return result;
-
 	}
+
+	return result;
 
 }
 
@@ -345,41 +372,64 @@ async function getDetailedVideoInfo(bvid, p) {
  * Parse the video using the video parsing API and fetch the processed data.
  * @param {string} bvid - Video ID (bvid)
  * @param {number} p - Video page number (p)
+ * @param {string} channel - Selected parsing channel
  * @returns {Promise.<Object.<string, *>>} Parsed video data
  */
-async function getParsedVideoData(bvid, p) {
+async function getParsedVideoData(bvid, p, channel) {
 
+	let result;
+	let phase = 'message';
 	try {
 
-		/* Create request URL */
-		const requestURL = new URL(videoParsingEndpoint);
-		requestURL.searchParams.set('bv', bvid);
-		requestURL.searchParams.set('p', p);
-		requestURL.searchParams.set('format', 'mp4');
-		requestURL.searchParams.set('otype', 'json');
-
-		/* Send request */
-		const response = await fetch(requestURL);
-		const parsedVideoData = await response.json();
-		debug.log('bilibili-parse API:', parsedVideoData);
-
-		/* Set return value */
-		const result = {
-			parsedVideoURL: parsedVideoData.url,
-			parsedVideoQuality: parsedVideoData.quality,
-			parsedVideoResponseCode: parsedVideoData.code,
-			parsedVideoResponseMessage: parsedVideoData.message
-		};
-
-		return result;
+		result = await getBrowserObject().runtime.sendMessage({
+			action: 'fetchVideoParsingData',
+			channel: channel,
+			bvid: bvid,
+			p: p
+		});
+		phase = 'response';
+		if (result?.status !== 'successful') {
+			throw new Error(result?.message || 'Video parsing request failed');
+		}
+		if (!result.response || typeof result.response.parsedVideoResponseCode !== 'number') {
+			throw new Error('Video parsing background returned an invalid response');
+		}
+		return result.response;
 
 	} catch (error) {
 
 		/* Display fetch failed popup */
+		console.error('[Bili2VRC] Video parsing failed:', error);
+		await recordDiagnosticLog('error', ['parse', {
+			channel: channel,
+			bvid: bvid,
+			p: p,
+			phase: phase,
+			response: result === undefined ? null : result,
+			error: error.message || String(error)
+		}]);
 		await showFetchFailedPopup(error.stack);
 
 		return undefined;
 
+	}
+
+}
+
+/**
+ * Recheck cached links before copying them; failed links are parsed again.
+ * @param {string} url - Cached video URL
+ * @returns {Promise.<boolean>} Whether the cached link is still usable
+ */
+async function validateCachedVideoURL(url) {
+
+	try {
+		const normalizedURL = normalizeParsedVideoURL(url);
+		const result = await getBrowserObject().runtime.sendMessage({action: 'validateVideoURL', url: normalizedURL});
+		return result?.status === 'successful';
+	} catch (error) {
+		debug.warn('Cached video link is no longer usable:', error);
+		return false;
 	}
 
 }

@@ -7,6 +7,19 @@
 	--bili2vrc-thumbnail-text-color: #f5fdff;
 }
 
+:root[data-bili2vrc-theme="dark"] {
+	--bili2vrc-thumbnail-background-color: #1e4852;
+	--bili2vrc-thumbnail-text-color: #d6eef3;
+}
+
+@media (prefers-color-scheme: dark) {
+	:root:not([data-bili2vrc-theme]),
+	:root[data-bili2vrc-theme="auto"] {
+		--bili2vrc-thumbnail-background-color: #1e4852;
+		--bili2vrc-thumbnail-text-color: #d6eef3;
+	}
+}
+
 .material-symbols-rounded {
 	padding-top: 1px;
 	font-size: 1.3em;

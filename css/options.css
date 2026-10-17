@@ -66,10 +66,22 @@
 ---------------------------------------------------------------
 */
 
+#main-content {
+	width: auto;
+	max-width: var(--bili2vrc-main-content-width);
+}
+
 .bili2vrc-option-item {
 	margin-bottom: 20px;
 	padding: 5px 2px;
-	align-items: flex-end;
+	gap: 12px;
+	flex-wrap: wrap;
+	align-items: center;
+}
+
+.bili2vrc-option-item select {
+	max-width: 100%;
+	min-width: min(250px, 100%);
 }
 
 /*
@@ -92,4 +104,68 @@ th {
 td {
 	padding: 2px 13px;
 	background-color: var(--bili2vrc-main-content-background-color);
+}
+
+/*
+---------------------------------------------------------------
+	Diagnostics
+---------------------------------------------------------------
+*/
+
+.bili2vrc-diagnostics-options {
+	display: grid;
+	gap: 8px;
+	margin: 12px 0 20px;
+}
+
+.bili2vrc-diagnostics-options label {
+	display: flex;
+	align-items: center;
+	gap: 12px;
+}
+
+@media (max-width: 640px) {
+	#sidebar,
+	#sidebar-content {
+		position: static;
+		width: auto;
+	}
+
+	#sidebar-logo {
+		width: 170px;
+		margin: 12px 16px;
+	}
+
+	#sidebar-tabs > ul {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 4px;
+		margin: 0;
+		padding: 0 12px 8px;
+	}
+
+	#sidebar-tabs > ul > li {
+		margin-bottom: 0;
+	}
+
+	#sidebar-tabs > ul > li > label {
+		margin: 0;
+		border-radius: 4px;
+	}
+
+	#main {
+		margin-left: 0;
+	}
+
+	#main-content {
+		padding: 24px 16px;
+	}
+
+	.main-content-title {
+		margin: 0 0 28px;
+	}
+
+	.bili2vrc-option-item select {
+		width: 100%;
+	}
 }

@@ -9,7 +9,11 @@
 	},
 	"host_permissions": [
 		"https://api.bilibili.com/*",
-		"https://api.squidtail.com/bili2vrc/*"
+		"https://api.squidtail.com/bili2vrc/*",
+		"*://*.bilivideo.com/*",
+		"*://*.bilivideo.cn/*",
+		"*://*.akamaized.net/*",
+		"*://*.cloudfront.net/*"
 	],
 	"permissions": [
 		"storage",

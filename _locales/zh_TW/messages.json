@@ -134,6 +134,26 @@
 		"description": "オプション > 全般 > 言語 > 既定の言語"
 	},
 
+	"options_general_appearanceTheme": {
+		"message": "Theme",
+		"description": "Options > General > Theme"
+	},
+
+	"options_general_appearanceTheme_auto": {
+		"message": "Auto",
+		"description": "Options > General > Theme"
+	},
+
+	"options_general_appearanceTheme_light": {
+		"message": "Light",
+		"description": "Options > General > Theme"
+	},
+
+	"options_general_appearanceTheme_dark": {
+		"message": "Dark",
+		"description": "Options > General > Theme"
+	},
+
 	"options_general_historyRetentionPeriod": {
 		"message": "影片解析記錄的保存期限",
 		"description": "オプション > 全般 > 動画変換履歴の保存期間"
@@ -172,6 +192,31 @@
 	"options_general_insertButtonIntoVideoPage": {
 		"message": "在影片頁面插入影片解析按鈕",
 		"description": "オプション > 全般 > 動画ページに動画変換ボタンを挿入する"
+	},
+
+	"options_general_parsingChannel": {
+		"message": "解析通道",
+		"description": "Options > General > Parsing channel"
+	},
+
+	"options_general_parsingChannel_default": {
+		"message": "預設解析",
+		"description": "Options > General > Parsing channel"
+	},
+
+	"options_general_parsingChannel_local": {
+		"message": "本機解析",
+		"description": "Options > General > Parsing channel"
+	},
+
+	"options_general_resetParsingChannel": {
+		"message": "恢復預設解析通道",
+		"description": "Options > General > Parsing channel"
+	},
+
+	"options_general_resetParsingChannel_reset": {
+		"message": "恢復預設",
+		"description": "Options > General > Parsing channel"
 	},
 
 	"options_general_tutorial": {
@@ -227,6 +272,61 @@
 	"options_support_contact_developerEmail": {
 		"message": "電子郵件地址",
 		"description": "オプション > サポート > お問い合わせ > メールアドレス"
+	},
+
+	"options_support_diagnostics_title": {
+		"message": "Diagnostics",
+		"description": "Options > Support > Diagnostics"
+	},
+
+	"options_support_diagnostics_text1": {
+		"message": "Choose the data to include, then export a diagnostics file for troubleshooting.",
+		"description": "Options > Support > Diagnostics"
+	},
+
+	"options_support_diagnostics_includeLogs": {
+		"message": "Diagnostic logs",
+		"description": "Options > Support > Diagnostics"
+	},
+
+	"options_support_diagnostics_logLevel": {
+		"message": "診斷日誌等級",
+		"description": "Options > Support > Diagnostics > Diagnostic log level"
+	},
+
+	"options_support_diagnostics_logLevel_error": {
+		"message": "僅錯誤",
+		"description": "Options > Support > Diagnostics > Diagnostic log level > Errors only"
+	},
+
+	"options_support_diagnostics_logLevel_warn": {
+		"message": "警告和錯誤",
+		"description": "Options > Support > Diagnostics > Diagnostic log level > Warnings and errors"
+	},
+
+	"options_support_diagnostics_logLevel_log": {
+		"message": "全部日誌",
+		"description": "Options > Support > Diagnostics > Diagnostic log level > All logs"
+	},
+
+	"options_support_diagnostics_logLevel_off": {
+		"message": "關閉",
+		"description": "Options > Support > Diagnostics > Diagnostic log level > Off"
+	},
+
+	"options_support_diagnostics_includeOptions": {
+		"message": "Options",
+		"description": "Options > Support > Diagnostics"
+	},
+
+	"options_support_diagnostics_includeHistory": {
+		"message": "Video parsing history",
+		"description": "Options > Support > Diagnostics"
+	},
+
+	"options_support_diagnostics_export": {
+		"message": "Export diagnostics",
+		"description": "Options > Support > Diagnostics"
 	},
 
 	"options_info_title": {

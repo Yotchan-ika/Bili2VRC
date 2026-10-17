@@ -101,6 +101,16 @@
 							</select>
 						</label>
 
+						<!-- Appearance theme -->
+						<label class="bili2vrc-option-item bili2vrc-space-between bili2vrc-underline">
+							<span data-bili2vrc-msg="options_general_appearanceTheme"></span>
+							<select name="appearance-theme" data-bili2vrc-set-lang-attribute required>
+								<option value="auto" data-bili2vrc-msg="options_general_appearanceTheme_auto"></option>
+								<option value="light" data-bili2vrc-msg="options_general_appearanceTheme_light"></option>
+								<option value="dark" data-bili2vrc-msg="options_general_appearanceTheme_dark"></option>
+							</select>
+						</label>
+
 						<!-- History storage period -->
 						<label class="bili2vrc-option-item bili2vrc-space-between bili2vrc-underline">
 							<span data-bili2vrc-msg="options_general_historyRetentionPeriod"></span>
@@ -119,6 +129,24 @@
 							<span data-bili2vrc-msg="options_general_insertButtonIntoVideoPage"></span>
 							<input type="checkbox" name="insert-button-into-video-page">
 						</label>
+
+						<!-- Parsing channel -->
+						<label class="bili2vrc-option-item bili2vrc-space-between bili2vrc-underline">
+							<span data-bili2vrc-msg="options_general_parsingChannel"></span>
+							<select name="parsing-channel" data-bili2vrc-set-lang-attribute required>
+								<option value="default" data-bili2vrc-msg="options_general_parsingChannel_default"></option>
+								<option value="local" data-bili2vrc-msg="options_general_parsingChannel_local"></option>
+							</select>
+						</label>
+
+						<!-- Reset parsing channel -->
+						<div class="bili2vrc-option-item bili2vrc-space-between bili2vrc-underline">
+							<span data-bili2vrc-msg="options_general_resetParsingChannel"></span>
+							<button id="bili2vrc-reset-parsing-channel-button" type="button">
+								<span class="material-symbols-rounded">restart_alt</span>
+								<span data-bili2vrc-msg="options_general_resetParsingChannel_reset"></span>
+							</button>
+						</div>
 
 						<!-- Tutorial -->
 						<div class="bili2vrc-option-item bili2vrc-space-between bili2vrc-underline">
@@ -187,10 +215,41 @@
 							<!-- E-mail -->
 							<tr>
 								<th><span data-bili2vrc-msg="options_support_contact_developerEmail"></span></th>
-								<td><a href="mailto:squidtail.contact@gmail.com">squidtail.contact@gmail.com</a></td>
+								<td><a href="mailto:contact@squidtail.com">contact@squidtail.com</a></td>
 							</tr>
 
 						</table>
+
+						<!-- Diagnostics -->
+						<h2 data-bili2vrc-msg="options_support_diagnostics_title"></h2>
+						<p data-bili2vrc-msg="options_support_diagnostics_text1"></p>
+						<label class="bili2vrc-option-item bili2vrc-space-between bili2vrc-underline">
+							<span data-bili2vrc-msg="options_support_diagnostics_logLevel"></span>
+							<select name="diagnostic-log-level" data-bili2vrc-set-lang-attribute required>
+								<option value="error" data-bili2vrc-msg="options_support_diagnostics_logLevel_error"></option>
+								<option value="warn" data-bili2vrc-msg="options_support_diagnostics_logLevel_warn"></option>
+								<option value="log" data-bili2vrc-msg="options_support_diagnostics_logLevel_log"></option>
+								<option value="off" data-bili2vrc-msg="options_support_diagnostics_logLevel_off"></option>
+							</select>
+						</label>
+						<div class="bili2vrc-diagnostics-options">
+							<label>
+								<input type="checkbox" name="diagnostics-include-logs" checked>
+								<span data-bili2vrc-msg="options_support_diagnostics_includeLogs"></span>
+							</label>
+							<label>
+								<input type="checkbox" name="diagnostics-include-options">
+								<span data-bili2vrc-msg="options_support_diagnostics_includeOptions"></span>
+							</label>
+							<label>
+								<input type="checkbox" name="diagnostics-include-history">
+								<span data-bili2vrc-msg="options_support_diagnostics_includeHistory"></span>
+							</label>
+						</div>
+						<button id="bili2vrc-export-diagnostics-button">
+							<span class="material-symbols-rounded">download</span>
+							<span data-bili2vrc-msg="options_support_diagnostics_export"></span>
+						</button>
 
 					</div>
 
